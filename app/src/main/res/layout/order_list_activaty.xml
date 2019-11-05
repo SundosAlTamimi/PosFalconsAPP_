@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/items_stroke"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/back_2_layout"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="List Of Orders ..."
+            android:textAlignment="center"
+            android:textColor="@color/layer2"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/orderRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+</LinearLayout>

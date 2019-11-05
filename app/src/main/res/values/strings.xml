@@ -1,3 +1,24 @@
 <resources>
-    <string name="app_name">MenuRestaurant</string>
+    <string name="app_name">RestPosKitchen</string>
+
+    <string name="menu">Menu...</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="item_name">Item Name</string>
+    <string name="group_name">Group Name</string>
+    <string name="description">Description</string>
+    <string name="price">50$</string>
+    <string name="ar">Ar</string>
+    <string name="en">En</string>
+    <string name="category">Category ...</string>
+    <string name="save">Save</string>
+    <string name="exit">Exit</string>
+
+    <string name="floor_no">Floor Number</string>
+    <string name="table_no">Table Number</string>
+    <string name="no_of_seats">No of Seats</string>
+    <string name="done">Done</string>
+
+
 </resources>
