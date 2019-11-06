@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
 import com.falconssoft.app_pos.models.Tables;
 import com.falconssoft.app_pos.models.Users;
@@ -52,6 +53,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABEL_NO = "TABEL_NO";
     private static final String NO_OF_SEITS = "NO_OF_SEITS";
     // *******************************************************************************
+    private static final String CUSTOMER_INFORMATION = "CUSTOMER_INFORMATION";
+
+    private static final String CUSTOMER_NAME = "CUSTOMER_NAME";
+    private static final String PHONE_NO = "PHONE_NO";
+    private static final String EMAIL = "EMAIL";
+    // *******************************************************************************
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -78,6 +86,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + NO_OF_SEITS + " TEXT"
                 + ")";
         db.execSQL(CREATE_TABLES_TABLE);
+        // *******************************************************************************
+
+        String CREATE_CUSTOMER_INFORMATION_TABLE = "CREATE TABLE " + CUSTOMER_INFORMATION + "("
+                + CUSTOMER_NAME + " TEXT,"
+                + PHONE_NO + " TEXT,"
+                + EMAIL + " TEXT"
+                + ")";
+        db.execSQL(CREATE_CUSTOMER_INFORMATION_TABLE);
         // *******************************************************************************
 
 
@@ -138,6 +154,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NO_OF_SEITS, tables.getNoOfSeits());
 
         db.insert(TABLES_TABLE, null, values);
+        db.close();
+    }
+
+
+    public void addCustomer(CustomerInformation customerInformation) {
+        db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(CUSTOMER_NAME,customerInformation.getCustomerName() );
+        values.put(PHONE_NO, customerInformation.getPhoneNo());
+        values.put(EMAIL, customerInformation.getEmail());
+
+        db.insert(CUSTOMER_INFORMATION, null, values);
         db.close();
     }
 
@@ -204,6 +233,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return usersList;
     }
 
+
+
+    public List<CustomerInformation> getAllInformation() {
+        List<CustomerInformation> usersList = new ArrayList<CustomerInformation>();
+
+        String selectQuery = "SELECT  * FROM " + CUSTOMER_INFORMATION;
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                CustomerInformation users = new CustomerInformation();
+
+                users.setCustomerName(cursor.getString(0));
+                users.setPhoneNo(cursor.getString(1));
+                users.setEmail(cursor.getString(2));
+
+                usersList.add(users);
+            } while (cursor.moveToNext());
+        }
+        return usersList;
+    }
+
     public List<Tables> getTablesInfo() {
         List<Tables> tables = new ArrayList<Tables>();
 
@@ -230,6 +282,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void deleteAllUsers() {
         db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + USERS_TABLE + ";");
+        db.close();
+    }
+
+    public void deleteAllInformation() {
+        db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + CUSTOMER_INFORMATION + ";");
         db.close();
     }
 

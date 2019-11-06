@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back_2_layout"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/items_stroke"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="183dp"
+                android:layout_height="wrap_content"
+                android:text="Detail :"
+                android:textColor="@color/layer2"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="144dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/layer2"
+                android:textSize="30sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/alpha_frame"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textView141"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1JD"
+                android:textColor="@color/layer2"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/textView131"
+                android:layout_width="174dp"
+                android:layout_height="wrap_content"
+                android:text="10  point"
+                android:textColor="@color/layer2"
+                android:textSize="25sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/alpha_frame"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100 point "
+                android:textColor="@color/layer2"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 JD"
+                android:textColor="@color/layer2"
+                android:textSize="25sp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/layer2" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/items_stroke"
+        android:padding="10dp"
+        android:text="Your acount "
+        android:textColor="@color/layer2"
+        android:textSize="30sp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/alpha_frame"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textView1451"
+            android:layout_width="183dp"
+            android:layout_height="wrap_content"
+            android:text="0 point"
+            android:textColor="@color/layer2"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/textView1431"
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:text="0 JD"
+            android:textColor="@color/layer2"
+            android:textSize="25sp" />
+
+    </TableRow>
+
+</LinearLayout>
