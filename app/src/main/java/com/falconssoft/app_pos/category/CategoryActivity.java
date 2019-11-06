@@ -107,7 +107,7 @@ DatabaseHandler databaseHandler;
                 TurnLayoutManager.Orientation.HORIZONTAL,
                 200,
                 200,
-                true);
+                false);
 
 
         recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
@@ -334,7 +334,7 @@ LinearLayout moreDetali=dialog.findViewById(R.id.moreDetali);
                 dialogDetail.setContentView(R.layout.detali);
                 dialogDetail.setCanceledOnTouchOutside(true);
 
-                
+
 
                 dialogDetail.show();
 
