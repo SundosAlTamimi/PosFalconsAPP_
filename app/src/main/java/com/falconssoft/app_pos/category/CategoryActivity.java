@@ -1,8 +1,10 @@
 package com.falconssoft.app_pos.category;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,20 +24,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.SendSocket;
 import com.falconssoft.app_pos.SettingOrder;
+import com.falconssoft.app_pos.models.CustomerInformation;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
+
 
 import cdflynn.android.library.turn.TurnLayoutManager;
+
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.WHITE;
 
 public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -54,6 +65,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private TurnLayoutManager layoutManager = null;
     private RecyclerView recyclerView;
     private MediaPlayer mediaPlayer;
+DatabaseHandler databaseHandler;
 
     int position;
 
@@ -99,7 +111,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //        swipeRefresh = findViewById(R.id.swipeRefresh);
 //        CallCaptain = findViewById(R.id.call);
         makeOrder = findViewById(R.id.makeOrder);
-
+        databaseHandler=new DatabaseHandler(CategoryActivity.this);
 //        list.add("");
         list.add("Barbecue");
         list.add("Chips");
@@ -132,7 +144,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 TurnLayoutManager.Orientation.HORIZONTAL,
                 200,
                 200,
-                true);
+                false);
 
 
         recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
@@ -194,6 +206,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
+//                SendSocket sendSocket = new SendSocket(CategoryActivity.this);
+//                sendSocket.sendMessage();
+//            }
+//        });
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()) {
@@ -202,7 +219,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //                drawerLayout.openDrawer(GravityCompat.START);
 //                return true;
             case R.id.menu_profile:
-                Toast.makeText(this, "profile", Toast.LENGTH_SHORT).show();
+                profileDialog();
                 break;
             case R.id.menu_orders:
                 Toast.makeText(this, "orders", Toast.LENGTH_SHORT).show();
@@ -299,5 +316,127 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         int drawableResourceId = CategoryActivity.this.getResources().getIdentifier(imageName, "drawable", CategoryActivity.this.getPackageName());
         return drawableResourceId;
     }
+
+//
+//    Bitmap encodeAsBitmap(String contents, BarcodeFormat format, int img_width, int img_height) throws WriterException {
+//        String contentsToEncode = contents;
+//        if (contentsToEncode == null) {
+//            return null;
+//        }
+//        Map<EncodeHintType, Object> hints = null;
+//        String encoding = guessAppropriateEncoding(contentsToEncode);
+//        if (encoding != null) {
+//            hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+//            hints.put(EncodeHintType.CHARACTER_SET, encoding);
+//        }
+//        MultiFormatWriter writer = new MultiFormatWriter();
+//        BitMatrix result;
+//        try {
+//            result = writer.encode(contentsToEncode, format, img_width, img_height, hints);
+//        } catch (IllegalArgumentException iae) {
+//            // Unsupported format
+//            return null;
+//        }
+//        int width = result.getWidth();
+//        int height = result.getHeight();
+//        int[] pixels = new int[width * height];
+//        for (int y = 0; y < height; y++) {
+//            int offset = y * width;
+//            for (int x = 0; x < width; x++) {
+//                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+//            }
+//        }
+//
+//        Bitmap bitmap = Bitmap.createBitmap(width, height,
+//                Bitmap.Config.ARGB_8888);
+//        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+//        return bitmap;
+//    }
+//
+//    private static String guessAppropriateEncoding(CharSequence contents) {
+//        // Very crude at the moment
+//        for (int i = 0; i < contents.length(); i++) {
+//            if (contents.charAt(i) > 0xFF) {
+//                return "UTF-8";
+//            }
+//        }
+//        return null;
+//    }
+
+
+    void profileDialog(){
+
+        final Dialog dialog = new Dialog(CategoryActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.customer_register);
+        dialog.setCanceledOnTouchOutside(true);
+
+        TextView cusName,cusno,email;
+        ImageView barcode;
+ImageView cancel;
+LinearLayout moreDetali=dialog.findViewById(R.id.moreDetali);
+        List<CustomerInformation>customerInformations=databaseHandler.getAllInformation();
+
+        cusName=(TextView)dialog.findViewById(R.id.cusName);
+        cusno=(TextView)dialog.findViewById(R.id.cusno);
+        email=(TextView)dialog.findViewById(R.id.email);
+
+        cancel=(ImageView) dialog.findViewById(R.id.cancel);
+
+        if(customerInformations.size()!=0) {
+            cusName.setText(customerInformations.get(0).getCustomerName());
+            cusno.setText(customerInformations.get(0).getPhoneNo());
+            email.setText(customerInformations.get(0).getEmail());
+
+        }else {
+            Toast.makeText(this, "no customer ", Toast.LENGTH_SHORT).show();
+        }
+        barcode=(ImageView) findViewById(R.id.barcode);
+
+
+        Bitmap bitmap = null;//  AZTEC -->QR
+
+//        try {
+//            bitmap = encodeAsBitmap(barcode_data, BarcodeFormat.CODE_128, 1100, 200);
+//        } catch (WriterException e) {
+//            e.printStackTrace();
+//        }
+
+        moreDetali.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final Dialog dialogDetail = new Dialog(CategoryActivity.this);
+                dialogDetail.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialogDetail.setCancelable(false);
+                dialogDetail.setContentView(R.layout.detali);
+                dialogDetail.setCanceledOnTouchOutside(true);
+
+
+
+                dialogDetail.show();
+
+            }
+        });
+
+
+        dialog.show();
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+
+
+
+
+
 
 }
