@@ -206,11 +206,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.menu_orders:
                 Toast.makeText(this, "orders", Toast.LENGTH_SHORT).show();
-
                 break;
             case R.id.menu_invite_friends:
                 Toast.makeText(this, "invite_friends", Toast.LENGTH_SHORT).show();
-
                 break;
             case R.id.menu_call_us:
                 break;
