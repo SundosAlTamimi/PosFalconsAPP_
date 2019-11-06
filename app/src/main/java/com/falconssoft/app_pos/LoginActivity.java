@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.falconssoft.app_pos.category.CategoryActivity;
 import com.falconssoft.app_pos.models.Tables;
 import com.falconssoft.app_pos.models.Users;
 
@@ -55,20 +56,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 boolean found = false;
                 String usernameText = username.getText().toString();
                 String passwordText = password.getText().toString();
-                if (!usernameText.equals("") && !passwordText.equals("")) {
+//                if (!usernameText.equals("") && !passwordText.equals("")) {
                     for (int i = 0; i < users.size(); i++)
                         if (usernameText.equals(users.get(i).getUsername()))
                             if (passwordText.equals(users.get(i).getPassword())) {
                                 found = true;
-                                Intent categoryIntent = new Intent(LoginActivity.this, OptionsActivity.class);
-                                categoryIntent.putExtra("userName", usernameText);
+                                Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
+//                                categoryIntent.putExtra("userName", usernameText);
                                 startActivity(categoryIntent);
                             }
 
                     if (found == false) {
-                        if (usernameText.equals("1")) {
-                            if (passwordText.equals("1")) {
-                                Intent categoryIntent = new Intent(LoginActivity.this, OptionsActivity.class);
+                        if (usernameText.equals("")) {
+                            if (passwordText.equals("")) {
+                                Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
                                 categoryIntent.putExtra("userName", usernameText);
                                 startActivity(categoryIntent);
                             } else {
@@ -78,10 +79,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Toast.makeText(this, "Wrong in username or password!", Toast.LENGTH_SHORT).show();
                         }
                     }
-                } else {
-                    username.setError("Required field!");
-                    password.setError("Required field!");
-                }
+//                } else {
+//                    username.setError("Required field!");
+//                    password.setError("Required field!");
+//                }
                 break;
             case R.id.login_language_english:
                 LocaleAppUtils.setLocale(new Locale("en"));

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RestPosKitchen</string>
+    <string name="app_name">POS System</string>
 
     <string name="menu">Menu...</string>
     <string name="login">Login</string>
@@ -20,5 +20,7 @@
     <string name="no_of_seats">No of Seats</string>
     <string name="done">Done</string>
 
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
 
 </resources>
