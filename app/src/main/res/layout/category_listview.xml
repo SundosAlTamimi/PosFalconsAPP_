@@ -5,14 +5,14 @@
     android:id="@+id/category_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bactable"
+    android:background="@drawable/purple_background"
     android:layoutDirection="ltr"
     android:orientation="vertical">
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white_two"
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
@@ -21,26 +21,16 @@
             android:id="@+id/category_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/cardview_dark_background"
+            android:background="@color/purple"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Category"
-                android:textColor="@color/white_dark"
-                android:textSize="100sp"
-                android:textStyle="bold" />
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/categoryRecycler"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="700dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="40dp"
                 android:layout_marginBottom="10dp"
                 />
 
@@ -48,18 +38,16 @@
                     android:id="@+id/makeOrder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="150dp"
-                    android:layout_marginLeft="150dp"
-                    android:layout_marginEnd="150dp"
-                    android:layout_marginRight="150dp"
-                    android:layout_marginBottom="1dp"
-                    android:background="@drawable/back_2_layout"
-                    android:drawableLeft="@drawable/dinner"
-                     android:paddingStart="80dp"
-                     android:paddingEnd="50dp"
-                     android:paddingRight="50dp"
+                     android:layout_marginTop="20dp"
+                    android:layout_marginStart="200dp"
+                    android:layout_marginLeft="200dp"
+                    android:layout_marginEnd="200dp"
+                    android:layout_marginRight="200dp"
+                    android:background="@drawable/btn_background"
                      android:textAllCaps="false"
-                    android:text="Make Order"
+                    android:text="Order"
+                     android:textSize="25sp"
+                     android:fontFamily="casual"
                     android:textColor="@color/white_dark" />
 
     </LinearLayout>

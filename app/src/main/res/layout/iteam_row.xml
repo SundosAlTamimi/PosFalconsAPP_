@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_margin="10dp"
         android:layout_weight="1"
-        android:background="@drawable/items_stroke"
+        android:background="@drawable/alpha_frame"
         android:orientation="vertical"
         android:padding="5dp">
 
@@ -37,7 +37,8 @@
                 android:text="Iteam Name"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/layer2"
+                android:fontFamily="casual"
+                android:textColor="@color/purple"
                 android:textSize="40sp"
                 android:textStyle="bold" />
 
@@ -48,7 +49,7 @@
                 android:layout_margin="10dp"
                 android:text="small dish , new potato , original oil , from jordan "
                 android:textAlignment="center"
-                android:textColor="@color/gray_light"
+                android:textColor="@color/purple"
                 android:textSize="20dp" />
 
             <LinearLayout
@@ -64,7 +65,7 @@
                     android:layout_weight="1"
                     android:text="Price : "
                     android:textAlignment="textEnd"
-                    android:textColor="@color/exit"
+                    android:textColor="@color/gray"
                     android:textSize="18sp" />
 
                 <TextView
@@ -72,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2.5"
-                    android:textColor="@color/exit"
+                    android:textColor="@color/gray"
                     android:textSize="18sp" />
 
                 <TextView
@@ -81,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="JD"
-                    android:textColor="@color/exit"
+                    android:textColor="@color/gray"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -92,12 +93,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="30dp"
-                android:background="@drawable/back_2_layout" />
+                android:background="@color/purple" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/back_2_layout"
                 android:orientation="horizontal">
 
                 <TextView
@@ -105,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/alpha_frame"
+                    android:background="@drawable/btn_background"
                     android:gravity="center"
                     android:text="-"
                     android:textColor="@color/white_dark"
@@ -121,10 +121,10 @@
                     android:layout_marginStart="6dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginEnd="3dp"
-                    android:background="@drawable/alpha_frame"
+                    android:background="@drawable/items_stroke"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/floor"
+                    android:textColor="@color/purple"
 
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -138,12 +138,11 @@
                     android:layout_marginStart="3dp"
                     android:layout_marginLeft="3dp"
                     android:layout_marginEnd="6dp"
-                    android:background="@drawable/alpha_frame"
+                    android:background="@drawable/btn_background"
                     android:gravity="center"
                     android:text="+"
                     android:textColor="@color/white_dark"
                     android:textSize="30sp"
-
                     />
 
                 <TextView
@@ -151,12 +150,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/alpha_frame"
+                    android:background="@drawable/items_stroke"
                     android:gravity="center"
                     android:text="0 JD"
                     android:textAllCaps="false"
-
-                    android:textColor="@color/white_dark"
+                    android:textColor="@color/purple"
                     android:textSize="30sp" />
             </LinearLayout>
 
@@ -168,7 +166,9 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/btn_background"
-                android:text="add TO Order"
+                android:text="Add to order"
+                android:fontFamily="casual"
+                android:textAllCaps="false"
                 android:textAlignment="center"
                 android:textColor="@color/layer4"
                 android:textSize="20sp"

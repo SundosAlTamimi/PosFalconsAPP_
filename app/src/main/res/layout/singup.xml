@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="740dp"
-    android:background="@drawable/items_stroke"
+    android:background="@drawable/purple_background"
     android:layoutDirection="ltr"
     android:orientation="vertical">
 
@@ -11,13 +11,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/items_stroke"
+        android:background="@color/white_two"
         android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="740dp"
-            android:background="@drawable/bactable2"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="20dp">
@@ -27,12 +26,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
-                android:fontFamily="cursive"
+                android:fontFamily="casual"
                 android:padding="5dp"
-                android:text="Sing up "
+                android:text="Register"
                 android:textAlignment="center"
-                android:textColor="@color/layer2"
-                android:textSize="50sp"
+                android:textColor="@color/purple"
+                android:textSize="40sp"
                 android:textStyle="bold" />
 
             <TableLayout
@@ -43,6 +42,10 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginRight="40dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/alpha_frame"
                     android:padding="10dp">
@@ -52,8 +55,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Customer Name :"
-                        android:textColor="@color/layer2"
-                        android:textSize="25sp" />
+                        android:fontFamily="casual"
+                        android:textStyle="bold"
+                        android:textColor="@color/purple"
+                        android:textSize="20sp" />
 
                     <EditText
                         android:id="@+id/cusName"
@@ -67,6 +72,10 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginRight="40dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/alpha_frame"
                     android:padding="10dp">
@@ -76,8 +85,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Phone No :"
-                        android:textColor="@color/layer2"
-                        android:textSize="25sp" />
+                        android:fontFamily="casual"
+                        android:textStyle="bold"
+                        android:textColor="@color/purple"
+                        android:textSize="20sp" />
 
                     <EditText
                         android:id="@+id/cusno"
@@ -85,12 +96,16 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:inputType="phone"
-                        android:textColor="@color/layer2" />
+                        android:textColor="@color/white_dark" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginRight="40dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/alpha_frame"
                     android:padding="10dp">
@@ -100,8 +115,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email :"
-                        android:textColor="@color/layer2"
-                        android:textSize="25sp" />
+                        android:fontFamily="casual"
+                        android:textStyle="bold"
+                        android:textColor="@color/purple"
+                        android:textSize="20sp" />
 
                     <EditText
                         android:id="@+id/email"
@@ -117,11 +134,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginStart="170dp"
+                android:layout_marginLeft="170dp"
+                android:layout_marginEnd="170dp"
+                android:layout_marginRight="170dp"
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
@@ -131,12 +148,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/btn_background"
+                    android:textAllCaps="false"
                     android:text="Sing Up "
-                    android:textColor="@color/layer2"
+                    android:fontFamily="casual"
+                    android:textSize="25sp"
+                    android:textColor="@color/white_dark"
                     android:textStyle="bold" />
 
             </LinearLayout>
-
 
         </LinearLayout>
 

@@ -4,8 +4,14 @@
     <color name="colorPrimaryDark">#00574b</color>
     <color name="colorAccent">#801717</color>
 
-    <color name="white">#41FFFEFE</color>
+
+    <color name="alpha_purple">#2C880688</color>
+    <color name="purple">#460246</color>
     <color name="white_dark">#FFFFFF</color>
+    <color name="white">#41FFFEFE</color>
+    <color name="white_two">#6FFFFEFE</color>
+    <color name="gray">#464545</color>
+
     <color name="red">#801717</color>
     <color name="green">#103601</color>
     <color name="black">#000000</color>
@@ -30,7 +36,6 @@
     <color name="dark_blue">#89cbee</color>
     <color name="blue_ice">#368BC1</color>
     <color name="jeans_blue">#a0cfec</color>
-    <color name="gray">#98AFC7</color>
     <color name="floor">#A4E8ADAA</color>
 
     <color name="black_alpha">#4A000000</color>

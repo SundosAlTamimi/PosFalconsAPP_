@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,20 +28,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.falconssoft.app_pos.DatabaseHandler;
+import com.falconssoft.app_pos.LocaleAppUtils;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.SendSocket;
 import com.falconssoft.app_pos.SettingOrder;
+import com.falconssoft.app_pos.email.SendMailTask;
 import com.falconssoft.app_pos.models.CustomerInformation;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -47,8 +53,16 @@ import cdflynn.android.library.turn.TurnLayoutManager;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
+import static com.falconssoft.app_pos.models.ShareValues.emailTitle;
+import static com.falconssoft.app_pos.models.ShareValues.recipientName;
+import static com.falconssoft.app_pos.models.ShareValues.senderName;
+import static com.falconssoft.app_pos.models.ShareValues.senderPassword;
 
-public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    private TextView english, arabic, emailMessage;
+    private Button send;
+    private ImageButton facebook, twitter, instagram, whatsApp;
 
     //    private TextView UserNameText;
     private Toolbar mTopToolbar;
@@ -65,7 +79,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private TurnLayoutManager layoutManager = null;
     private RecyclerView recyclerView;
     private MediaPlayer mediaPlayer;
-DatabaseHandler databaseHandler;
+    DatabaseHandler databaseHandler;
 
     int position;
 
@@ -80,7 +94,7 @@ DatabaseHandler databaseHandler;
         navigationView = findViewById(R.id.category_navigation);
 
         setSupportActionBar(mTopToolbar);
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close){
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -111,7 +125,7 @@ DatabaseHandler databaseHandler;
 //        swipeRefresh = findViewById(R.id.swipeRefresh);
 //        CallCaptain = findViewById(R.id.call);
         makeOrder = findViewById(R.id.makeOrder);
-        databaseHandler=new DatabaseHandler(CategoryActivity.this);
+        databaseHandler = new DatabaseHandler(CategoryActivity.this);
 //        list.add("");
         list.add("Barbecue");
         list.add("Chips");
@@ -190,7 +204,7 @@ DatabaseHandler databaseHandler;
 //        });
     }
 
-//    @Override
+    //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        getMenuInflater().inflate(R.menu.navigation_menu, menu);
 //        return true;
@@ -199,8 +213,7 @@ DatabaseHandler databaseHandler;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return true;
@@ -213,7 +226,7 @@ DatabaseHandler databaseHandler;
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch(menuItem.getItemId()) {
+        switch (menuItem.getItemId()) {
             // Android home
 //            case android.R.id.home:
 //                drawerLayout.openDrawer(GravityCompat.START);
@@ -225,21 +238,43 @@ DatabaseHandler databaseHandler;
                 Toast.makeText(this, "orders", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_invite_friends:
-                Toast.makeText(this, "invite_friends", Toast.LENGTH_SHORT).show();
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
                 break;
             case R.id.menu_call_us:
+                callUsDialog();
                 break;
             case R.id.menu_transfer_points:
                 break;
             case R.id.menu_contact_with_us:
+                contactUsDialog();
                 break;
             case R.id.menu_language:
+                languageDialog();
                 break;
             case R.id.menu_app_developers:
+                Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.app_developers_dialog_layout);
+                dialog.show();
                 break;
 
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+//            case R.id.login_language_english:
+//
+//                break;
+//            case R.id.login_language_arabic:
+//
+//                break;
+        }
     }
 
     class CViewHolder extends RecyclerView.ViewHolder {
@@ -317,54 +352,53 @@ DatabaseHandler databaseHandler;
         return drawableResourceId;
     }
 
-//
-//    Bitmap encodeAsBitmap(String contents, BarcodeFormat format, int img_width, int img_height) throws WriterException {
-//        String contentsToEncode = contents;
-//        if (contentsToEncode == null) {
-//            return null;
-//        }
-//        Map<EncodeHintType, Object> hints = null;
-//        String encoding = guessAppropriateEncoding(contentsToEncode);
-//        if (encoding != null) {
-//            hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
-//            hints.put(EncodeHintType.CHARACTER_SET, encoding);
-//        }
-//        MultiFormatWriter writer = new MultiFormatWriter();
-//        BitMatrix result;
-//        try {
-//            result = writer.encode(contentsToEncode, format, img_width, img_height, hints);
-//        } catch (IllegalArgumentException iae) {
-//            // Unsupported format
-//            return null;
-//        }
-//        int width = result.getWidth();
-//        int height = result.getHeight();
-//        int[] pixels = new int[width * height];
-//        for (int y = 0; y < height; y++) {
-//            int offset = y * width;
-//            for (int x = 0; x < width; x++) {
-//                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
-//            }
-//        }
-//
-//        Bitmap bitmap = Bitmap.createBitmap(width, height,
-//                Bitmap.Config.ARGB_8888);
-//        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-//        return bitmap;
-//    }
-//
-//    private static String guessAppropriateEncoding(CharSequence contents) {
-//        // Very crude at the moment
-//        for (int i = 0; i < contents.length(); i++) {
-//            if (contents.charAt(i) > 0xFF) {
-//                return "UTF-8";
-//            }
-//        }
-//        return null;
-//    }
-
-
-    void profileDialog(){
+    /**
+     * Bitmap encodeAsBitmap(String contents, BarcodeFormat format, int img_width, int img_height) throws WriterException {
+     * String contentsToEncode = contents;
+     * if (contentsToEncode == null) {
+     * return null;
+     * }
+     * Map<EncodeHintType, Object> hints = null;
+     * String encoding = guessAppropriateEncoding(contentsToEncode);
+     * if (encoding != null) {
+     * hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+     * hints.put(EncodeHintType.CHARACTER_SET, encoding);
+     * }
+     * MultiFormatWriter writer = new MultiFormatWriter();
+     * BitMatrix result;
+     * try {
+     * result = writer.encode(contentsToEncode, format, img_width, img_height, hints);
+     * } catch (IllegalArgumentException iae) {
+     * // Unsupported format
+     * return null;
+     * }
+     * int width = result.getWidth();
+     * int height = result.getHeight();
+     * int[] pixels = new int[width * height];
+     * for (int y = 0; y < height; y++) {
+     * int offset = y * width;
+     * for (int x = 0; x < width; x++) {
+     * pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+     * }
+     * }
+     * <p>
+     * Bitmap bitmap = Bitmap.createBitmap(width, height,
+     * Bitmap.Config.ARGB_8888);
+     * bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+     * return bitmap;
+     * }
+     * <p>
+     * private static String guessAppropriateEncoding(CharSequence contents) {
+     * // Very crude at the moment
+     * for (int i = 0; i < contents.length(); i++) {
+     * if (contents.charAt(i) > 0xFF) {
+     * return "UTF-8";
+     * }
+     * }
+     * return null;
+     * }
+     */
+    void profileDialog() {
 
         final Dialog dialog = new Dialog(CategoryActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -372,27 +406,27 @@ DatabaseHandler databaseHandler;
         dialog.setContentView(R.layout.customer_register);
         dialog.setCanceledOnTouchOutside(true);
 
-        TextView cusName,cusno,email;
+        TextView cusName, cusno, email;
         ImageView barcode;
-ImageView cancel;
-LinearLayout moreDetali=dialog.findViewById(R.id.moreDetali);
-        List<CustomerInformation>customerInformations=databaseHandler.getAllInformation();
+        ImageView cancel;
+        LinearLayout moreDetali = dialog.findViewById(R.id.moreDetali);
+        List<CustomerInformation> customerInformations = databaseHandler.getAllInformation();
 
-        cusName=(TextView)dialog.findViewById(R.id.cusName);
-        cusno=(TextView)dialog.findViewById(R.id.cusno);
-        email=(TextView)dialog.findViewById(R.id.email);
+        cusName = (TextView) dialog.findViewById(R.id.cusName);
+        cusno = (TextView) dialog.findViewById(R.id.cusno);
+        email = (TextView) dialog.findViewById(R.id.email);
 
-        cancel=(ImageView) dialog.findViewById(R.id.cancel);
+        cancel = (ImageView) dialog.findViewById(R.id.cancel);
 
-        if(customerInformations.size()!=0) {
+        if (customerInformations.size() != 0) {
             cusName.setText(customerInformations.get(0).getCustomerName());
             cusno.setText(customerInformations.get(0).getPhoneNo());
             email.setText(customerInformations.get(0).getEmail());
 
-        }else {
+        } else {
             Toast.makeText(this, "no customer ", Toast.LENGTH_SHORT).show();
         }
-        barcode=(ImageView) findViewById(R.id.barcode);
+        barcode = (ImageView) findViewById(R.id.barcode);
 
 
         Bitmap bitmap = null;//  AZTEC -->QR
@@ -406,18 +440,12 @@ LinearLayout moreDetali=dialog.findViewById(R.id.moreDetali);
         moreDetali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 final Dialog dialogDetail = new Dialog(CategoryActivity.this);
                 dialogDetail.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialogDetail.setCancelable(false);
                 dialogDetail.setContentView(R.layout.detali);
                 dialogDetail.setCanceledOnTouchOutside(true);
-
-
-
                 dialogDetail.show();
-
             }
         });
 
@@ -433,10 +461,90 @@ LinearLayout moreDetali=dialog.findViewById(R.id.moreDetali);
 
     }
 
+    void languageDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.language_layout);
+        english = dialog.findViewById(R.id.login_language_english);
+        arabic = dialog.findViewById(R.id.login_language_arabic);
+        english.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocaleAppUtils.setLocale(new Locale("en"));
+                LocaleAppUtils.setConfigChange(CategoryActivity.this);
+                finish();
+                startActivity(getIntent());
+            }
+        });
+        arabic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocaleAppUtils.setLocale(new Locale("ar"));
+                LocaleAppUtils.setConfigChange(CategoryActivity.this);
+                finish();
+                startActivity(getIntent());
+            }
+        });
 
+        dialog.show();
 
+    }
 
+    void callUsDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.call_us_dialog_layout);
+        emailMessage = dialog.findViewById(R.id.call_us_message);
+        send = dialog.findViewById(R.id.call_us_send);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(emailMessage.getText().toString())) {
+                    new SendMailTask(CategoryActivity.this).execute(senderName, senderPassword
+                            , recipientName, emailTitle, emailMessage.getText().toString());
+                    Toast.makeText(CategoryActivity.this, "Message sent successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog.show();
+    }
 
+    void contactUsDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.contact_us_dialog);
+        whatsApp = dialog.findViewById(R.id.contact_us_whats_app);
+        facebook = dialog.findViewById(R.id.contact_us_facebook);
+        twitter = dialog.findViewById(R.id.contact_us_twitter);
+        instagram = dialog.findViewById(R.id.contact_us_instagram);
 
+        whatsApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent whatsAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Falconssoft/"));
+//                startActivity(whatsAppIntent);
+            }
+        });
+
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent whatsAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Falconssoft/"));
+                startActivity(whatsAppIntent);
+            }
+        });
+
+        twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        instagram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        dialog.show();
+    }
 
 }

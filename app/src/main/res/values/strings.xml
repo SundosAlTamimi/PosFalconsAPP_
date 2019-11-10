@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">POS System</string>
+    <string name="app_name">Point System</string>
 
     <string name="menu">Menu...</string>
     <string name="login">Login</string>
@@ -9,7 +9,7 @@
     <string name="group_name">Group Name</string>
     <string name="description">Description</string>
     <string name="price">50$</string>
-    <string name="ar">Ar</string>
+    <string name="ar">عربي</string>
     <string name="en">En</string>
     <string name="category">Category ...</string>
     <string name="save">Save</string>
@@ -22,5 +22,15 @@
 
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
+
+    <string name="phone">Phone Number</string>
+    <string name="email">Email</string>
+    <string name="type_message">Type your message here..</string>
+    <string name="send">Send</string>
+
+    <string name="whats_app">Whats App</string>
+    <string name="twitter">Twitter</string>
+    <string name="facebook">Facebook</string>
+    <string name="instagram">Instagram</string>
 
 </resources>

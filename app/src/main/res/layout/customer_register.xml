@@ -4,19 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="900dp"
     android:layoutDirection="ltr"
+    android:background="@drawable/purple_background"
     android:orientation="vertical">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/items_stroke"
+        android:background="@color/white_two"
         android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="900dp"
-            android:background="@drawable/bactable2"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="20dp">
@@ -28,8 +27,9 @@
                 android:layout_marginBottom="10dp"
                 android:padding="5dp"
                 android:text="Profile "
+                android:fontFamily="casual"
                 android:textAlignment="center"
-                android:textColor="@color/layer2"
+                android:textColor="@color/purple"
                 android:textSize="40sp"
                 android:textStyle="bold" />
 
@@ -49,9 +49,12 @@
                         android:id="@+id/textView5"
                         android:layout_width="221dp"
                         android:layout_height="50dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
                         android:gravity="center_vertical"
                         android:text="Customer Name :"
-                        android:textColor="@color/layer2"
+                        android:fontFamily="casual"
+                        android:textColor="@color/purple"
                         android:textSize="25sp"
                         android:textStyle="bold" />
 
@@ -78,8 +81,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:gravity="center_vertical"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
                         android:text="Phone No :"
-                        android:textColor="@color/layer2"
+                        android:fontFamily="casual"
+                        android:textColor="@color/purple"
                         android:textSize="25sp"
                         android:textStyle="bold" />
 
@@ -106,8 +112,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:gravity="center_vertical"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
                         android:text="Email :"
-                        android:textColor="@color/layer2"
+                        android:fontFamily="casual"
+                        android:textColor="@color/purple"
                         android:textSize="25sp"
                         android:textStyle="bold" />
 
@@ -129,18 +138,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/back_2_layout"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="126dp"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="@drawable/alpha_frame"
+                    android:background="@drawable/btn_background"
                     android:gravity="center"
+                    android:padding="10dp"
                     android:text="Points "
+                    android:fontFamily="casual"
                     android:textColor="@color/layer2"
                     android:textSize="30sp" />
 
@@ -152,7 +162,7 @@
                     android:background="@drawable/alpha_frame"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/layer2"
+                    android:textColor="@color/purple"
                     android:textSize="30sp" />
 
                 <ImageView
@@ -183,7 +193,7 @@
                 android:id="@+id/barcode"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_margin="10dp"
+                android:layout_margin="20dp"
                 android:background="@drawable/callcaptin"
                 app:srcCompat="@drawable/alpha_frame" />
 
@@ -194,7 +204,6 @@
             android:id="@+id/cancel"
             android:layout_width="62dp"
             android:layout_height="63dp"
-
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="19dp"
             app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
