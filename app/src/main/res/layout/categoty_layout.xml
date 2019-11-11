@@ -17,7 +17,7 @@
         android:layout_marginBottom="10dp"
         android:text="burger"
         android:textAllCaps="false"
-        android:textColor="@color/white_dark"
+        android:textColor="@color/purple"
         android:textSize="40sp"
         android:textStyle="bold" />
 

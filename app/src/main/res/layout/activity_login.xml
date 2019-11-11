@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bactable"
+    android:background="@drawable/purple_background"
     tools:context=".LoginActivity"
     android:layoutDirection="ltr">
 
@@ -58,21 +58,42 @@
             android:layout_marginBottom="0dp"
             android:padding="20dp">
 
+            <Button
+                android:id="@+id/login_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="130dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_background"
+                android:padding="10dp"
+                android:text="@string/login"
+                android:fontFamily="casual"
+                android:textAllCaps="false"
+                android:textColor="@color/white_dark"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_password"
+                app:layout_constraintVertical_bias="0.092" />
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="96dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:fontFamily="casual"
                 android:gravity="center"
                 android:text="Menu"
                 android:textColor="@color/white_dark"
                 android:textSize="70sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.525"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,19 +102,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="80dp"
-                android:layout_marginLeft="80dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginEnd="80dp"
-                android:layout_marginRight="80dp"
                 android:background="@drawable/alpha_frame"
                 android:drawableStart="@drawable/ic_perm_identity_white_24dp"
                 android:drawableLeft="@drawable/ic_perm_identity_white_24dp"
                 android:drawablePadding="10dp"
                 android:hint="@string/username"
-                android:textColorHint="@color/white_dark"
                 android:padding="10dp"
-                android:textSize="20sp"
                 android:textColor="@color/white_dark"
+                android:textColorHint="@color/white_dark"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -123,40 +142,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/login_username" />
 
             <Button
-                android:id="@+id/login_button"
+                android:id="@+id/singup_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="130dp"
-                android:layout_marginLeft="130dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="130dp"
-                android:layout_marginRight="130dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/btn_background"
                 android:padding="10dp"
-                android:text="@string/login"
+                android:text="sing up"
+                android:fontFamily="casual"
                 android:textAllCaps="false"
                 android:textColor="@color/white_dark"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/login_password"
-                app:layout_constraintVertical_bias="0.092" />
-
+                app:layout_constraintTop_toBottomOf="@+id/login_button"
+                app:layout_constraintVertical_bias="0.0" />
 
 
         </android.support.constraint.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/login_setting_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="3dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/ic_settings_red_24dp" />
     </RelativeLayout>
 
 </RelativeLayout>

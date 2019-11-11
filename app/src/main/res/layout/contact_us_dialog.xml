@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="500dp"
+    android:layout_height="550dp"
+    android:background="@drawable/purple_background"
+   >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_two"
+        >
+
+        <ImageButton
+            android:id="@+id/contact_us_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:background="@drawable/gradiant_dialog"
+            android:padding="40dp"
+            android:src="@drawable/facebook"
+            android:text="@string/facebook"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.305"
+            app:layout_constraintStart_toEndOf="@+id/contact_us_whats_app"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/contact_us_whats_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="176dp"
+            android:layout_marginTop="52dp"
+            android:background="@drawable/gradiant_dialog"
+            android:padding="40dp"
+            android:src="@drawable/whatsapp"
+            android:text="@string/whats_app"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/contact_us_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/gradiant_dialog"
+            android:padding="40dp"
+            android:src="@drawable/twitter"
+            android:text="@string/twitter"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_us_whats_app" />
+
+        <ImageButton
+            android:id="@+id/contact_us_instagram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/gradiant_dialog"
+            android:padding="40dp"
+            android:src="@drawable/instagram"
+            android:text="@string/instagram"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.061"
+            app:layout_constraintStart_toEndOf="@+id/contact_us_twitter"
+            app:layout_constraintTop_toBottomOf="@+id/contact_us_facebook" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

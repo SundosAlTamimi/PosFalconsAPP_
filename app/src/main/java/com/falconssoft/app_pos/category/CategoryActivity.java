@@ -4,44 +4,92 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.falconssoft.app_pos.DatabaseHandler;
+import com.falconssoft.app_pos.LocaleAppUtils;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.SendSocket;
 import com.falconssoft.app_pos.SettingOrder;
+import com.falconssoft.app_pos.email.SendMailTask;
+import com.falconssoft.app_pos.models.CustomerInformation;
+import com.falconssoft.app_pos.models.Items;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 import com.falconssoft.app_pos.itemsReciptAdapter;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import cdflynn.android.library.turn.TurnLayoutManager;
 
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.WHITE;
+import static com.falconssoft.app_pos.models.ShareValues.emailTitle;
+import static com.falconssoft.app_pos.models.ShareValues.recipientName;
+import static com.falconssoft.app_pos.models.ShareValues.senderName;
+import static com.falconssoft.app_pos.models.ShareValues.senderPassword;
+import static android.widget.LinearLayout.HORIZONTAL;
+import static android.widget.LinearLayout.VERTICAL;
+
+public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    private TextView english, arabic, emailMessage;
+    private Button send;
+    private ImageButton facebook, twitter, instagram, whatsApp;
 import static android.widget.LinearLayout.VERTICAL;
 
 public class CategoryActivity extends AppCompatActivity {
 
     //    private TextView UserNameText;
+    private Toolbar mTopToolbar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle toggle;
+
     private LinearLayout swipeRefresh;
     private Button CallCaptain, makeOrder;
+
+    private List<Items> listOfOrder = new ArrayList<>();
 
     private List<String> list = new ArrayList<>();
     //    public List<Items> categoryList = new ArrayList<>();
@@ -49,6 +97,7 @@ public class CategoryActivity extends AppCompatActivity {
     private TurnLayoutManager layoutManager = null;
     private RecyclerView recyclerView;
     private MediaPlayer mediaPlayer;
+    DatabaseHandler databaseHandler;
 
     int position;
 
@@ -57,19 +106,51 @@ public class CategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_listview);
-        Intent userName = getIntent();
-        String users = userName.getStringExtra("userName");
 
-//        UserNameText = (TextView) findViewById(R.id.userName);
-
-//        UserNameText.setText(users);
-//        baseHandler=new DatabaseHandler(CategoryActivity.this);
-//        categoryList=baseHandler.getAllItems();
-        swipeRefresh = findViewById(R.id.swipeRefresh);
-        CallCaptain = findViewById(R.id.call);
+        databaseHandler = new DatabaseHandler(CategoryActivity.this);
+        recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
         makeOrder = findViewById(R.id.makeOrder);
+        mTopToolbar = (Toolbar) findViewById(R.id.category_toolbar);
+        drawerLayout = findViewById(R.id.category_drawer);
+        navigationView = findViewById(R.id.category_navigation);
 
-//        list.add("");
+        setSupportActionBar(mTopToolbar);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Enable the drawer to open and close
+        navigationView.setNavigationItemSelectedListener(this);
+
+        layoutManager = new TurnLayoutManager(this,
+                TurnLayoutManager.Gravity.START,
+                TurnLayoutManager.Orientation.HORIZONTAL,
+                200,
+                200,
+                false);// vertical and cycle layout
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(new TestAdapter(this, list));
+
+        makeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingOrder.Item.clear();
+                SettingOrder.ItemsOrder.clear();
+                SettingOrder.index = 0;
+            }
+        });
+
         list.add("Barbecue");
         list.add("Chips");
         list.add("Fish finger");
@@ -80,9 +161,7 @@ public class CategoryActivity extends AppCompatActivity {
         list.add("Fried Potato");
         list.add("Burger");
         list.add("Fried Potato");
-//        list.add("");
 
-//        pic.add("");
         pic.add("fw");
         pic.add("der");
         pic.add("mozaral");
@@ -93,40 +172,6 @@ public class CategoryActivity extends AppCompatActivity {
         pic.add("botato");
         pic.add("burger");
         pic.add("botato");
-//        pic.add("");
-
-        // vertical and cycle layout
-        layoutManager = new TurnLayoutManager(this,
-                TurnLayoutManager.Gravity.START,
-                TurnLayoutManager.Orientation.HORIZONTAL,
-                200,
-                200,
-                true);
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new TestAdapter(this, list));
-
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("itemRec", "");
-            }
-        });
-
-        makeOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String d="";
-                orderReciptDialog();
-
-//                SettingOrder.Item.clear();
-//                SettingOrder.ItemsOrder.clear();
-//                SettingOrder.index = 0;
-            }
-        });
 
 //          swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //                           @Override
@@ -138,16 +183,159 @@ public class CategoryActivity extends AppCompatActivity {
 //        swipeRefresh.setRefreshing(false);
 //    }
 
-        CallCaptain.setOnClickListener(new View.OnClickListener() {
+//        CallCaptain.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//               mediaPlayer = MediaPlayer.create(CategoryActivity.this, R.raw.bell);
+//                mediaPlayer.start();
+//
+//                SendSocket sendSocket = new SendSocket(CategoryActivity.this);
+//                sendSocket.sendMessage();
+//            }
+//        });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { // to activate burger icon
+        int itemId = item.getItemId();
+        if (item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            // Android home
+//            case android.R.id.home:
+//                drawerLayout.openDrawer(GravityCompat.START);
+//                return true;
+            case R.id.menu_profile:
+                profileDialog();
+                break;
+            case R.id.menu_orders:
+                makeOrderDialog();
+                Toast.makeText(this, "orders", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_invite_friends:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+                break;
+            case R.id.menu_call_us:
+                callUsDialog();
+                break;
+            case R.id.menu_transfer_points:
+                transferPointDialog();
+                break;
+            case R.id.menu_contact_with_us:
+                contactUsDialog();
+                break;
+            case R.id.menu_language:
+                languageDialog();
+                break;
+            case R.id.menu_app_developers:
+                Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.app_developers_dialog_layout);
+                dialog.show();
+                break;
+
+        }
+        return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+//            case R.id.login_language_english:
+//
+//                break;
+//            case R.id.login_language_arabic:
+//
+//                break;
+        }
+    }
+
+    void transferPointDialog() {
+
+        final Dialog dialog = new Dialog(CategoryActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.transfer_point);
+        dialog.setCanceledOnTouchOutside(true);
+
+        final EditText phone, pointToSend;
+        final TextView pointTotal;
+        Button send;
+        phone = (EditText) dialog.findViewById(R.id.phone);
+        pointToSend = (EditText) dialog.findViewById(R.id.pointToSend);
+
+        pointTotal = (TextView) dialog.findViewById(R.id.pointTotal);
+        send = (Button) dialog.findViewById(R.id.send);
+
+        send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mediaPlayer = MediaPlayer.create(CategoryActivity.this, R.raw.bell);
-                mediaPlayer.start();
 
-                SendSocket sendSocket = new SendSocket(CategoryActivity.this);
-                sendSocket.sendMessage();
+
+                if (!phone.getText().toString().equals("") && !pointToSend.getText().toString().equals("")) {
+                    int totalPoint = Integer.parseInt(pointTotal.getText().toString()) - Integer.parseInt(pointToSend.getText().toString());
+                    if (Integer.parseInt(pointTotal.getText().toString()) != 0) {
+                        if (totalPoint >= 0) {
+
+
+                        } else {
+                            Toast.makeText(CategoryActivity.this, "You don't have enough points to send", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                } else {
+                    Toast.makeText(CategoryActivity.this, "Please Enter All Information ", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
+
+        dialog.show();
+    }
+
+    void makeOrderDialog() {
+
+        final Dialog dialog = new Dialog(CategoryActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.my_order_dialog);
+        dialog.setCanceledOnTouchOutside(true);
+
+
+//            Items items=new Items("potato","potato",1222,null,"from",1,null,1,1,1,10);
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+
+        final LinearLayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(VERTICAL);
+        RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.itemRecycler);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(new CategoryActivity.TestAdapterForOrder(this, listOfOrder));
+
+        recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
+
+        dialog.show();
     }
 
     public void orderReciptDialog() {
@@ -369,4 +557,311 @@ public class CategoryActivity extends AppCompatActivity {
         return drawableResourceId;
     }
 
+    void profileDialog() {
+
+        final Dialog dialog = new Dialog(CategoryActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.customer_register);
+        dialog.setCanceledOnTouchOutside(true);
+
+        TextView cusName, cusno, email;
+        ImageView barcode;
+        ImageView cancel;
+        String barcode_data = null;
+
+        LinearLayout moreDetali = dialog.findViewById(R.id.moreDetali);
+        List<CustomerInformation> customerInformations = databaseHandler.getAllInformation();
+
+        cusName = (TextView) dialog.findViewById(R.id.cusName);
+        cusno = (TextView) dialog.findViewById(R.id.cusno);
+        email = (TextView) dialog.findViewById(R.id.email);
+        barcode = (ImageView) dialog.findViewById(R.id.barcode);
+        cancel = (ImageView) dialog.findViewById(R.id.cancel);
+        cusName = (TextView) dialog.findViewById(R.id.cusName);
+        cusno = (TextView) dialog.findViewById(R.id.cusno);
+        email = (TextView) dialog.findViewById(R.id.email);
+
+        cancel = (ImageView) dialog.findViewById(R.id.cancel);
+
+        Bitmap bitmap = null;//  AZTEC -->QR
+
+        if (customerInformations.size() != 0) {
+            if (customerInformations.size() != 0) {
+                cusName.setText(customerInformations.get(0).getCustomerName());
+                cusno.setText(customerInformations.get(0).getPhoneNo());
+                email.setText(customerInformations.get(0).getEmail());
+
+                barcode_data = customerInformations.get(0).getPhoneNo();
+                try {
+                    bitmap = encodeAsBitmap(barcode_data, BarcodeFormat.CODE_128, 1100, 200);
+                    barcode.setImageBitmap(bitmap);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+
+
+            } else{
+                Toast.makeText(this, "no customer ", Toast.LENGTH_SHORT).show();
+            }
+            barcode = (ImageView) findViewById(R.id.barcode);
+
+
+            moreDetali.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dialog dialogDetail = new Dialog(CategoryActivity.this);
+                    dialogDetail.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialogDetail.setCancelable(false);
+                    dialogDetail.setContentView(R.layout.detali);
+                    dialogDetail.setCanceledOnTouchOutside(true);
+                    dialogDetail.show();
+                }
+            });
+
+
+            dialog.show();
+
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+        }
+
+        dialog.show();
+    }
+
+    void languageDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.language_layout);
+        english = dialog.findViewById(R.id.login_language_english);
+        arabic = dialog.findViewById(R.id.login_language_arabic);
+        english.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocaleAppUtils.setLocale(new Locale("en"));
+                LocaleAppUtils.setConfigChange(CategoryActivity.this);
+                finish();
+                startActivity(getIntent());
+            }
+        });
+        arabic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocaleAppUtils.setLocale(new Locale("ar"));
+                LocaleAppUtils.setConfigChange(CategoryActivity.this);
+                finish();
+                startActivity(getIntent());
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    void callUsDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.call_us_dialog_layout);
+        emailMessage = dialog.findViewById(R.id.call_us_message);
+        send = dialog.findViewById(R.id.call_us_send);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(emailMessage.getText().toString())) {
+                    new SendMailTask(CategoryActivity.this).execute(senderName, senderPassword
+                            , recipientName, emailTitle, emailMessage.getText().toString());
+                    Toast.makeText(CategoryActivity.this, "Message sent successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    void contactUsDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.contact_us_dialog);
+        whatsApp = dialog.findViewById(R.id.contact_us_whats_app);
+        facebook = dialog.findViewById(R.id.contact_us_facebook);
+        twitter = dialog.findViewById(R.id.contact_us_twitter);
+        instagram = dialog.findViewById(R.id.contact_us_instagram);
+
+        whatsApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent whatsAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Falconssoft/"));
+//                startActivity(whatsAppIntent);
+            }
+        });
+
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent whatsAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Falconssoft/"));
+                startActivity(whatsAppIntent);
+            }
+        });
+
+        twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        dialog.show();
+    }
+
+    static class CViewHolderForOrder extends RecyclerView.ViewHolder {
+
+        TextView ItemName,   point, Qty, price;
+        ImageView itemImage;
+
+        public CViewHolderForOrder(@NonNull View itemView) {
+            super(itemView);
+            ItemName = itemView.findViewById(R.id.itemName);
+            Qty = itemView.findViewById(R.id.Qty);
+            price = itemView.findViewById(R.id.price);
+            point = itemView.findViewById(R.id.point);
+            itemImage= itemView.findViewById(R.id.itemImage);
+        }
+    }
+
+    class TestAdapterForOrder extends RecyclerView.Adapter<CategoryActivity.CViewHolderForOrder> {
+        Context context;
+        List<Items> list;
+//DatabaseHandler db;
+
+        public TestAdapterForOrder(Context context, List<Items> list) {
+            this.context = context;
+            this.list = list;
+//        db=new DatabaseHandler(this.context);
+        }
+
+        @NonNull
+        @Override
+        public CategoryActivity.CViewHolderForOrder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(context).inflate(R.layout.order_layout_for_list, viewGroup, false);
+            return new CategoryActivity.CViewHolderForOrder(view);
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onBindViewHolder(@NonNull final CategoryActivity.CViewHolderForOrder cViewHolder, final int i) {
+            cViewHolder.ItemName.setText(list.get(i).getItemName());
+//            cViewHolder.itemImage.setBackgroundResource(getImage(list.get(i).getDescription()));
+            cViewHolder.Qty.setText("" + list.get(i).getQTY());
+            cViewHolder.price.setText("" + list.get(i).getPrice());
+
+
+//
+
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+//            return Integer.MAX_VALUE;
+        }
+    }
+
+    Bitmap encodeAsBitmap(String contents, BarcodeFormat format, int img_width, int img_height) throws WriterException {
+        String contentsToEncode = contents;
+        if (contentsToEncode == null) {
+            return null;
+        }
+        Map<EncodeHintType, Object> hints = null;
+        String encoding = guessAppropriateEncoding(contentsToEncode);
+        if (encoding != null) {
+            hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+            hints.put(EncodeHintType.CHARACTER_SET, encoding);
+        }
+        MultiFormatWriter writer = new MultiFormatWriter();
+        BitMatrix result;
+        try {
+            result = writer.encode(contentsToEncode, format, img_width, img_height, hints);
+        } catch (IllegalArgumentException iae) {
+            // Unsupported format
+            return null;
+        }
+        int width = result.getWidth();
+        int height = result.getHeight();
+        int[] pixels = new int[width * height];
+        for (int y = 0; y < height; y++) {
+            int offset = y * width;
+            for (int x = 0; x < width; x++) {
+                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+            }
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height,
+                Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bitmap;
+    }
+
+    private static String guessAppropriateEncoding(CharSequence contents) {
+        // Very crude at the moment
+        for (int i = 0; i < contents.length(); i++) {
+            if (contents.charAt(i) > 0xFF) {
+                return "UTF-8";
+            }
+        }
+        return null;
+    }
+
+
+
+//    void profileDialog() {
+//
+//        Bitmap encodeAsBitmap (String contents, BarcodeFormat format,int img_width, int img_height) throws
+//        WriterException {
+//            String contentsToEncode = contents;
+//            if (contentsToEncode == null) {
+//                return null;
+//            }
+//            Map<EncodeHintType, Object> hints = null;
+//            String encoding = guessAppropriateEncoding(contentsToEncode);
+//            if (encoding != null) {
+//                hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+//                hints.put(EncodeHintType.CHARACTER_SET, encoding);
+//            }
+//            MultiFormatWriter writer = new MultiFormatWriter();
+//            BitMatrix result;
+//            try {
+//                result = writer.encode(contentsToEncode, format, img_width, img_height, hints);
+//            } catch (IllegalArgumentException iae) {
+//                // Unsupported format
+//                return null;
+//            }
+//            int width = result.getWidth();
+//            int height = result.getHeight();
+//            int[] pixels = new int[width * height];
+//            for (int y = 0; y < height; y++) {
+//                int offset = y * width;
+//                for (int x = 0; x < width; x++) {
+//                    pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+//                }
+//            }
+//
+//            Bitmap bitmap = Bitmap.createBitmap(width, height,
+//                    Bitmap.Config.ARGB_8888);
+//            bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+//            return bitmap;
+//        }
+//
+//        private static String guessAppropriateEncoding (CharSequence contents){
+//            // Very crude at the moment
+//            for (int i = 0; i < contents.length(); i++) {
+//                if (contents.charAt(i) > 0xFF) {
+//                    return "UTF-8";
+//                }
+//            }
+//            return null;
+//        }
+//
+//
+//    }
 }
