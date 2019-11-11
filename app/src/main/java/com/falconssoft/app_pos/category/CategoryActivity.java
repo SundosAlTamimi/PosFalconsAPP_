@@ -100,6 +100,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_listview);
 
+        databaseHandler = new DatabaseHandler(CategoryActivity.this);
+        recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
+        makeOrder = findViewById(R.id.makeOrder);
         mTopToolbar = (Toolbar) findViewById(R.id.category_toolbar);
         drawerLayout = findViewById(R.id.category_drawer);
         navigationView = findViewById(R.id.category_navigation);
@@ -116,28 +119,31 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 super.onDrawerClosed(drawerView);
             }
         };
-        toggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.setDrawerListener(toggle);
-        //Enable the drawer to open and close
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Enable the drawer to open and close
         navigationView.setNavigationItemSelectedListener(this);
 
-        Intent userName = getIntent();
-        String users = userName.getStringExtra("userName");
+        layoutManager = new TurnLayoutManager(this,
+                TurnLayoutManager.Gravity.START,
+                TurnLayoutManager.Orientation.HORIZONTAL,
+                200,
+                200,
+                false);// vertical and cycle layout
 
-//        UserNameText = (TextView) findViewById(R.id.userName);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(new TestAdapter(this, list));
 
-//        UserNameText.setText(users);
-//        baseHandler=new DatabaseHandler(CategoryActivity.this);
-//        categoryList=baseHandler.getAllItems();
-//        swipeRefresh = findViewById(R.id.swipeRefresh);
-//        CallCaptain = findViewById(R.id.call);
-        makeOrder = findViewById(R.id.makeOrder);
-        databaseHandler = new DatabaseHandler(CategoryActivity.this);
-//        list.add("");
+        makeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingOrder.Item.clear();
+                SettingOrder.ItemsOrder.clear();
+                SettingOrder.index = 0;
+            }
+        });
+
         list.add("Barbecue");
         list.add("Chips");
         list.add("Fish finger");
@@ -148,9 +154,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         list.add("Fried Potato");
         list.add("Burger");
         list.add("Fried Potato");
-//        list.add("");
 
-//        pic.add("");
         pic.add("fw");
         pic.add("der");
         pic.add("mozaral");
@@ -161,37 +165,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         pic.add("botato");
         pic.add("burger");
         pic.add("botato");
-//        pic.add("");
-
-        // vertical and cycle layout
-        layoutManager = new TurnLayoutManager(this,
-                TurnLayoutManager.Gravity.START,
-                TurnLayoutManager.Orientation.HORIZONTAL,
-                200,
-                200,
-                false);
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new TestAdapter(this, list));
-
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("itemRec", "");
-            }
-        });
-
-        makeOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SettingOrder.Item.clear();
-                SettingOrder.ItemsOrder.clear();
-                SettingOrder.index = 0;
-            }
-        });
 
 //          swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //                           @Override
@@ -215,25 +188,15 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //        });
     }
 
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.navigation_menu, menu);
-//        return true;
-//    }
-//
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) { // to activate burger icon
         int itemId = item.getItemId();
         if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return true;
     }
-
-//                SendSocket sendSocket = new SendSocket(CategoryActivity.this);
-//                sendSocket.sendMessage();
-//            }
-//        });
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -458,8 +421,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         LinearLayout moreDetali = dialog.findViewById(R.id.moreDetali);
         List<CustomerInformation> customerInformations = databaseHandler.getAllInformation();
-//        LinearLayout moreDetali = dialog.findViewById(R.id.moreDetali);
-//        List<CustomerInformation> customerInformations = databaseHandler.getAllInformation();
 
         cusName = (TextView) dialog.findViewById(R.id.cusName);
         cusno = (TextView) dialog.findViewById(R.id.cusno);
