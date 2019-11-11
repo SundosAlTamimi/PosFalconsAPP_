@@ -21,6 +21,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +32,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,6 +52,7 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.falconssoft.app_pos.itemsReciptAdapter;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -72,6 +76,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private TextView english, arabic, emailMessage;
     private Button send;
     private ImageButton facebook, twitter, instagram, whatsApp;
+import static android.widget.LinearLayout.VERTICAL;
+
+public class CategoryActivity extends AppCompatActivity {
 
     //    private TextView UserNameText;
     private Toolbar mTopToolbar;
@@ -329,6 +336,150 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
 
         dialog.show();
+    }
+
+    public void orderReciptDialog() {
+        Dialog dialog = new Dialog(CategoryActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.pay_dialog);
+        dialog.setCanceledOnTouchOutside(true);
+
+        final LinearLayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(this);
+//        layoutManager.setOrientation(VERTICAL);
+        final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.items_detail_Recycler);
+        recyclerView.setLayoutManager(layoutManager);
+        itemsReciptAdapter adapter_recipt = new itemsReciptAdapter(this, SettingOrder.ItemsOrder);
+        recyclerView.setAdapter(adapter_recipt);
+        TextView textView_qty, point_text, total_price_text;
+        Button cash_button;
+        double qty = 0, pric = 0, points = 0;
+        textView_qty = dialog.findViewById(R.id.textView_qty);
+        point_text = dialog.findViewById(R.id.textView_point);
+        total_price_text = dialog.findViewById(R.id.textView_total);
+        cash_button = dialog.findViewById(R.id.cash_pay);
+        cash_button.setOnClickListener(onClickListener);
+        for (int i = 0; i < SettingOrder.ItemsOrder.size(); i++) {
+            qty += SettingOrder.ItemsOrder.get(i).getQTY();
+            pric += SettingOrder.ItemsOrder.get(i).getTotal();
+            points += SettingOrder.ItemsOrder.get(i).getPoint();
+
+        }
+        textView_qty.setText(qty + "");
+        point_text.setText(points + "");
+        total_price_text.setText(pric + "");
+
+
+        dialog.show();
+    }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.cash_pay:
+                    reciveReciptMony_Cash();
+
+                    break;
+//                case R.id.save_button:
+//                    break;
+
+
+            }
+
+        }
+    };
+
+    private void reciveReciptMony_Cash() {
+        final Dialog dialog_cash = new Dialog(CategoryActivity.this);
+        dialog_cash.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog_cash.setCancelable(false);
+        dialog_cash.setContentView(R.layout.recive_money_cash_dialog);
+        dialog_cash.setCanceledOnTouchOutside(true);
+
+        final LinearLayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(this);
+
+        final TextView total_money, remaining_money;
+        EditText receved_money;
+        Button save_button, cancel_button;
+        double pric = 0, recived = 0, remain = 0;
+        total_money = dialog_cash.findViewById(R.id.textView_total);
+        receved_money = dialog_cash.findViewById(R.id.recceved_money_editText);
+        remaining_money = dialog_cash.findViewById(R.id.remaining_Textview);
+        save_button = dialog_cash.findViewById(R.id.save_button);
+        cancel_button = dialog_cash.findViewById(R.id.cancel_button);
+//        save_button.setOnClickListener(onClickListener);
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_cash.dismiss();
+            }
+        });
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_cash.dismiss();
+            }
+        });
+        for (int i = 0; i < SettingOrder.ItemsOrder.size(); i++) {
+
+            pric += SettingOrder.ItemsOrder.get(i).getTotal();
+
+
+        }
+        total_money.setText(pric + "");
+        Log.e("pric", "" + pric);
+//        if (!receved_money.getText().toString().equals(""))
+//        {
+//            recived = Double.parseDouble(receved_money.getText().toString());
+//
+//    }
+//        final double finalRecived = recived;
+        final double finalPric = pric;
+        receved_money.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                double recived = 0;
+                try {
+
+                    if (!s.equals("")) {
+                        recived = Double.parseDouble(s + "");
+
+                        if (recived >= finalPric) {
+                            remaining_money.setText((recived - finalPric) + "");
+                        } else {
+                            remaining_money.setText("0");
+
+                        }
+
+                    } else {
+                        remaining_money.setText("0");
+                    }
+                } catch (NumberFormatException e) {
+                    recived = 0;
+                    Log.e("Exception", "recived");
+
+                }
+
+
+            }
+        });
+
+        dialog_cash.show();
+
+
     }
 
     class CViewHolder extends RecyclerView.ViewHolder {

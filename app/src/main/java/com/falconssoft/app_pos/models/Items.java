@@ -15,8 +15,25 @@ public class Items {
     private int indexOfCat;
     private double QTY;
     private double Total;
+    private  int point;
 
     public Items() {
+    }
+
+    public Items(String categoryName, String itemName, int itemBarcode, Bitmap categoryPic,
+                 String description, double price, Bitmap itemPic, int indexOfItem, int indexOfCat, double QTY, double total, int point) {
+        this.categoryName = categoryName;
+        this.itemName = itemName;
+        this.itemBarcode = itemBarcode;
+        this.categoryPic = categoryPic;
+        this.description = description;
+        this.price = price;
+        ItemPic = itemPic;
+        this.indexOfItem = indexOfItem;
+        this.indexOfCat = indexOfCat;
+        this.QTY = QTY;
+        Total = total;
+        this.point = point;
     }
 
     public Items(String categoryName, String itemName, int itemBarcode, Bitmap categoryPic, String description, double price, Bitmap itemPic, int indexOfItem, int indexOfCat, double Qty, double Total) {
@@ -31,6 +48,14 @@ public class Items {
         this.indexOfCat = indexOfCat;
         this.QTY = Qty;
         this.Total = Total;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
     }
 
     public String getCategoryName() {

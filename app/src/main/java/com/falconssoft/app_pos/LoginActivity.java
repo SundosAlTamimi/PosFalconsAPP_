@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.falconssoft.app_pos.category.CategoryActivity;
 import com.falconssoft.app_pos.category.ItemActivaty;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.category.CategoryActivity;
@@ -69,13 +70,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (passwordText.equals(users.get(i).getPassword())) {
                                 found = true;
                                 Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
-//                                categoryIntent.putExtra("userName", usernameText);
+                                categoryIntent.putExtra("userName", usernameText);
                                 startActivity(categoryIntent);
                             }
 
                     if (found == false) {
-                        if (usernameText.equals("")) {
-                            if (passwordText.equals("")) {
+                        if (usernameText.equals("1")) {
+                            if (passwordText.equals("1")) {
                                 Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
                                 categoryIntent.putExtra("userName", usernameText);
                                 startActivity(categoryIntent);

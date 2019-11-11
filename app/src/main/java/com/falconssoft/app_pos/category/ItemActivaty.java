@@ -31,6 +31,8 @@ import com.falconssoft.app_pos.models.Items;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.widget.LinearLayout.HORIZONTAL;
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -66,16 +68,16 @@ public class ItemActivaty extends AppCompatActivity {
 
         for (int i = 0; i < 10; i++) {
             itemList.clear();
-            itemList.add(new Items("Burger1", "Burger1", -1, null, "fw", 2.0, null, -1, -1, 0, 0));
+            itemList.add(new Items("Burger1", "Burger1", -1, null, "fw", 2.0, null, -1, -1, 0, 0,1));
             itemList.add(new Items("Burger2", "Burger2", -1, null, "coc", 2.50, null, -1, -1, 0, 0));
             itemList.add(new Items("Burger3", "Burger3", -1, null, "mozaral", 1.0, null, -1, -1, 0, 0));
             itemList.add(new Items("Burger4", "Burger4", -1, null, "der", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger5", "Burger5", -1, null, "coc", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger6", "Burger6", -1, null, "fe", 0.5, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger7", "Burger7", -1, null, "san", 0.25, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger8", "Burger8", -1, null, "botato", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger9", "Burger9", -1, null, "burger", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger10", "Burger10", -1, null, "botato", 1.0, null, -1, -1, 0, 0));
+            itemList.add(new Items("Burger5", "Burger5", -1, null, "coc", 1.0, null, -1, -1, 0, 0,4));
+            itemList.add(new Items("Burger6", "Burger6", -1, null, "fe", 0.5, null, -1, -1, 0, 0,5));
+            itemList.add(new Items("Burger7", "Burger7", -1, null, "san", 0.25, null, -1, -1, 0, 0,6));
+            itemList.add(new Items("Burger8", "Burger8", -1, null, "botato", 1.0, null, -1, -1, 0, 0,7));
+            itemList.add(new Items("Burger9", "Burger9", -1, null, "burger", 1.0, null, -1, -1, 0, 0,8));
+            itemList.add(new Items("Burger10", "Burger10", -1, null, "botato", 1.0, null, -1, -1, 0, 0,9));
 
             SettingOrder.Item.add(i, itemList);
         }
@@ -124,8 +126,11 @@ public class ItemActivaty extends AppCompatActivity {
 
     static class CViewHolder extends RecyclerView.ViewHolder {
 
-        TextView ItemName, itemDescription, addQty, subQty, balance, Qty, price;
+        TextView ItemName, itemDescription, addQty, subQty, balance, Qty, price,point;
         ImageView itemImage;
+        LinearLayout pointLinear;
+//        CircleImageView imageOffer;
+       ImageView imageOffer;
         public static Button addOrder;
 
         public CViewHolder(@NonNull View itemView) {
@@ -139,6 +144,9 @@ public class ItemActivaty extends AppCompatActivity {
             itemImage = itemView.findViewById(R.id.item_imge);
             addOrder = itemView.findViewById(R.id.addToOrder);
             price = itemView.findViewById(R.id.price);
+            point=itemView.findViewById(R.id.point_text);
+            pointLinear=itemView.findViewById(R.id.points);
+            imageOffer= itemView.findViewById(R.id.imageView2);
 
         }
     }
@@ -170,6 +178,15 @@ public class ItemActivaty extends AppCompatActivity {
             cViewHolder.Qty.setText("" + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getQTY());
             cViewHolder.balance.setText("JD " + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getTotal());
             cViewHolder.price.setText("" + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPrice());
+            if(SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPoint()==0)
+            {
+                cViewHolder.pointLinear.setVisibility(View.INVISIBLE);
+                cViewHolder.imageOffer.setVisibility(View.INVISIBLE);
+                cViewHolder.point.setText( list.get(i).getPoint()+"");
+            }
+            else {
+                cViewHolder.point.setText(list.get(i).getPoint()+"");
+            }
 
 
             cViewHolder.addOrder.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +204,7 @@ public class ItemActivaty extends AppCompatActivity {
                             item.setIndexOfItem(i);
                             item.setIndexOfCat(SettingOrder.indexCat);
                             item.setTotal(Double.parseDouble(cViewHolder.balance.getText().toString().replace("JD", "")));
+                            item.setPoint(Integer.parseInt(cViewHolder.point.getText().toString()));
 
                             SettingOrder.Item.get(SettingOrder.indexCat).get(i).setQTY(Double.parseDouble(cViewHolder.Qty.getText().toString()));
                             SettingOrder.Item.get(SettingOrder.indexCat).get(i).setTotal(Double.parseDouble(cViewHolder.balance.getText().toString().replace("JD", "")));
