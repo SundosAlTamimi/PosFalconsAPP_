@@ -14,26 +14,23 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.EditText;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,9 +39,9 @@ import android.widget.Toast;
 import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.LocaleAppUtils;
 import com.falconssoft.app_pos.R;
-import com.falconssoft.app_pos.SendSocket;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.email.SendMailTask;
+import com.falconssoft.app_pos.itemsReciptAdapter;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
 import com.google.zxing.BarcodeFormat;
@@ -52,7 +49,6 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.falconssoft.app_pos.itemsReciptAdapter;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -64,21 +60,20 @@ import cdflynn.android.library.turn.TurnLayoutManager;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
+import static android.widget.LinearLayout.VERTICAL;
 import static com.falconssoft.app_pos.models.ShareValues.emailTitle;
 import static com.falconssoft.app_pos.models.ShareValues.recipientName;
 import static com.falconssoft.app_pos.models.ShareValues.senderName;
 import static com.falconssoft.app_pos.models.ShareValues.senderPassword;
-import static android.widget.LinearLayout.HORIZONTAL;
-import static android.widget.LinearLayout.VERTICAL;
 
 public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private TextView english, arabic, emailMessage;
     private Button send;
     private ImageButton facebook, twitter, instagram, whatsApp;
-import static android.widget.LinearLayout.VERTICAL;
 
-public class CategoryActivity extends AppCompatActivity {
+
+
 
     //    private TextView UserNameText;
     private Toolbar mTopToolbar;
@@ -145,9 +140,10 @@ public class CategoryActivity extends AppCompatActivity {
         makeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SettingOrder.Item.clear();
-                SettingOrder.ItemsOrder.clear();
-                SettingOrder.index = 0;
+                orderReciptDialog();
+//                SettingOrder.Item.clear();
+//                SettingOrder.ItemsOrder.clear();
+//                SettingOrder.index = 0;
             }
         });
 
@@ -405,7 +401,7 @@ public class CategoryActivity extends AppCompatActivity {
         EditText receved_money;
         Button save_button, cancel_button;
         double pric = 0, recived = 0, remain = 0;
-        total_money = dialog_cash.findViewById(R.id.textView_total);
+        total_money = dialog_cash.findViewById(R.id.textView_total_money);
         receved_money = dialog_cash.findViewById(R.id.recceved_money_editText);
         remaining_money = dialog_cash.findViewById(R.id.remaining_Textview);
         save_button = dialog_cash.findViewById(R.id.save_button);

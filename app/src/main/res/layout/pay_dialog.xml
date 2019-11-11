@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="550dp"
-    android:layout_height="match_parent"
-    android:background="@drawable/items_stroke"
+    android:layout_height="700dp"
+
+    android:background="@drawable/purple_background"
     android:layoutDirection="ltr"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="550dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/back_2_layout"
+        android:layout_height="700dp"
+        android:background="@color/white_two"
         android:orientation="vertical">
 
         <TextView
@@ -21,7 +22,8 @@
             android:layout_marginBottom="10dp"
             android:text="@string/recipt"
             android:textAlignment="center"
-            android:textColor="@color/layer2"
+            android:fontFamily="casual"
+            android:textColor="@color/purple"
             android:textSize="40sp"
             android:textStyle="bold" />
         <LinearLayout
@@ -30,14 +32,17 @@
             android:background="@drawable/back_white"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/itemName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="casual"
 
-                android:textColor="@color/red"
+                android:textColor="@color/purple"
 
                 android:gravity="center"
                 android:layout_marginRight="2dp"
@@ -53,16 +58,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
-                android:textColor="@color/red"
-
+                android:textColor="@color/purple"
                 android:gravity="center"
                 android:layout_marginRight="2dp"
+                android:fontFamily="casual"
 
                 android:textSize="20sp"
                 android:text="Qty"
 
-               />
+                />
 
             <TextView
                 android:id="@+id/TotalPricre"
@@ -72,43 +76,42 @@
 
                 android:gravity="center"
                 android:layout_marginRight="2dp"
+                android:fontFamily="casual"
 
                 android:textSize="20sp"
                 android:text="Price"
                 android:textAllCaps="false"
+                android:textColor="@color/purple"
 
-                android:textColor="@color/red"
-
-           />
+                />
             <TextView
                 android:id="@+id/point_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
+                android:fontFamily="casual"
                 android:gravity="center"
                 android:text="Point"
 
                 android:layout_marginRight="2dp"
 
                 android:textSize="20sp"
-                android:textAllCaps="false"
-
-                android:textColor="@color/red"
-/>
+                android:textColor="@color/purple"
+                />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/items_detail_Recycler"
             android:layout_width="match_parent"
+
             android:layout_margin="10dp"
+            android:background="@drawable/alpha_frame"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
         <LinearLayout
             android:id="@+id/billLayout"
             android:background="@drawable/back_white"
-
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="vertical">
@@ -123,15 +126,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-
-                    android:textColor="@color/red"
+                    android:fontFamily="casual"
+                    android:textColor="@color/purple"
                     android:text="@string/total_Qty" />
 
                 <TextView
                     android:id="@+id/textView_qty"
                     android:layout_width="0dp"
-
-                    android:textColor="@color/red"
+                    android:textColor="@color/purple"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -145,16 +147,15 @@
 
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/red"
+                    android:fontFamily="casual"
+                    android:textColor="@color/purple"
                     android:layout_weight="1"
                     android:text="@string/point" />
 
                 <TextView
                     android:id="@+id/textView_point"
                     android:layout_width="0dp"
-
-
-                    android:textColor="@color/red"
+                    android:textColor="@color/purple"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -168,16 +169,15 @@
 
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
-                    android:textColor="@color/red"
+                    android:fontFamily="casual"
+                    android:textColor="@color/purple"
                     android:layout_weight="1"
                     android:text="@string/total" />
 
                 <TextView
                     android:id="@+id/textView_total"
                     android:layout_width="0dp"
-
-                    android:textColor="@color/red"
+                    android:textColor="@color/purple"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -189,8 +189,10 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:text="@string/cash"
-            android:textColor="@color/red"
+            android:textColor="@color/purple"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="casual"
             android:background="@drawable/back_white"/>
     </LinearLayout>
 

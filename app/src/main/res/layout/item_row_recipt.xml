@@ -9,7 +9,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/alpha_frame"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -51,7 +50,8 @@
                 android:gravity="center"
                 android:layout_marginRight="6dp"
                 android:layout_marginEnd="6dp"
-                android:textColor="@color/red"
+                android:textColor="@color/purple"
+                android:fontFamily="casual"
                 android:textSize="20sp"
                 android:text="Item name"
 
@@ -67,7 +67,8 @@
                 android:layout_marginRight="6dp"
 
                 android:text="Qty"
-                android:textColor="@color/red"
+                android:textColor="@color/purple"
+                android:fontFamily="casual"
                 android:textSize="20sp" />
 
             <TextView
@@ -81,7 +82,8 @@
 
                 android:text="Price"
                 android:textAllCaps="false"
-                android:textColor="@color/red"
+                android:textColor="@color/purple"
+                android:fontFamily="casual"
                 android:textSize="20sp" />
             <TextView
                 android:id="@+id/point_item"
@@ -93,7 +95,8 @@
                 android:text="Point"
                 android:layout_marginRight="6dp"
                 android:textAllCaps="false"
-                android:textColor="@color/red"
+                android:textColor="@color/purple"
+                android:fontFamily="casual"
                 android:textSize="20sp" />
         </LinearLayout>
 
