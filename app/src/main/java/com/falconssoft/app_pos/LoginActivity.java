@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.falconssoft.app_pos.category.CategoryActivity;
 import com.falconssoft.app_pos.models.Tables;
 import com.falconssoft.app_pos.models.Users;
 
@@ -60,15 +61,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (usernameText.equals(users.get(i).getUsername()))
                             if (passwordText.equals(users.get(i).getPassword())) {
                                 found = true;
-                                Intent categoryIntent = new Intent(LoginActivity.this, OptionsActivity.class);
+                                Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
                                 categoryIntent.putExtra("userName", usernameText);
                                 startActivity(categoryIntent);
+
+
+
                             }
 
                     if (found == false) {
                         if (usernameText.equals("1")) {
                             if (passwordText.equals("1")) {
-                                Intent categoryIntent = new Intent(LoginActivity.this, OptionsActivity.class);
+                                Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
                                 categoryIntent.putExtra("userName", usernameText);
                                 startActivity(categoryIntent);
                             } else {

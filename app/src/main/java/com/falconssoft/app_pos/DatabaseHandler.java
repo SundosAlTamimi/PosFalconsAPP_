@@ -44,6 +44,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DESCRIPTION = "DESCRIPTION";
     private static final String ITEM_PICTURE = "ITEM_PICTURE";
     private static final String CATEGORY_PICTURE = "CATEGORY_PICTURE";
+    private static final String POINT ="POINT";
     // *******************************************************************************
 
     private static final String TABLES_TABLE = "TABLES_TABLE";
@@ -63,7 +64,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + PRICE + " INTEGER,"
                 + DESCRIPTION + " TEXT,"
                 + ITEM_PICTURE + " BLOB,"
-                + CATEGORY_PICTURE + " BLOB" + ")";
+                + CATEGORY_PICTURE + " BLOB,"
+                + POINT + " REAL" + ")";
         db.execSQL(CREATE_TABLE_ITEMS);
         // *******************************************************************************
 
@@ -113,6 +115,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(DESCRIPTION, items.getDescription());
         values.put(ITEM_PICTURE, byteImage);
         values.put(CATEGORY_PICTURE, byteCatImage);
+        values.put(POINT,items.getPoint());
 
         db.insert(ITEMS_TABLE, null, values);
         db.close();
@@ -171,12 +174,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 else
                     item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
 
+                item.setPoint(cursor.getInt(7));
+
 //                if (cursor.getBlob(20).length == 0)
 //                    item.setPic(null);
 //                else
 //                    item.setPic(BitmapFactory.decodeByteArray(cursor.getBlob(20), 0, cursor.getBlob(20).length));
 
                 // Adding transaction to list
+
 
                 items.add(item);
             } while (cursor.moveToNext());

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">RestPosKitchen</string>
 
+
+
     <string name="menu">Menu...</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
@@ -19,6 +21,14 @@
     <string name="table_no">Table Number</string>
     <string name="no_of_seats">No of Seats</string>
     <string name="done">Done</string>
-
+    <string name="recipt">Recipt</string>
+    <string name="point">Points</string>
+    <string name="total_Qty">Total Qty</string>
+    <string name="total">Total</string>
+    <string name="pay">Pay</string>
+    <string name="cash">Cash</string>
+    <string name="cancel">Cancel</string>
+    <string name="receved">Receved</string>
+    <string name="remaining">Remaining</string>
 
 </resources>

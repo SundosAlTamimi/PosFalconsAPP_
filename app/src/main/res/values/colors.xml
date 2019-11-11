@@ -5,7 +5,7 @@
     <color name="colorAccent">#801717</color>
 
     <color name="white">#41FFFEFE</color>
-    <color name="white_dark">#FFFFFF</color>
+    <color name="white_dark">#D5FFFFFF</color>
     <color name="red">#801717</color>
     <color name="green">#103601</color>
     <color name="black">#000000</color>
@@ -16,6 +16,7 @@
     <color name="n_blue">#BFB5CE</color>
     <color name="yellow">#D0585F72</color>
     <color name="yellow_alpha">#A1F5BC28</color>
+    <color name="yellow1">#EBE7D433</color>
     <color name="green_dark">#09500C</color>
 
     <color name="layer1">#F0FFFF</color>
@@ -24,6 +25,8 @@
     <color name="layer4">#B6B6B4</color>
     <color name="text_color">#25383C</color>
     <color name="exit">#C24641</color>
+    <color name="red_dark">#791916</color>
+
     <color name="exit_hover">#E77471</color>
     <color name="light_blue_over">#E0FFFF</color>
     <color name="light_blue">#C2DFFF</color>
