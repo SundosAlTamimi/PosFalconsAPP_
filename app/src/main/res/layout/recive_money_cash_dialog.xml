@@ -3,125 +3,168 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="600dp"
-
-    android:layout_height="400dp">
-
-    <Button
-        android:id="@+id/save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/back_white"
-        android:text="@string/save"
-        android:textColor="@color/red"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/billLayout" />
+    android:layout_width="650dp"
+    android:background="@drawable/purple_ice_gray"
+    android:layout_height="500dp">
 
     <LinearLayout
-        android:id="@+id/billLayout"
-        android:layout_width="455dp"
-
-        android:layout_height="165dp"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/back_white"
+        android:id="@+id/pa"
+        android:layout_width="650dp"
+        android:layout_height="500dp"
+        android:background="@color/white_two"
         android:orientation="vertical"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.741"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:text="@string/total"
-                android:textColor="@color/red" />
-
-            <TextView
-                android:id="@+id/textView_total"
-                android:layout_width="0dp"
-
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/red" />
-        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
+            android:id="@+id/billLayout"
+            android:layout_width="455dp"
+            android:layout_height="165dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="130dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/alpha_frame"
 
-            <TextView
+            android:orientation="vertical">
 
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/receved"
-                android:textColor="@color/red" />
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="casual"
+                    android:text="@string/total"
+                    android:textAllCaps="false"
+                    android:textColor="@color/purple"
+                    android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/recceved_money_editText"
-                android:layout_width="0dp"
-                android:background="@drawable/items_stroke"
-                android:text=""
+                <TextView
+                    android:id="@+id/textView_total_money"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/purple"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/red" />
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="casual"
+                    android:text="@string/receved"
+
+                    android:textAllCaps="false"
+                    android:textColor="@color/purple"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/recceved_money_editText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/items_stroke"
+                    android:text=""
+                    android:padding="5dp"
+
+                    android:textColor="@color/purple"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="casual"
+                    android:text="@string/remaining"
+                    android:textAllCaps="false"
+                    android:textColor="@color/purple"
+                    android:textStyle="bold"
+
+
+
+                    />
+
+                <TextView
+                    android:id="@+id/remaining_Textview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/items_stroke"
+                    android:padding="5dp"
+
+                    android:text=""
+                    android:textColor="@color/purple"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
         </LinearLayout>
-
         <LinearLayout
-            android:layout_width="match_parent"
+            android:orientation="horizontal"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
 
-            <TextView
-
-                android:layout_width="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent">
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_weight="1"
-                android:text="@string/remaining"
-                android:textColor="@color/red" />
+                android:background="@drawable/back_white"
+                android:fontFamily="casual"
 
-            <TextView
-                android:id="@+id/remaining_Textview"
-                android:layout_width="0dp"
-                android:background="@drawable/items_stroke"
+                android:gravity="center"
+                android:text="@string/save"
+                android:textColor="@color/purple"
+                android:textStyle="bold" />
 
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/red" />
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/back_white"
+            android:fontFamily="casual"
+            android:layout_marginLeft="10dp"
+
+            android:text="@string/cancel"
+            android:textColor="@color/purple"
+            android:textStyle="bold" />
+
+
         </LinearLayout>
+
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/back_white"
-
-        android:text="@string/cancel"
-
-        android:textColor="@color/red"
-        app:layout_constraintStart_toEndOf="@+id/save_button"
-        app:layout_constraintTop_toBottomOf="@+id/billLayout" />
 
 </android.support.constraint.ConstraintLayout>

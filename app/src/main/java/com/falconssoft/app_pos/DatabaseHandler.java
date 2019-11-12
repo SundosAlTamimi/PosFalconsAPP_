@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
@@ -22,9 +23,10 @@ import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION =1;
+    private static final int DATABASE_VERSION =2;
     private static final String DATABASE_NAME = "MenuDB";
     static SQLiteDatabase db;
+    String TAG="Dbhandler";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -59,6 +61,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String CUSTOMER_NAME = "CUSTOMER_NAME";
     private static final String PHONE_NO = "PHONE_NO";
     private static final String EMAIL = "EMAIL";
+    private static final String POINT_CUSTOMER = "POINT_CUSTOMER";
     // *******************************************************************************
 
 
@@ -93,7 +96,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_CUSTOMER_INFORMATION_TABLE = "CREATE TABLE " + CUSTOMER_INFORMATION + "("
                 + CUSTOMER_NAME + " TEXT,"
                 + PHONE_NO + " TEXT,"
-                + EMAIL + " TEXT"
+                + EMAIL + " TEXT,"
+                +  POINT_CUSTOMER+ " REAL"
+
                 + ")";
         db.execSQL(CREATE_CUSTOMER_INFORMATION_TABLE);
         // *******************************************************************************
@@ -103,6 +108,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        try{
+            db.execSQL("ALTER TABLE ITEMS_TABLE ADD POINT  REAL NOT NULL DEFAULT '0'");
+        }catch (Exception e)
+        {
+            Log.e(TAG, e.getMessage().toString());
+        }
+        try{
+            db.execSQL("ALTER TABLE CUSTOMER_INFORMATION ADD POINT_CUSTOMER  REAL NOT NULL DEFAULT '0'");
+        }catch (Exception e)
+        {
+            Log.e(TAG, e.getMessage().toString());
+        }
+
+
+
 
     }
 
@@ -168,6 +188,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(CUSTOMER_NAME,customerInformation.getCustomerName() );
         values.put(PHONE_NO, customerInformation.getPhoneNo());
         values.put(EMAIL, customerInformation.getEmail());
+        values.put(POINT_CUSTOMER,customerInformation.getPoint());
 
         db.insert(CUSTOMER_INFORMATION, null, values);
         db.close();
@@ -255,6 +276,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 users.setCustomerName(cursor.getString(0));
                 users.setPhoneNo(cursor.getString(1));
                 users.setEmail(cursor.getString(2));
+                users.setPoint(cursor.getDouble(3));
 
                 usersList.add(users);
             } while (cursor.moveToNext());
@@ -295,6 +317,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + CUSTOMER_INFORMATION + ";");
         db.close();
+    }
+
+    public void updateCustomerPoint(String phoneNo, double points) {
+
+        CustomerInformation customerInformation=new CustomerInformation();
+        db = this.getWritableDatabase();
+             ContentValues values = new ContentValues();
+
+             values.put(POINT_CUSTOMER, points);
+             db.update(CUSTOMER_INFORMATION, values, PHONE_NO + " = '" + phoneNo +"'", null);
     }
 
 }

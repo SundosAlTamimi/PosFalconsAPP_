@@ -14,26 +14,23 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.EditText;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,9 +39,9 @@ import android.widget.Toast;
 import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.LocaleAppUtils;
 import com.falconssoft.app_pos.R;
-import com.falconssoft.app_pos.SendSocket;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.email.SendMailTask;
+import com.falconssoft.app_pos.itemsReciptAdapter;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
 import com.google.zxing.BarcodeFormat;
@@ -52,7 +49,6 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.falconssoft.app_pos.itemsReciptAdapter;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -64,12 +60,12 @@ import cdflynn.android.library.turn.TurnLayoutManager;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
+import static android.widget.LinearLayout.VERTICAL;
 import static com.falconssoft.app_pos.models.ShareValues.emailTitle;
 import static com.falconssoft.app_pos.models.ShareValues.recipientName;
 import static com.falconssoft.app_pos.models.ShareValues.senderName;
 import static com.falconssoft.app_pos.models.ShareValues.senderPassword;
 import static android.widget.LinearLayout.HORIZONTAL;
-import static android.widget.LinearLayout.VERTICAL;
 import static android.widget.LinearLayout.VERTICAL;
 
 public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -77,6 +73,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private TextView english, arabic, emailMessage;
     private Button send, makeOrder;
     private ImageButton facebook, twitter, instagram, whatsApp;
+
+    //    private TextView UserNameText;
     private LinearLayout swipeRefresh;
     private Toolbar mTopToolbar;
     private DrawerLayout drawerLayout;
@@ -89,6 +87,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private List<String> list = new ArrayList<>();
     private List<String> pic = new ArrayList<>();
     DatabaseHandler databaseHandler;
+    boolean isPay=false;
+    CustomerInformation customerInformation;
+    String phoneNo;
+   double  points = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +102,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         mTopToolbar = (Toolbar) findViewById(R.id.category_toolbar);
         drawerLayout = findViewById(R.id.category_drawer);
         navigationView = findViewById(R.id.category_navigation);
+        customerInformation=new CustomerInformation();
+        customerInformation=databaseHandler.getAllInformation().get(0);
+
+        phoneNo=customerInformation.getPhoneNo();
 
         setSupportActionBar(mTopToolbar);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
@@ -132,9 +138,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         makeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SettingOrder.Item.clear();
-                SettingOrder.ItemsOrder.clear();
-                SettingOrder.index = 0;
+                orderReciptDialog();
+
             }
         });
 
@@ -149,16 +154,48 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         list.add("Burger");
         list.add("Fried Potato");
 
-        pic.add("fw");
-        pic.add("der");
-        pic.add("mozaral");
-        pic.add("der");
-        pic.add("coc");
-        pic.add("fe");
-        pic.add("san");
-        pic.add("botato");
-        pic.add("burger");
-        pic.add("botato");
+//        pic.add("");
+        pic.add("ice_cream_");
+        pic.add("fraze_");
+        pic.add("ice_cream_sundae");
+        pic.add("limeice_cream");
+        pic.add("ice_cream_chocolate");
+        pic.add("zemenu_saldejuma");
+        pic.add("coupe_glace");
+        pic.add("coupe_glace_png");
+        pic.add("frazeicecream");
+        pic.add("freaze_icecream");
+//        pic.add("");
+
+        // vertical and cycle layout
+        layoutManager = new TurnLayoutManager(this,
+                TurnLayoutManager.Gravity.START,
+                TurnLayoutManager.Orientation.HORIZONTAL,
+                200,
+                200,
+                false);
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(new TestAdapter(this, list));
+
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("itemRec", "");
+            }
+        });
+
+        makeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingOrder.Item.clear();
+                SettingOrder.ItemsOrder.clear();
+                SettingOrder.index = 0;
+            }
+        });
 
 //          swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //                           @Override
@@ -226,6 +263,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.menu_app_developers:
                 Dialog dialog = new Dialog(this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.app_developers_dialog_layout);
                 dialog.show();
                 break;
@@ -324,39 +362,48 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.show();
     }
 
+    TextView textView_qty, point_text, total_price_text;
     public void orderReciptDialog() {
-        Dialog dialog = new Dialog(CategoryActivity.this);
+        final Dialog dialog = new Dialog(CategoryActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.pay_dialog);
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCanceledOnTouchOutside(false);
 
         final LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(this);
-//        layoutManager.setOrientation(VERTICAL);
+
         final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.items_detail_Recycler);
         recyclerView.setLayoutManager(layoutManager);
         itemsReciptAdapter adapter_recipt = new itemsReciptAdapter(this, SettingOrder.ItemsOrder);
         recyclerView.setAdapter(adapter_recipt);
-        TextView textView_qty, point_text, total_price_text;
+//        TextView textView_qty, point_text, total_price_text;
+        ImageView cancel_image;
         Button cash_button;
-        double qty = 0, pric = 0, points = 0;
+        double qty = 0, pric = 0,order_point=0;
         textView_qty = dialog.findViewById(R.id.textView_qty);
         point_text = dialog.findViewById(R.id.textView_point);
         total_price_text = dialog.findViewById(R.id.textView_total);
         cash_button = dialog.findViewById(R.id.cash_pay);
+        cancel_image = dialog.findViewById(R.id.cancel);
+        cancel_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         cash_button.setOnClickListener(onClickListener);
         for (int i = 0; i < SettingOrder.ItemsOrder.size(); i++) {
             qty += SettingOrder.ItemsOrder.get(i).getQTY();
             pric += SettingOrder.ItemsOrder.get(i).getTotal();
-            points += SettingOrder.ItemsOrder.get(i).getPoint();
+            order_point += SettingOrder.ItemsOrder.get(i).getPoint();
 
         }
+
+        points=order_point;
         textView_qty.setText(qty + "");
         point_text.setText(points + "");
         total_price_text.setText(pric + "");
-
-
         dialog.show();
     }
 
@@ -365,6 +412,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.cash_pay:
+                    textView_qty.setText( "");
+                    point_text.setText("");
+                    total_price_text.setText("");
                     reciveReciptMony_Cash();
                     break;
             }
@@ -382,21 +432,17 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         layoutManager = new LinearLayoutManager(this);
 
         final TextView total_money, remaining_money;
-        EditText receved_money;
+        final EditText receved_money;
         Button save_button, cancel_button;
         double pric = 0, recived = 0, remain = 0;
-        total_money = dialog_cash.findViewById(R.id.textView_total);
+
+        total_money = dialog_cash.findViewById(R.id.textView_total_money);
         receved_money = dialog_cash.findViewById(R.id.recceved_money_editText);
         remaining_money = dialog_cash.findViewById(R.id.remaining_Textview);
         save_button = dialog_cash.findViewById(R.id.save_button);
         cancel_button = dialog_cash.findViewById(R.id.cancel_button);
 //        save_button.setOnClickListener(onClickListener);
-        save_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog_cash.dismiss();
-            }
-        });
+
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -438,8 +484,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                         recived = Double.parseDouble(s + "");
 
                         if (recived >= finalPric) {
+                            isPay=true;
                             remaining_money.setText((recived - finalPric) + "");
                         } else {
+                            isPay=false;
                             remaining_money.setText("0");
 
                         }
@@ -456,6 +504,23 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
             }
         });
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isPay)
+                {
+                   double current_point= customerInformation.getPoint();
+                   customerInformation.setPoint(current_point+points);
+                    databaseHandler.updateCustomerPoint(phoneNo,points+current_point);
+
+                }
+                dialog_cash.dismiss();
+            }
+        });
+
+        SettingOrder.Item.clear();
+        SettingOrder.ItemsOrder.clear();
+        SettingOrder.index = 0;
 
         dialog_cash.show();
 
@@ -545,7 +610,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.setContentView(R.layout.customer_register);
         dialog.setCanceledOnTouchOutside(true);
 
-        TextView cusName, cusno, email;
+        TextView cusName, cusno, email,point;
         ImageView barcode;
         ImageView cancel;
         String barcode_data = null;
@@ -561,6 +626,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         cusName = (TextView) dialog.findViewById(R.id.cusName);
         cusno = (TextView) dialog.findViewById(R.id.cusno);
         email = (TextView) dialog.findViewById(R.id.email);
+        point = (TextView) dialog.findViewById(R.id.textView_point);
+
 
         cancel = (ImageView) dialog.findViewById(R.id.cancel);
 
@@ -571,6 +638,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 cusName.setText(customerInformations.get(0).getCustomerName());
                 cusno.setText(customerInformations.get(0).getPhoneNo());
                 email.setText(customerInformations.get(0).getEmail());
+                point.setText(""+customerInformations.get(0).getPoint());
 
                 barcode_data = customerInformations.get(0).getPhoneNo();
                 try {
@@ -584,9 +652,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             } else {
                 Toast.makeText(this, "no customer ", Toast.LENGTH_SHORT).show();
             }
-            barcode = (ImageView) findViewById(R.id.barcode);
-
-
             moreDetali.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -616,6 +681,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     void languageDialog() {
         Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.language_layout);
         english = dialog.findViewById(R.id.login_language_english);
         arabic = dialog.findViewById(R.id.login_language_arabic);
@@ -644,6 +710,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     void callUsDialog() {
         Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.call_us_dialog_layout);
         emailMessage = dialog.findViewById(R.id.call_us_message);
         send = dialog.findViewById(R.id.call_us_send);
@@ -662,6 +729,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     void contactUsDialog() {
         Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         dialog.setContentView(R.layout.contact_us_dialog);
         whatsApp = dialog.findViewById(R.id.contact_us_whats_app);
         facebook = dialog.findViewById(R.id.contact_us_facebook);

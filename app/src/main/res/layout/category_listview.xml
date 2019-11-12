@@ -34,6 +34,24 @@
                 android:layout_marginBottom="10dp"
                 />
 
+                <Button
+                    android:id="@+id/call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginBottom="1dp"
+                    android:visibility="gone"
+                    android:padding="20dp"
+                    android:background="@drawable/back_2_layout"
+                    android:text="Call Captain"
+                    android:textColor="@color/white_dark" />
+
+
                  <Button
                     android:id="@+id/makeOrder"
                     android:layout_width="match_parent"
