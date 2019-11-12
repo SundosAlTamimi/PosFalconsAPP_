@@ -17,7 +17,7 @@ public class Items {
     private double Total;
     private  int point;
 
-    public Items() { 
+    public Items() {
     }
 
 //    public Items(String categoryName, String itemName, int itemBarcode, Bitmap categoryPic,
