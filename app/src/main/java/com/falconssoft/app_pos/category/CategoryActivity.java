@@ -65,43 +65,33 @@ import static com.falconssoft.app_pos.models.ShareValues.emailTitle;
 import static com.falconssoft.app_pos.models.ShareValues.recipientName;
 import static com.falconssoft.app_pos.models.ShareValues.senderName;
 import static com.falconssoft.app_pos.models.ShareValues.senderPassword;
+import static android.widget.LinearLayout.HORIZONTAL;
+import static android.widget.LinearLayout.VERTICAL;
 
 public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private TextView english, arabic, emailMessage;
-    private Button send;
+    private Button send, makeOrder;
     private ImageButton facebook, twitter, instagram, whatsApp;
 
-
-
-
     //    private TextView UserNameText;
+    private LinearLayout swipeRefresh;
     private Toolbar mTopToolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
-
-    private LinearLayout swipeRefresh;
-    private Button CallCaptain, makeOrder;
-
-    private List<Items> listOfOrder = new ArrayList<>();
-
-    private List<String> list = new ArrayList<>();
-    //    public List<Items> categoryList = new ArrayList<>();
-    private List<String> pic = new ArrayList<>();
     private TurnLayoutManager layoutManager = null;
     private RecyclerView recyclerView;
     private MediaPlayer mediaPlayer;
+    private List<Items> listOfOrder = new ArrayList<>();
+    private List<String> list = new ArrayList<>();
+    private List<String> pic = new ArrayList<>();
     DatabaseHandler databaseHandler;
     boolean isPay=false;
     CustomerInformation customerInformation;
     String phoneNo;
    double  points = 0;
 
-    int position;
-
-    @SuppressLint("WrongConstant")
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_listview);
@@ -198,14 +188,14 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        makeOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SettingOrder.Item.clear();
-                SettingOrder.ItemsOrder.clear();
-                SettingOrder.index = 0;
-            }
-        });
+//        makeOrder.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SettingOrder.Item.clear();
+//                SettingOrder.ItemsOrder.clear();
+//                SettingOrder.index = 0;
+//            }
+//        });
 
 //          swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //                           @Override
@@ -228,7 +218,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //            }
 //        });
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { // to activate burger icon
@@ -348,18 +337,18 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
 
 //            Items items=new Items("potato","potato",1222,null,"from",1,null,1,1,1,10);
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,2));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
 
         final LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(this);
@@ -416,10 +405,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         point_text.setText(points + "");
         total_price_text.setText(pric + "");
         dialog.show();
-//        dialog.dismiss();
-
-
-
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -431,18 +416,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                     point_text.setText("");
                     total_price_text.setText("");
                     reciveReciptMony_Cash();
-
-
                     break;
-//                case R.id.save_button:
-//                    break;
-
-
             }
-
         }
     };
-
 
     private void reciveReciptMony_Cash() {
         final Dialog dialog_cash = new Dialog(CategoryActivity.this);
@@ -672,7 +649,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 }
 
 
-            } else{
+            } else {
                 Toast.makeText(this, "no customer ", Toast.LENGTH_SHORT).show();
             }
             moreDetali.setOnClickListener(new View.OnClickListener() {
@@ -786,7 +763,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     static class CViewHolderForOrder extends RecyclerView.ViewHolder {
 
-        TextView ItemName,   point, Qty, price;
+        TextView ItemName, point, Qty, price;
         ImageView itemImage;
 
         public CViewHolderForOrder(@NonNull View itemView) {
@@ -795,7 +772,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             Qty = itemView.findViewById(R.id.Qty);
             price = itemView.findViewById(R.id.price);
             point = itemView.findViewById(R.id.point);
-            itemImage= itemView.findViewById(R.id.itemImage);
+            itemImage = itemView.findViewById(R.id.itemImage);
         }
     }
 
