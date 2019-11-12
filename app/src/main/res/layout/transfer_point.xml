@@ -4,7 +4,7 @@
     android:layout_height="600dp"
     android:background="@drawable/purple_background"
     android:orientation="vertical"
-    android:padding="5dp">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                     android:fontFamily="casual"
                     android:textColor="@color/purple"
                     android:textStyle="bold"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/pointTotal"
@@ -76,7 +76,8 @@
                     android:text="# Point To Send :  "
                     android:fontFamily="casual"
                     android:textColor="@color/purple"
-                    android:textStyle="bold"                    android:textSize="25sp" />
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/pointToSend"
@@ -87,7 +88,8 @@
                     android:inputType="numberDecimal"
                     android:fontFamily="casual"
                     android:textColor="@color/purple"
-                    android:textStyle="bold"                    android:textSize="20sp" />
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
             </TableRow>
 
             <TableRow
@@ -101,7 +103,8 @@
                     android:text="Phone No :"
                     android:fontFamily="casual"
                     android:textColor="@color/purple"
-                    android:textStyle="bold"                    android:textSize="25sp" />
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/phone"
@@ -112,7 +115,8 @@
                     android:inputType="phone"
                     android:fontFamily="casual"
                     android:textColor="@color/purple"
-                    android:textStyle="bold"                    android:textSize="20sp" />
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
             </TableRow>
 
             <TableRow
@@ -132,7 +136,7 @@
             android:layout_gravity="center"
             android:fontFamily="casual"
             android:textColor="@color/white_dark"
-            android:textStyle="bold" />
+            />
 
     </LinearLayout>
 
