@@ -74,19 +74,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 startActivity(categoryIntent);
                             }
 
-                    if (found == false) {
-                        if (usernameText.equals("1")) {
-                            if (passwordText.equals("1")) {
+//                    if (found == false) {
+//                        if (usernameText.equals("1")) {
+//                            if (passwordText.equals("1")) {
                                 Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
                                 categoryIntent.putExtra("userName", usernameText);
                                 startActivity(categoryIntent);
-                            } else {
-                                Toast.makeText(this, "Wrong in username or password!", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(this, "Wrong in username or password!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+//                            } else {
+//                                Toast.makeText(this, "Wrong in username or password!", Toast.LENGTH_SHORT).show();
+//                            }
+//                        } else {
+//                            Toast.makeText(this, "Wrong in username or password!", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
 //                } else {
 //                    username.setError("Required field!");
 //                    password.setError("Required field!");
