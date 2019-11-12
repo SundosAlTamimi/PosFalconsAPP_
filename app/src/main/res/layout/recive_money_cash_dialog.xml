@@ -29,7 +29,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="130dp"
             android:layout_marginRight="40dp"
-            android:background="@color/purple_2"
+            android:background="@drawable/alpha_frame"
+
             android:orientation="vertical">
 
             <LinearLayout

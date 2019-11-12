@@ -93,6 +93,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private RecyclerView recyclerView;
     private MediaPlayer mediaPlayer;
     DatabaseHandler databaseHandler;
+    boolean isPay=false;
+    CustomerInformation customerInformation;
+    String phoneNo;
+   double  points = 0;
 
     int position;
 
@@ -108,6 +112,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         mTopToolbar = (Toolbar) findViewById(R.id.category_toolbar);
         drawerLayout = findViewById(R.id.category_drawer);
         navigationView = findViewById(R.id.category_navigation);
+        customerInformation=new CustomerInformation();
+        customerInformation=databaseHandler.getAllInformation().get(0);
+
+        phoneNo=customerInformation.getPhoneNo();
 
         setSupportActionBar(mTopToolbar);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
@@ -141,9 +149,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
                 orderReciptDialog();
-//                SettingOrder.Item.clear();
-//                SettingOrder.ItemsOrder.clear();
-//                SettingOrder.index = 0;
+
             }
         });
 
@@ -334,40 +340,53 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.show();
     }
 
+    TextView textView_qty, point_text, total_price_text;
     public void orderReciptDialog() {
-        Dialog dialog = new Dialog(CategoryActivity.this);
+        final Dialog dialog = new Dialog(CategoryActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.pay_dialog);
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCanceledOnTouchOutside(false);
 
         final LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(this);
-//        layoutManager.setOrientation(VERTICAL);
+
         final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.items_detail_Recycler);
         recyclerView.setLayoutManager(layoutManager);
         itemsReciptAdapter adapter_recipt = new itemsReciptAdapter(this, SettingOrder.ItemsOrder);
         recyclerView.setAdapter(adapter_recipt);
-        TextView textView_qty, point_text, total_price_text;
+//        TextView textView_qty, point_text, total_price_text;
+        ImageView cancel_image;
         Button cash_button;
-        double qty = 0, pric = 0, points = 0;
+        double qty = 0, pric = 0,order_point=0;
         textView_qty = dialog.findViewById(R.id.textView_qty);
         point_text = dialog.findViewById(R.id.textView_point);
         total_price_text = dialog.findViewById(R.id.textView_total);
         cash_button = dialog.findViewById(R.id.cash_pay);
+        cancel_image = dialog.findViewById(R.id.cancel);
+        cancel_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         cash_button.setOnClickListener(onClickListener);
         for (int i = 0; i < SettingOrder.ItemsOrder.size(); i++) {
             qty += SettingOrder.ItemsOrder.get(i).getQTY();
             pric += SettingOrder.ItemsOrder.get(i).getTotal();
-            points += SettingOrder.ItemsOrder.get(i).getPoint();
+            order_point += SettingOrder.ItemsOrder.get(i).getPoint();
 
         }
+
+        points=order_point;
         textView_qty.setText(qty + "");
         point_text.setText(points + "");
         total_price_text.setText(pric + "");
-
-
         dialog.show();
+//        dialog.dismiss();
+
+
+
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -375,7 +394,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.cash_pay:
+                    textView_qty.setText( "");
+                    point_text.setText("");
+                    total_price_text.setText("");
                     reciveReciptMony_Cash();
+
 
                     break;
 //                case R.id.save_button:
@@ -386,6 +409,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         }
     };
+
 
     private void reciveReciptMony_Cash() {
         final Dialog dialog_cash = new Dialog(CategoryActivity.this);
@@ -398,21 +422,17 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         layoutManager = new LinearLayoutManager(this);
 
         final TextView total_money, remaining_money;
-        EditText receved_money;
+        final EditText receved_money;
         Button save_button, cancel_button;
         double pric = 0, recived = 0, remain = 0;
+
         total_money = dialog_cash.findViewById(R.id.textView_total_money);
         receved_money = dialog_cash.findViewById(R.id.recceved_money_editText);
         remaining_money = dialog_cash.findViewById(R.id.remaining_Textview);
         save_button = dialog_cash.findViewById(R.id.save_button);
         cancel_button = dialog_cash.findViewById(R.id.cancel_button);
 //        save_button.setOnClickListener(onClickListener);
-        save_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog_cash.dismiss();
-            }
-        });
+
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -454,8 +474,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                         recived = Double.parseDouble(s + "");
 
                         if (recived >= finalPric) {
+                            isPay=true;
                             remaining_money.setText((recived - finalPric) + "");
                         } else {
+                            isPay=false;
                             remaining_money.setText("0");
 
                         }
@@ -472,6 +494,23 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
             }
         });
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isPay)
+                {
+                   double current_point= customerInformation.getPoint();
+                   customerInformation.setPoint(current_point+points);
+                    databaseHandler.updateCustomerPoint(phoneNo,points+current_point);
+
+                }
+                dialog_cash.dismiss();
+            }
+        });
+
+        SettingOrder.Item.clear();
+        SettingOrder.ItemsOrder.clear();
+        SettingOrder.index = 0;
 
         dialog_cash.show();
 
@@ -561,7 +600,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.setContentView(R.layout.customer_register);
         dialog.setCanceledOnTouchOutside(true);
 
-        TextView cusName, cusno, email;
+        TextView cusName, cusno, email,point;
         ImageView barcode;
         ImageView cancel;
         String barcode_data = null;
@@ -577,6 +616,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         cusName = (TextView) dialog.findViewById(R.id.cusName);
         cusno = (TextView) dialog.findViewById(R.id.cusno);
         email = (TextView) dialog.findViewById(R.id.email);
+        point = (TextView) dialog.findViewById(R.id.textView_point);
+
 
         cancel = (ImageView) dialog.findViewById(R.id.cancel);
 
@@ -587,6 +628,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 cusName.setText(customerInformations.get(0).getCustomerName());
                 cusno.setText(customerInformations.get(0).getPhoneNo());
                 email.setText(customerInformations.get(0).getEmail());
+                point.setText(""+customerInformations.get(0).getPoint());
 
                 barcode_data = customerInformations.get(0).getPhoneNo();
                 try {
