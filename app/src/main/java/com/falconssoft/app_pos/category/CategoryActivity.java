@@ -164,16 +164,48 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         list.add("Burger");
         list.add("Fried Potato");
 
-        pic.add("fw");
-        pic.add("der");
-        pic.add("mozaral");
-        pic.add("der");
-        pic.add("coc");
-        pic.add("fe");
-        pic.add("san");
-        pic.add("botato");
-        pic.add("burger");
-        pic.add("botato");
+//        pic.add("");
+        pic.add("ice_cream_");
+        pic.add("fraze_");
+        pic.add("ice_cream_sundae");
+        pic.add("limeice_cream");
+        pic.add("ice_cream_chocolate");
+        pic.add("zemenu_saldejuma");
+        pic.add("coupe_glace");
+        pic.add("coupe_glace_png");
+        pic.add("frazeicecream");
+        pic.add("freaze_icecream");
+//        pic.add("");
+
+        // vertical and cycle layout
+        layoutManager = new TurnLayoutManager(this,
+                TurnLayoutManager.Gravity.START,
+                TurnLayoutManager.Orientation.HORIZONTAL,
+                200,
+                200,
+                false);
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(new TestAdapter(this, list));
+
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("itemRec", "");
+            }
+        });
+
+        makeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingOrder.Item.clear();
+                SettingOrder.ItemsOrder.clear();
+                SettingOrder.index = 0;
+            }
+        });
 
 //          swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //                           @Override
@@ -242,6 +274,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.menu_app_developers:
                 Dialog dialog = new Dialog(this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.app_developers_dialog_layout);
                 dialog.show();
                 break;
@@ -642,9 +675,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             } else{
                 Toast.makeText(this, "no customer ", Toast.LENGTH_SHORT).show();
             }
-            barcode = (ImageView) findViewById(R.id.barcode);
-
-
             moreDetali.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -674,6 +704,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     void languageDialog() {
         Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.language_layout);
         english = dialog.findViewById(R.id.login_language_english);
         arabic = dialog.findViewById(R.id.login_language_arabic);
@@ -702,6 +733,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     void callUsDialog() {
         Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.call_us_dialog_layout);
         emailMessage = dialog.findViewById(R.id.call_us_message);
         send = dialog.findViewById(R.id.call_us_send);
@@ -720,6 +752,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     void contactUsDialog() {
         Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         dialog.setContentView(R.layout.contact_us_dialog);
         whatsApp = dialog.findViewById(R.id.contact_us_whats_app);
         facebook = dialog.findViewById(R.id.contact_us_facebook);
@@ -849,7 +883,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
         return null;
     }
-
 
 
 //    void profileDialog() {
