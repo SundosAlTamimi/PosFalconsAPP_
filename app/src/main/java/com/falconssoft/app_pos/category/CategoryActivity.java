@@ -70,39 +70,26 @@ import static com.falconssoft.app_pos.models.ShareValues.senderName;
 import static com.falconssoft.app_pos.models.ShareValues.senderPassword;
 import static android.widget.LinearLayout.HORIZONTAL;
 import static android.widget.LinearLayout.VERTICAL;
+import static android.widget.LinearLayout.VERTICAL;
 
 public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private TextView english, arabic, emailMessage;
-    private Button send;
+    private Button send, makeOrder;
     private ImageButton facebook, twitter, instagram, whatsApp;
-import static android.widget.LinearLayout.VERTICAL;
-
-public class CategoryActivity extends AppCompatActivity {
-
-    //    private TextView UserNameText;
+    private LinearLayout swipeRefresh;
     private Toolbar mTopToolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
-
-    private LinearLayout swipeRefresh;
-    private Button CallCaptain, makeOrder;
-
-    private List<Items> listOfOrder = new ArrayList<>();
-
-    private List<String> list = new ArrayList<>();
-    //    public List<Items> categoryList = new ArrayList<>();
-    private List<String> pic = new ArrayList<>();
     private TurnLayoutManager layoutManager = null;
     private RecyclerView recyclerView;
     private MediaPlayer mediaPlayer;
+    private List<Items> listOfOrder = new ArrayList<>();
+    private List<String> list = new ArrayList<>();
+    private List<String> pic = new ArrayList<>();
     DatabaseHandler databaseHandler;
 
-    int position;
-
-    @SuppressLint("WrongConstant")
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_listview);
@@ -194,7 +181,6 @@ public class CategoryActivity extends AppCompatActivity {
 //            }
 //        });
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { // to activate burger icon
@@ -380,14 +366,8 @@ public class CategoryActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.cash_pay:
                     reciveReciptMony_Cash();
-
                     break;
-//                case R.id.save_button:
-//                    break;
-
-
             }
-
         }
     };
 
@@ -601,7 +581,7 @@ public class CategoryActivity extends AppCompatActivity {
                 }
 
 
-            } else{
+            } else {
                 Toast.makeText(this, "no customer ", Toast.LENGTH_SHORT).show();
             }
             barcode = (ImageView) findViewById(R.id.barcode);
@@ -714,7 +694,7 @@ public class CategoryActivity extends AppCompatActivity {
 
     static class CViewHolderForOrder extends RecyclerView.ViewHolder {
 
-        TextView ItemName,   point, Qty, price;
+        TextView ItemName, point, Qty, price;
         ImageView itemImage;
 
         public CViewHolderForOrder(@NonNull View itemView) {
@@ -723,7 +703,7 @@ public class CategoryActivity extends AppCompatActivity {
             Qty = itemView.findViewById(R.id.Qty);
             price = itemView.findViewById(R.id.price);
             point = itemView.findViewById(R.id.point);
-            itemImage= itemView.findViewById(R.id.itemImage);
+            itemImage = itemView.findViewById(R.id.itemImage);
         }
     }
 
@@ -811,7 +791,6 @@ public class CategoryActivity extends AppCompatActivity {
         }
         return null;
     }
-
 
 
 //    void profileDialog() {
