@@ -66,16 +66,16 @@ public class ItemActivaty extends AppCompatActivity {
 
         for (int i = 0; i < 10; i++) {
             itemList.clear();
-            itemList.add(new Items("Burger1", "Burger1", -1, null, "fw", 2.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger2", "Burger2", -1, null, "coc", 2.50, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger3", "Burger3", -1, null, "mozaral", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger4", "Burger4", -1, null, "der", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger5", "Burger5", -1, null, "coc", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger6", "Burger6", -1, null, "fe", 0.5, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger7", "Burger7", -1, null, "san", 0.25, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger8", "Burger8", -1, null, "botato", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger9", "Burger9", -1, null, "burger", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("Burger10", "Burger10", -1, null, "botato", 1.0, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel1", "wafel1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel2", "wafel2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel3", "wafel3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel4", "wafel4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel5", "wafel5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel9", "wafel9", -1, null, "wafel9", 1.0, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel10", "wafel10", -1, null, "wafel10", 1.0, null, -1, -1, 0, 0));
 
             SettingOrder.Item.add(i, itemList);
         }

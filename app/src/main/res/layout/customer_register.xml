@@ -194,7 +194,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_margin="20dp"
-                android:background="@drawable/callcaptin"
                 app:srcCompat="@drawable/alpha_frame" />
 
 
