@@ -45,6 +45,7 @@ import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.LocaleAppUtils;
 import com.falconssoft.app_pos.PointViewActivity;
 import com.falconssoft.app_pos.R;
+import com.falconssoft.app_pos.RewardActivity;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.email.SendMailTask;
 import com.falconssoft.app_pos.itemsReciptAdapter;
@@ -216,12 +217,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         recyclerViews.addOnScrollListener(new CenterScrollListener());
         layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
 
-
-
-        recyclerViews.setLayoutManager(layoutManagerd);
         recyclerViews.setHasFixedSize(true);
         recyclerViews.setAdapter(new TestAdapterForbar(this, picforbar));
-        recyclerViews.addOnScrollListener(new CenterScrollListener());
 
         recyclerViews.requestFocus();
         recyclerViews.scrollToPosition(2);
@@ -1109,6 +1106,8 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
 
                     switch (Integer.parseInt(v.getTag().toString())){
                         case 0:
+                            Intent intents=new Intent(CategoryActivity.this, RewardActivity.class);
+                            startActivity(intents);
                             break;
                         case 1:
                             break;

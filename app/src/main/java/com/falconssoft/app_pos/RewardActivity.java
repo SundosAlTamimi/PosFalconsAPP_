@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
-import com.falconssoft.app_pos.category.CategoryActivity;
 import com.falconssoft.app_pos.models.Items;
 
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ import java.util.List;
 import static android.widget.LinearLayout.VERTICAL;
 
 
-public class PointViewActivity extends AppCompatActivity {
+public class RewardActivity extends AppCompatActivity {
 
     RecyclerView recyclerViews;
     Button rewardGallary;
@@ -38,33 +36,17 @@ public class PointViewActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.point_view);
+        setContentView(R.layout.reward_gallary_dialog);
+        recyclerViews = (RecyclerView) findViewById(R.id.recycle_gallary);
 
-        recyclerViews = (RecyclerView) findViewById(R.id.master);
-        rewardGallary=(Button) findViewById(R.id.gallary);
 
-        rewardGallary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                openRewardGallaryDialog();
-
-            }
-        });
-
-                CarouselLayoutManagerForPoint();
-
+        openRewardGallaryDialog();
 
 
     }
 
     void openRewardGallaryDialog(){
 
-        final Dialog dialog = new Dialog(PointViewActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.reward_gallary_dialog);
-        dialog.setCanceledOnTouchOutside(true);
 
        List <Items>listOfOrder=new ArrayList<>();
         listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
@@ -83,52 +65,11 @@ public class PointViewActivity extends AppCompatActivity {
         final LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(VERTICAL);
-        RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recycle_gallary);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new TestAdapterForOrder(this, listOfOrder));
 
-        recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
+        recyclerViews.setLayoutManager(layoutManager);
+        recyclerViews.setAdapter(new TestAdapterForOrder(this, listOfOrder));
 
-
-
-        dialog.show();
-    }
-
-    void CarouselLayoutManagerForPoint(){
-
-
-        ArrayList <String>picforbar= new ArrayList<>();
-
-        picforbar.add("Reward");
-        picforbar.add("Notification");
-        picforbar.add("Point");
-        picforbar.add("Bar code");
-        picforbar.add("Branch");
-        picforbar.add("Reward");
-        picforbar.add("Notification");
-        picforbar.add("Point");
-        picforbar.add("Bar code");
-        picforbar.add("Branch");
-
-
-        final CarouselLayoutManager layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL);
-
-
-        recyclerViews.setLayoutManager(layoutManagerd);
-        recyclerViews.setHasFixedSize(true);
-        recyclerViews.addOnScrollListener(new CenterScrollListener());
-        layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
-
-
-
-        recyclerViews.setLayoutManager(layoutManagerd);
-        recyclerViews.setHasFixedSize(true);
-        recyclerViews.setAdapter(new TestAdapterForPoint(this, picforbar));
-        recyclerViews.addOnScrollListener(new CenterScrollListener());
-//
-//        recyclerViews.requestFocus();
-//        recyclerViews.scrollToPosition(2);
-//        recyclerViews.requestFocus();
+        recyclerViews.setItemViewCacheSize(SettingOrder.Item.size());
 
 
     }
@@ -203,7 +144,7 @@ public class PointViewActivity extends AppCompatActivity {
         }
     }
 
-    class TestAdapterForOrder extends RecyclerView.Adapter<PointViewActivity.CViewHolderForOrder> {
+    class TestAdapterForOrder extends RecyclerView.Adapter<RewardActivity.CViewHolderForOrder> {
         Context context;
         List<Items> list;
 //DatabaseHandler db;
@@ -216,14 +157,14 @@ public class PointViewActivity extends AppCompatActivity {
 
         @NonNull
         @Override
-        public PointViewActivity.CViewHolderForOrder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        public RewardActivity.CViewHolderForOrder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(context).inflate(R.layout.gallary_layout_for_list, viewGroup, false);
-            return new PointViewActivity.CViewHolderForOrder(view);
+            return new RewardActivity.CViewHolderForOrder(view);
         }
 
         @SuppressLint("SetTextI18n")
         @Override
-        public void onBindViewHolder(@NonNull final PointViewActivity.CViewHolderForOrder cViewHolder, final int i) {
+        public void onBindViewHolder(@NonNull final RewardActivity.CViewHolderForOrder cViewHolder, final int i) {
 //            cViewHolder.ItemName.setText(list.get(i).getItemName());
 ////            cViewHolder.itemImage.setBackgroundResource(getImage(list.get(i).getDescription()));
 //            cViewHolder.Qty.setText("" + list.get(i).getQTY());

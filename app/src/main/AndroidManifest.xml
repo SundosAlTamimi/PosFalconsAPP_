@@ -36,7 +36,9 @@
             android:name=".PointViewActivity"
             android:screenOrientation="sensorPortrait" />
 
-
+        <activity
+            android:name=".RewardActivity"
+            android:screenOrientation="sensorPortrait" />
 
         <activity
             android:name=".category.ItemActivaty"
