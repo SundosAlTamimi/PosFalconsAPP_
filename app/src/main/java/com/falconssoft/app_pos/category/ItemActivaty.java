@@ -38,7 +38,7 @@ import static android.widget.LinearLayout.VERTICAL;
 
 public class ItemActivaty extends AppCompatActivity {
 
-    private TextView catName;
+    private static TextView catName;
     private ImageView catPic, orderImage, addToOrder;
     private LinearLayout swipeRefresh;
     private RecyclerView recyclerView;
@@ -398,7 +398,7 @@ public class ItemActivaty extends AppCompatActivity {
         return drawableResourceId;
     }
 
-    public boolean updateIfInList(String namePointer, double itemQty, int pointer, double itemTotal) {
+    public static boolean updateIfInList(String namePointer, double itemQty, int pointer, double itemTotal) {
         boolean isFound = false;
         for (int i = 0; i < SettingOrder.ItemsOrder.size(); i++) {
 

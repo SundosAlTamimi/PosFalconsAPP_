@@ -27,29 +27,29 @@
                 android:layout_height="60dp"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
-                android:background="@drawable/burger"
-                app:srcCompat="@drawable/alpha_frame" />
+                android:background="@drawable/btn_background"
+                app:srcCompat="@drawable/botato" />
 
             <TextView
                 android:id="@+id/catName"
                 android:layout_width="200dp"
                 android:layout_height="60dp"
-                android:layout_weight="1"
                 android:layout_margin="2dp"
-                android:background="@drawable/alpha_frame"
+                android:layout_weight="1"
+                android:background="@drawable/btn_background"
+                android:fontFamily="cursive"
                 android:text="Category"
                 android:textAlignment="center"
-                android:fontFamily="casual"
-                android:textColor="@color/purple"
-                android:textSize="30sp" />
+                android:textColor="@color/layer2"
+                android:textSize="35sp" />
 
             <ImageView
                 android:id="@+id/orderIcon"
                 android:layout_width="40dp"
                 android:layout_height="60dp"
-                android:layout_weight="1"
                 android:layout_margin="2dp"
-                android:background="@drawable/alpha_frame"
+                android:layout_weight="1"
+                android:background="@drawable/btn_background"
                 android:padding="5dp"
                 app:srcCompat="@drawable/order" />
 
