@@ -13,10 +13,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -36,8 +38,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.azoft.carousellayoutmanager.CarouselLayoutManager;
+import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
+import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.LocaleAppUtils;
+import com.falconssoft.app_pos.PointViewActivity;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.email.SendMailTask;
@@ -57,6 +63,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import cdflynn.android.library.turn.TurnLayoutManager;
+import in.goodiebag.carouselpicker.CarouselPicker;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
@@ -73,6 +80,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private TextView english, arabic, emailMessage;
     private Button send, makeOrder;
     private ImageButton facebook, twitter, instagram, whatsApp;
+    ImageView barcode;
+    ArrayList <String>picforbar,pic2;
 
     //    private TextView UserNameText;
     private LinearLayout swipeRefresh;
@@ -95,6 +104,20 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_listview);
+        picforbar= new ArrayList<>();
+        pic2= new ArrayList<>();
+
+        picforbar.add("Reward");
+        picforbar.add("Notification");
+        picforbar.add("Point");
+        picforbar.add("Bar code");
+        picforbar.add("Branch");
+
+        pic2.add("rewardimg");
+        pic2.add("notification");
+        pic2.add("gift");
+        pic2.add("barcode");
+        pic2.add("branch");
 
         databaseHandler = new DatabaseHandler(CategoryActivity.this);
         recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
@@ -102,10 +125,16 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         mTopToolbar = (Toolbar) findViewById(R.id.category_toolbar);
         drawerLayout = findViewById(R.id.category_drawer);
         navigationView = findViewById(R.id.category_navigation);
+        barcode= findViewById(R.id.barcodes);
         customerInformation=new CustomerInformation();
-        customerInformation=databaseHandler.getAllInformation().get(0);
+        makeOrder.setVisibility(View.GONE);
+        if(databaseHandler.getAllInformation().size()!=0){
+            customerInformation=databaseHandler.getAllInformation().get(0);
+
+        }
 
         phoneNo=customerInformation.getPhoneNo();
+
 
         setSupportActionBar(mTopToolbar);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
@@ -122,18 +151,92 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Enable the drawer to open and close
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         navigationView.setNavigationItemSelectedListener(this);
+        BarcodeDialog();
+        barcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BarcodeDialog();
 
-        layoutManager = new TurnLayoutManager(this,
-                TurnLayoutManager.Gravity.START,
-                TurnLayoutManager.Orientation.HORIZONTAL,
-                200,
-                200,
-                false);// vertical and cycle layout
+            }
+        });
 
+
+
+//        CarouselPicker carouselPicker = (CarouselPicker) findViewById(R.id.carousel);
+//
+//// Case 1 : To populate the picker with images
+//        List<CarouselPicker.PickerItem> imageItems = new ArrayList<>();
+//        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.wafel8));
+//        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.bell));
+//        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.bell));
+////Create an adapter
+//        CarouselPicker.CarouselViewAdapter imageAdapter = new CarouselPicker.CarouselViewAdapter(this, imageItems, 0);
+////Set the adapter
+//        carouselPicker.setAdapter(imageAdapter);
+//
+//        carouselPicker.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                //position of the selected item
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
+
+
+//        layoutManager = new TurnLayoutManager(this,
+//                TurnLayoutManager.Gravity.START,
+//                TurnLayoutManager.Orientation.VERTICAL,
+//                200,
+//                200,
+//                false);// vertical and cycle layout
+//
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(new TestAdapter(this, list));
+
+
+        //????????????????????????????????????????????????????????????????????????????
+
+        final CarouselLayoutManager layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL);
+
+        final RecyclerView recyclerViews = (RecyclerView) findViewById(R.id.res);
+        recyclerViews.setLayoutManager(layoutManagerd);
+        recyclerViews.setHasFixedSize(true);
+        recyclerViews.addOnScrollListener(new CenterScrollListener());
+        layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+
+
+
+        recyclerViews.setLayoutManager(layoutManagerd);
+        recyclerViews.setHasFixedSize(true);
+        recyclerViews.setAdapter(new TestAdapterForbar(this, picforbar));
+        recyclerViews.addOnScrollListener(new CenterScrollListener());
+
+        recyclerViews.requestFocus();
+        recyclerViews.scrollToPosition(2);
+        recyclerViews.requestFocus();
+
+//????????????????????????????????????????????????????????????????????????????
+
+        final LinearLayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(VERTICAL);
+//         recyclerView = (RecyclerView) findViewById(R.id.itemRecycler);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(new TestAdapter(this, list));
+
+        recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
 
         makeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,25 +271,25 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //        pic.add("");
 
         // vertical and cycle layout
-        layoutManager = new TurnLayoutManager(this,
-                TurnLayoutManager.Gravity.START,
-                TurnLayoutManager.Orientation.HORIZONTAL,
-                200,
-                200,
-                false);
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new TestAdapter(this, list));
-
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("itemRec", "");
-            }
-        });
+//        layoutManager = new TurnLayoutManager(this,
+//                TurnLayoutManager.Gravity.START,
+//                TurnLayoutManager.Orientation.HORIZONTAL,
+//                200,
+//                200,
+//                false);
+//
+//
+//        recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(new TestAdapter(this, list));
+//
+//        recyclerView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.e("itemRec", "");
+//            }
+//        });
 
 //        makeOrder.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -554,7 +657,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         @NonNull
         @Override
         public CViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(context).inflate(R.layout.categoty_layout, viewGroup, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.categoty_layout2, viewGroup, false);
             return new CViewHolder(view);
         }
 
@@ -563,7 +666,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             cViewHolder.categoryName.setText(list.get(i));
 //            cViewHolder.layMain.setId(i);
 //        cViewHolder.categoryName.setText(list.get(i).getCategoryName());
-            cViewHolder.categoryImage.setBackgroundResource(getImage(pic.get(i)));
+//            cViewHolder.categoryImage.setBackgroundResource(getImage(pic.get(i)));
 
 
             cViewHolder.layMain.setOnClickListener(new View.OnClickListener() {
@@ -642,7 +745,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
                 barcode_data = customerInformations.get(0).getPhoneNo();
                 try {
-                    bitmap = encodeAsBitmap(barcode_data, BarcodeFormat.CODE_128, 1100, 200);
+                    bitmap = encodeAsBitmap(barcode_data, BarcodeFormat.QR_CODE, 1100, 200);
                     barcode.setImageBitmap(bitmap);
                 } catch (WriterException e) {
                     e.printStackTrace();
@@ -673,6 +776,51 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                     dialog.dismiss();
                 }
             });
+
+        }
+
+        dialog.show();
+    }
+
+    void BarcodeDialog() {
+
+        final Dialog dialog = new Dialog(CategoryActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.barcode_dialog);
+        dialog.setCanceledOnTouchOutside(true);
+
+
+        ImageView barcode;
+
+        String barcode_data = null;
+
+        LinearLayout moreDetali = dialog.findViewById(R.id.moreDetali);
+        List<CustomerInformation> customerInformations = databaseHandler.getAllInformation();
+
+
+        barcode = (ImageView) dialog.findViewById(R.id.barcodeQr);
+
+        Bitmap bitmap = null;//  AZTEC -->QR
+
+        if (customerInformations.size() != 0) {
+            if (customerInformations.size() != 0) {
+                barcode_data = customerInformations.get(0).getPhoneNo();
+                try {
+                    bitmap = encodeAsBitmap(barcode_data, BarcodeFormat.QR_CODE, 100, 100);
+                    barcode.setImageBitmap(bitmap);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+
+
+            } else {
+                Toast.makeText(this, "no customer ", Toast.LENGTH_SHORT).show();
+            }
+
+
+            dialog.show();
+
 
         }
 
@@ -912,4 +1060,83 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //
 //
 //    }
+static class CViewHolderForbar extends RecyclerView.ViewHolder {
+
+    TextView ItemName;
+    ImageView itemImage;
+    LinearLayout layBar;
+
+    public CViewHolderForbar(@NonNull View itemView) {
+        super(itemView);
+        ItemName = itemView.findViewById(R.id.textbar);
+        layBar=itemView.findViewById(R.id.layBar);
+        itemImage = itemView.findViewById(R.id.imgbar);
+    }
+}
+
+    class TestAdapterForbar extends RecyclerView.Adapter<CategoryActivity.CViewHolderForbar> {
+        Context context;
+        List<String> list;
+//DatabaseHandler db;
+
+        public TestAdapterForbar(Context context, List<String> list) {
+            this.context = context;
+            this.list = list;
+//        db=new DatabaseHandler(this.context);
+        }
+
+        @NonNull
+        @Override
+        public CategoryActivity.CViewHolderForbar onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(context).inflate(R.layout.bar_item, viewGroup, false);
+            return new CategoryActivity.CViewHolderForbar(view);
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onBindViewHolder(@NonNull final CategoryActivity.CViewHolderForbar cViewHolder, final int i) {
+            cViewHolder.ItemName.setText(list.get(i));
+            cViewHolder.itemImage.setBackgroundResource(getImage(pic2.get(i)));
+//            cViewHolder.Qty.setText("" + list.get(i).getQTY());
+//            cViewHolder.price.setText("" + list.get(i).getPrice());
+            cViewHolder.layBar.setTag(""+i);
+
+            cViewHolder.layBar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Toast.makeText(context, "id = "+v.getTag(), Toast.LENGTH_SHORT).show();
+
+                    switch (Integer.parseInt(v.getTag().toString())){
+                        case 0:
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            Intent intent=new Intent(CategoryActivity.this, PointViewActivity.class);
+                            startActivity(intent);
+                            break;
+                        case 3:
+                            BarcodeDialog();
+                            break;
+                        case 4:
+                            break;
+                    }
+
+                }
+            });
+
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+//            return Integer.MAX_VALUE;
+        }
+    }
+
+
+
 }

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#00574b</color>
     <color name="colorAccent">#801717</color>
 
-
+    <color name="alpha_black">#AE302E30</color>
     <color name="alpha_purple">#2C880688</color>
     <color name="alpha_purple2">#8A5C075C</color>
     <color name="purple">#460246</color>
@@ -18,7 +18,7 @@
     <color name="red">#801717</color>
     <color name="green">#103601</color>
     <color name="black">#000000</color>
-    <color name="black_light">#86000000</color>
+    <color name="black_light">#A9FAF7F7</color>
     <color name="red_item_background">#DD2424</color>
     <color name="gray_light">#CFCFCF</color>
 

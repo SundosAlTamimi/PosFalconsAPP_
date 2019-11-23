@@ -30,8 +30,13 @@
             android:screenOrientation="sensorPortrait" />
 
         <activity
-            android:name=".ListOfOrder"
+        android:name=".ListOfOrder"
+        android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".PointViewActivity"
             android:screenOrientation="sensorPortrait" />
+
+
 
         <activity
             android:name=".category.ItemActivaty"
