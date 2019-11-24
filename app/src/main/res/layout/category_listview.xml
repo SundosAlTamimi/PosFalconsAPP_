@@ -19,6 +19,7 @@
             android:id="@+id/category_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:padding="5dp"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Dark"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -38,10 +39,11 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="50dp"
+                    android:id="@+id/orderlist"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
                     android:layout_marginRight="10dp"
-                    app:srcCompat="@drawable/order" />
+                    app:srcCompat="@drawable/buy_icon" />
 
                 <ImageView
                     android:id="@+id/barcodes"
@@ -62,22 +64,22 @@
             android:layout_marginBottom="10dp"
             android:padding="10dp" />
 
-                <Button
-                    android:id="@+id/call"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+        <Button
+            android:id="@+id/call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
 
-                    android:layout_marginEnd="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginBottom="1dp"
-                    android:visibility="gone"
-                    android:padding="20dp"
-                    android:background="@drawable/back_2_layout"
-                    android:text="Call Captain"
-                    android:textColor="@color/white_dark" />
+            android:layout_marginLeft="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/back_2_layout"
+            android:padding="20dp"
+            android:text="Call Captain"
+            android:textColor="@color/white_dark"
+            android:visibility="gone" />
 
 
         <Button

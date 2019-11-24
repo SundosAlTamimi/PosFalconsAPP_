@@ -46,6 +46,7 @@ import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.LocaleAppUtils;
 import com.falconssoft.app_pos.PointViewActivity;
 import com.falconssoft.app_pos.R;
+import com.falconssoft.app_pos.RewardActivity;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.email.SendMailTask;
 import com.falconssoft.app_pos.itemsReciptAdapter;
@@ -83,7 +84,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private TextView english, arabic, emailMessage;
     private Button send, makeOrder;
     private ImageButton facebook, twitter, instagram, whatsApp;
-    ImageView barcode;
+    ImageView barcode,orderList;
     ArrayList <String>picforbar,pic2;
     ArrayList<String> branches_list;
 
@@ -109,6 +110,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_listview);
         picforbar= new ArrayList<>();
+        orderList=(ImageView) findViewById(R.id.orderlist);
         pic2= new ArrayList<>();
         branches_list=new ArrayList<>();
         branches_list.add("Branch Resturant 1");
@@ -174,6 +176,12 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
+        orderList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderListDialog();
+            }
+        });
 
 
 //        CarouselPicker carouselPicker = (CarouselPicker) findViewById(R.id.carousel);
@@ -228,12 +236,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         recyclerViews.addOnScrollListener(new CenterScrollListener());
         layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
 
-
-
-        recyclerViews.setLayoutManager(layoutManagerd);
-        recyclerViews.setHasFixedSize(true);
         recyclerViews.setAdapter(new TestAdapterForbar(this, picforbar));
-        recyclerViews.addOnScrollListener(new CenterScrollListener());
 
         recyclerViews.requestFocus();
         recyclerViews.scrollToPosition(2);
@@ -1121,6 +1124,8 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
 
                     switch (Integer.parseInt(v.getTag().toString())){
                         case 0:
+                            Intent intents=new Intent(CategoryActivity.this, RewardActivity.class);
+                            startActivity(intents);
                             break;
                         case 1:
                             break;
@@ -1174,6 +1179,95 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
 
 
 
+
+    }
+
+    public void orderListDialog() {
+        Dialog dialog = new Dialog(CategoryActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.order_list_activaty);
+        dialog.setCanceledOnTouchOutside(true);
+
+        final LinearLayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(VERTICAL);
+        final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.orderRecycler);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(new TestItemAdapter(this, SettingOrder.ItemsOrder));
+        recyclerView.setItemViewCacheSize(SettingOrder.ItemsOrder.size());
+
+        dialog.show();
+    }
+
+
+    class CViewItemHolder extends RecyclerView.ViewHolder {
+        TextView itemName;
+        TextView balance, Qty;
+        ImageView itemPic;
+        ImageButton delete;
+//        List<Items>ListOrder=new ArrayList<>();
+
+        public CViewItemHolder(@NonNull View itemView) {
+            super(itemView);
+            itemName = itemView.findViewById(R.id.itemName);
+            balance = itemView.findViewById(R.id.TotalPricre);
+            Qty = itemView.findViewById(R.id.Qty);
+            itemPic = itemView.findViewById(R.id.itemPic);
+            delete = itemView.findViewById(R.id.delete);
+        }
+    }
+
+
+    class TestItemAdapter extends RecyclerView.Adapter<CategoryActivity.CViewItemHolder> {
+        Context context;
+        List<Items> list;
+
+        public TestItemAdapter(Context context, List<Items> list) {
+            this.context = context;
+            this.list = list;
+        }
+
+        @NonNull
+        @Override
+        public CategoryActivity.CViewItemHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(context).inflate(R.layout.row_of_list_order, viewGroup, false);
+            return new CategoryActivity.CViewItemHolder(view);
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onBindViewHolder(@NonNull final CategoryActivity.CViewItemHolder cViewItemHolder, final int i) {
+            cViewItemHolder.itemName.setText(list.get(i).getItemName());
+            cViewItemHolder.itemPic.setBackgroundResource(getImage(list.get(i).getDescription()));
+            cViewItemHolder.Qty.setText("" + list.get(i).getQTY());
+            cViewItemHolder.balance.setText("" + list.get(i).getTotal() + " JD");
+
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+            cViewItemHolder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+//                    Log.e("size before ", "" + SettingOrder.ItemsOrder.size() + "    " + i + "     " + list.get(i).getIndexOfItem());
+//                    SettingOrder.Item.get(SettingOrder.indexCat).get(list.get(i).getIndexOfItem()).setQTY(0.0);
+//                    SettingOrder.Item.get(SettingOrder.indexCat).get(list.get(i).getIndexOfItem()).setTotal(0.0);
+//
+//                    ItemActivaty.TestAdapter Ad = new TestAdapter(CategoryActivity.this, SettingOrder.Item.get(SettingOrder.indexCat));
+//                    recyclerView.setAdapter(Ad);
+//
+//                    list.remove(i);
+//                    Log.e("size after ", "" + SettingOrder.ItemsOrder.size() + "    " + i);
+//                    SettingOrder.index = SettingOrder.ItemsOrder.size();
+//                    notifyDataSetChanged();
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
 
     }
 
