@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.falconssoft.menurestaurant"
+        applicationId "com.falconssoft.app_pos"
         minSdkVersion 17
         targetSdkVersion 28
         versionCode 1

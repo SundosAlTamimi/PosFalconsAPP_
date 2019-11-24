@@ -126,9 +126,9 @@ public class ItemActivaty extends AppCompatActivity {
 
     static class CViewHolder extends RecyclerView.ViewHolder {
 
-        TextView ItemName, itemDescription, addQty, subQty, balance, Qty, price,point;
+        TextView ItemName, itemDescription, addQty, subQty, balance, Qty, price;//,point;
         ImageView itemImage;
-        LinearLayout pointLinear;
+//        LinearLayout pointLinear;
 //        CircleImageView imageOffer;
        ImageView imageOffer;
         public static Button addOrder;
@@ -144,8 +144,8 @@ public class ItemActivaty extends AppCompatActivity {
             itemImage = itemView.findViewById(R.id.item_imge);
             addOrder = itemView.findViewById(R.id.addToOrder);
             price = itemView.findViewById(R.id.price);
-            point=itemView.findViewById(R.id.point_text);
-            pointLinear=itemView.findViewById(R.id.points);
+//            point=itemView.findViewById(R.id.point_text);
+//            pointLinear=itemView.findViewById(R.id.points);
             imageOffer= itemView.findViewById(R.id.imageView2);
 
         }
@@ -178,15 +178,15 @@ public class ItemActivaty extends AppCompatActivity {
             cViewHolder.Qty.setText("" + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getQTY());
             cViewHolder.balance.setText("JD " + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getTotal());
             cViewHolder.price.setText("" + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPrice());
-            if(SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPoint()==0)
-            {
-                cViewHolder.pointLinear.setVisibility(View.INVISIBLE);
-                cViewHolder.imageOffer.setVisibility(View.INVISIBLE);
-                cViewHolder.point.setText( list.get(i).getPoint()+"");
-            }
-            else {
-                cViewHolder.point.setText(list.get(i).getPoint()+"");
-            }
+//            if(SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPoint()==0)
+//            {
+//                cViewHolder.pointLinear.setVisibility(View.INVISIBLE);
+//                cViewHolder.imageOffer.setVisibility(View.INVISIBLE);
+//                cViewHolder.point.setText( list.get(i).getPoint()+"");
+//            }
+//            else {
+//                cViewHolder.point.setText(list.get(i).getPoint()+"");
+//            }
 
 
             cViewHolder.addOrder.setOnClickListener(new View.OnClickListener() {
@@ -204,7 +204,7 @@ public class ItemActivaty extends AppCompatActivity {
                             item.setIndexOfItem(i);
                             item.setIndexOfCat(SettingOrder.indexCat);
                             item.setTotal(Double.parseDouble(cViewHolder.balance.getText().toString().replace("JD", "")));
-                            item.setPoint(Integer.parseInt(cViewHolder.point.getText().toString()));
+//                            item.setPoint(Integer.parseInt(cViewHolder.point.getText().toString()));
 
                             SettingOrder.Item.get(SettingOrder.indexCat).get(i).setQTY(Double.parseDouble(cViewHolder.Qty.getText().toString()));
                             SettingOrder.Item.get(SettingOrder.indexCat).get(i).setTotal(Double.parseDouble(cViewHolder.balance.getText().toString().replace("JD", "")));

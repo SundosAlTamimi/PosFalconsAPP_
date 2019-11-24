@@ -40,10 +40,10 @@
 
                 <ImageView
                     android:id="@+id/orderlist"
-                    android:layout_width="60dp"
-                    android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
                     android:layout_marginRight="10dp"
-                    app:srcCompat="@drawable/order" />
+                    app:srcCompat="@drawable/buy_icon" />
 
                 <ImageView
                     android:id="@+id/barcodes"
