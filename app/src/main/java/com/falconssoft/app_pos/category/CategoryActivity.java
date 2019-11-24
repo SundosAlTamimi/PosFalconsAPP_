@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -50,6 +51,8 @@ import com.falconssoft.app_pos.RewardActivity;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.email.SendMailTask;
 import com.falconssoft.app_pos.itemsReciptAdapter;
+import com.falconssoft.app_pos.adapter_branch;
+import com.falconssoft.app_pos.models.Branches;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
 import com.google.zxing.BarcodeFormat;
@@ -84,6 +87,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private ImageButton facebook, twitter, instagram, whatsApp;
     ImageView barcode,orderList;
     ArrayList <String>picforbar,pic2;
+    ArrayList<String> branches_list;
 
     //    private TextView UserNameText;
     private LinearLayout swipeRefresh;
@@ -109,6 +113,14 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         picforbar= new ArrayList<>();
         orderList=(ImageView) findViewById(R.id.orderlist);
         pic2= new ArrayList<>();
+        branches_list=new ArrayList<>();
+        branches_list.add("Branch Resturant 1");
+        branches_list.add("Branch Resturant 2");
+        branches_list.add("Branch Resturant 3");
+        branches_list.add("Branch Resturant 4");
+//        branches_list.add("31,125415");
+//        branches_list.add("33.215487");
+
 
         picforbar.add("Reward");
         picforbar.add("Notification");
@@ -1128,6 +1140,7 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
                             BarcodeDialog();
                             break;
                         case 4:
+                            BranchesDialog();
                             break;
                     }
 
@@ -1145,6 +1158,32 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
         }
     }
 
+    private void BranchesDialog() {
+
+
+        final Dialog dialog = new Dialog(CategoryActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.branches_dialog);
+        dialog.setCanceledOnTouchOutside(true);
+
+        final LinearLayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(this);
+
+        final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recycler_branches);
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter_branch adapterBranch=new adapter_branch(this,branches_list);
+
+        recyclerView.setAdapter(adapterBranch);
+
+
+        dialog.show();
+
+
+
+
+    }
 
     public void orderListDialog() {
         Dialog dialog = new Dialog(CategoryActivity.this);

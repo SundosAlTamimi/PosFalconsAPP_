@@ -19,6 +19,7 @@
     <color name="green">#103601</color>
     <color name="black">#000000</color>
     <color name="black_light">#A9FAF7F7</color>
+    <color name="black_light_2">#D3FAF7F7</color>
     <color name="red_item_background">#DD2424</color>
     <color name="gray_light">#CFCFCF</color>
 
@@ -29,7 +30,7 @@
     <color name="green_dark">#09500C</color>
 
     <color name="layer1">#F0FFFF</color>
-    <color name="layer2">#F0F8FF</color>
+    <color name="layer2">#E8F0F8FF</color>
     <color name="layer3">#e5e4e2</color>
     <color name="layer4">#B6B6B4</color>
     <color name="text_color">#25383C</color>
