@@ -43,6 +43,7 @@ import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.LocaleAppUtils;
+import com.falconssoft.app_pos.NotificationActivity;
 import com.falconssoft.app_pos.PointViewActivity;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.RewardActivity;
@@ -1116,6 +1117,8 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
                             startActivity(intents);
                             break;
                         case 1:
+                            Intent intentN=new Intent(CategoryActivity.this, NotificationActivity.class);
+                            startActivity(intentN);
                             break;
                         case 2:
                             Intent intent=new Intent(CategoryActivity.this, PointViewActivity.class);

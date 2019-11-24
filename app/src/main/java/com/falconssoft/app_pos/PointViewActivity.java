@@ -120,10 +120,11 @@ public class PointViewActivity extends AppCompatActivity {
         layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
 
         recyclerViews.setAdapter(new TestAdapterForPoint(this, picforbar));
-//
-//        recyclerViews.requestFocus();
-//        recyclerViews.scrollToPosition(2);
-//        recyclerViews.requestFocus();
+
+        recyclerViews.requestFocus();
+        recyclerViews.scrollToPosition( (picforbar.size()/2));
+        recyclerViews.requestFocus();
+
 
 
     }

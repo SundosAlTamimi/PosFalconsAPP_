@@ -51,6 +51,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         english.setOnClickListener(this);
         arabic.setOnClickListener(this);
         singup.setOnClickListener(this);
+
+       List <CustomerInformation>customerInformations= databaseHandler.getAllInformation();
+
+        if(customerInformations.size()==0){
+            singUpDialog();
+        }
+
+
     }
 
     @Override
