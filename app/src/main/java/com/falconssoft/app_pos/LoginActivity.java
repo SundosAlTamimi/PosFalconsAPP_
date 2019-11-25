@@ -1,8 +1,12 @@
 package com.falconssoft.app_pos;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -32,7 +36,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private List<Users> users = new ArrayList<>();
     private List<Tables> tables = new ArrayList<>();
 
-
+    NotificationManager notificationManager;
+    static int id=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,7 +166,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             cusName.setText("");
                             cusno.setText("");
                             email.setText("");
-
+                            notification("20 point for register for this app");
                             Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
                         } else {
@@ -189,6 +194,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         dialog.show();
 
+
+    }
+
+    private void notification (String detail){
+
+        NotificationCompat.Builder nbuilder=new NotificationCompat.Builder(LoginActivity.this)
+                .setContentTitle("POINT APP Notification ......")
+                .setContentText(detail)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.gift);
+
+        notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(id,nbuilder.build());
+        id++;
 
     }
 

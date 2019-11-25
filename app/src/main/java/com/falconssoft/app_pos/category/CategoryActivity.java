@@ -245,23 +245,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
 //????????????????????????????????????????????????????????????????????????????
 
-        final LinearLayoutManager layoutManager;
-        layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(VERTICAL);
-//         recyclerView = (RecyclerView) findViewById(R.id.itemRecycler);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new TestAdapter(this, list));
-
-        recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
-
-        makeOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                orderReciptDialog();
-
-            }
-        });
-
         list.add("Barbecue");
         list.add("Chips");
         list.add("Fish finger");
@@ -284,6 +267,25 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         pic.add("coupe_glace_png");
         pic.add("frazeicecream");
         pic.add("freaze_icecream");
+
+        final LinearLayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(VERTICAL);
+//         recyclerView = (RecyclerView) findViewById(R.id.itemRecycler);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(new TestAdapter(this, list));
+
+        recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
+
+        makeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderReciptDialog();
+
+            }
+        });
+
+
 //        pic.add("");
 
         // vertical and cycle layout

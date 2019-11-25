@@ -22,6 +22,7 @@ import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.falconssoft.app_pos.category.CategoryActivity;
+import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
 
 import java.util.ArrayList;
@@ -33,15 +34,23 @@ import static android.widget.LinearLayout.VERTICAL;
 public class PointViewActivity extends AppCompatActivity {
 
     RecyclerView recyclerViews;
+    TextView pointsView;
     Button rewardGallary;
-
+   List<CustomerInformation> customerInformation;
+DatabaseHandler db;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.point_view);
-
+        db=new DatabaseHandler(PointViewActivity.this);
         recyclerViews = (RecyclerView) findViewById(R.id.master);
         rewardGallary=(Button) findViewById(R.id.gallary);
+        pointsView=(TextView) findViewById(R.id.pointsView);
+        customerInformation=db.getAllInformation();
+
+        if(customerInformation.size()!=0){
+            pointsView.setText(""+customerInformation.get(0).getPoint());
+        }
 
         rewardGallary.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +74,9 @@ public class PointViewActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.reward_gallary_dialog);
         dialog.setCanceledOnTouchOutside(true);
+        TextView pointInGallary=(TextView)dialog.findViewById(R.id.pointInGallary) ;
 
+        pointInGallary.setText(""+customerInformation.get(0).getPoint());
        List <Items>listOfOrder=new ArrayList<>();
         listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
         listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));

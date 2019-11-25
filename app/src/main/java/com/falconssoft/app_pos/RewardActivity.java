@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
+import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
 
 import java.util.ArrayList;
@@ -32,14 +33,21 @@ public class RewardActivity extends AppCompatActivity {
 
     RecyclerView recyclerViews;
     Button rewardGallary;
-
-
+    TextView pointInGallary;
+List<CustomerInformation> customerInformation;
+DatabaseHandler db;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reward_gallary_dialog);
         recyclerViews = (RecyclerView) findViewById(R.id.recycle_gallary);
+         pointInGallary=(TextView)findViewById(R.id.pointInGallary) ;
+        db=new DatabaseHandler(RewardActivity.this);
 
+        customerInformation=db.getAllInformation();
 
+        if(customerInformation.size()!=0){
+            pointInGallary.setText(""+customerInformation.get(0).getPoint());
+        }
         openRewardGallaryDialog();
 
 
