@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/purple_background"
@@ -8,7 +9,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white_two"
         android:orientation="vertical"
         android:padding="20dp">
 
@@ -17,20 +17,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/alpha_frame"
-            android:fontFamily="casual"
+            android:background="@drawable/btn_background"
+            android:fontFamily="cursive"
             android:gravity="center"
             android:text="Recent Orders"
-            android:textColor="@color/purple"
-            android:textSize="40sp"
+            android:textColor="@color/white_dark"
+            android:textSize="50sp"
             android:textStyle="bold" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/itemRecycler"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="2"
-            android:padding="10dp" />
+            android:layout_height="match_parent"
+            app:cardBackgroundColor="@color/black_light"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/itemRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="2"
+                android:padding="10dp" />
+        </android.support.v7.widget.CardView>
+
     </LinearLayout>
 </LinearLayout>

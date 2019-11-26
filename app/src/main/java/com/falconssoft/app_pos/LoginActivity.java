@@ -5,7 +5,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,10 +23,13 @@ import com.falconssoft.app_pos.category.CategoryActivity;
 import com.falconssoft.app_pos.category.ItemActivaty;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.category.CategoryActivity;
+import com.falconssoft.app_pos.models.NotificationModel;
 import com.falconssoft.app_pos.models.Tables;
 import com.falconssoft.app_pos.models.Users;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,18 +38,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView english, arabic;
     private Button login, singup;
 
+
     private DatabaseHandler databaseHandler;
     private List<Users> users = new ArrayList<>();
     private List<Tables> tables = new ArrayList<>();
 
     NotificationManager notificationManager;
     static int id=1;
+     String today="",time="";
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         databaseHandler = new DatabaseHandler(this);
+
+        Calendar calendar=Calendar.getInstance();
+        Date date=Calendar.getInstance().getTime();
+        SimpleDateFormat simpleFormatter=new SimpleDateFormat("dd-MM-yyyy");
+        today = simpleFormatter.format(date);
+        SimpleDateFormat simpleFormatters=new SimpleDateFormat("HH:mm:ss");
+
+        time = simpleFormatters.format(calendar.getTime());
 
         username = findViewById(R.id.login_username);
         password = findViewById(R.id.login_password);
@@ -166,9 +183,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             cusName.setText("");
                             cusno.setText("");
                             email.setText("");
-                            notification("20 point for register for this app");
-                            Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
+
+                            NotificationModel notificationModel=new NotificationModel("Thank you for downloading the Points app, so we'd like to add 30 free points to your account"
+                                    ,today,"Registration Gift",time,"30");
+
+                            List <CustomerInformation>customerInformations=new ArrayList<>();
+                            String phoneNo="";
+                            double point = 0;
+                            customerInformations=databaseHandler.getAllInformation();
+                            if(customerInformations.size()!=0){
+                                phoneNo=customerInformations.get(0).getPhoneNo();
+                                point=customerInformations.get(0).getPoint()+30;
+                            }
+                            databaseHandler.updateCustomerPoint(phoneNo, point);
+                            databaseHandler.AddNotification(notificationModel);
+
+                            notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+                            Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
                         } else {
                             email.setError("Required field!");
                         }

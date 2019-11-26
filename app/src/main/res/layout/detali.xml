@@ -1,150 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="500dp"
     android:background="@drawable/purple_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white_two"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-        <TableLayout
+        <TextView
+            android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:gravity="center">
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_background"
+            android:fontFamily="cursive"
+            android:padding="10dp"
+            android:text="Details "
+            android:textColor="@color/white_dark"
+            android:textSize="50sp" />
 
-            <TableRow
-                android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="189dp"
+            android:layout_marginTop="50dp"
+            app:cardBackgroundColor="@color/black_light"
+            app:cardCornerRadius="20dp">
+
+            <TableLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp">
-
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:fontFamily="casual"
-                    android:text="Details :"
-                    android:textColor="@color/purple"
-                    android:textSize="35sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/alpha_frame"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/textView141"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:text="1JD"
-                    android:textColor="@color/purple"
-                    android:textSize="25sp" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/btn_background"
+                    android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/textView131"
-                    android:layout_width="174dp"
-                    android:layout_height="wrap_content"
-                    android:text="10  point"
-                    android:textColor="@color/purple"
-                    android:textSize="25sp" />
+                    <TextView
+                        android:id="@+id/textView141"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="cursive"
+                        android:text="1JD"
+                        android:textColor="@color/white_dark"
+                        android:textSize="30sp" />
 
-            </TableRow>
+                    <TextView
+                        android:id="@+id/textView131"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="cursive"
+                        android:text="1 point"
+                        android:textAlignment="center"
+                        android:textColor="@color/white_dark"
+                        android:textSize="30sp" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/alpha_frame"
-                android:padding="10dp">
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:text="100 point "
-                    android:textColor="@color/purple"
-                    android:textSize="25sp" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/btn_background"
+                    android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1 JD"
-                    android:textColor="@color/purple"
-                    android:textSize="25sp" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="cursive"
+                        android:text="10 point "
+                        android:textColor="@color/white_dark"
+                        android:textSize="30sp" />
 
-        </TableLayout>
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="cursive"
+                        android:text="1 JD"
+                        android:textAlignment="center"
+                        android:textColor="@color/white_dark"
+                        android:textSize="30sp" />
+                </TableRow>
+
+            </TableLayout>
+        </android.support.v7.widget.CardView>
+
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
-            android:background="@drawable/alpha_frame"
+            android:background="@drawable/btn_background"
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/textView1451"
-                android:layout_width="125dp"
+                android:id="@+id/nopoint"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:fontFamily="cursive"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:text="0 point"
-                android:textColor="@color/purple"
-                android:textSize="25sp" />
+                android:textColor="@color/white_dark"
+                android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/textView1431"
-                android:layout_width="174dp"
+                android:id="@+id/nojd"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="cursive"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:text="0 JD"
-                android:textColor="@color/purple"
-                android:textSize="25sp" />
+                android:textAlignment="center"
+                android:textColor="@color/white_dark"
+                android:textSize="30sp" />
 
         </TableRow>
-
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="casual"
-            android:padding="10dp"
-            android:text="Your account "
-            android:textColor="@color/purple"
-            android:textSize="30sp" />
 
     </LinearLayout>
 </LinearLayout>

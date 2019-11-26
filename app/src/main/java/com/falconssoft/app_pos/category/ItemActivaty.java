@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,8 +36,12 @@ import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
+import com.falconssoft.app_pos.models.NotificationModel;
+import com.falconssoft.app_pos.models.Order;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -57,7 +62,8 @@ public class ItemActivaty extends AppCompatActivity {
 
     NotificationManager notificationManager;
     static int id=1;
-
+    String  today="",time="";
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +77,13 @@ public class ItemActivaty extends AppCompatActivity {
         catPic = (ImageView) findViewById(R.id.catImage);
         orderImage = (ImageView) findViewById(R.id.orderIcon);
         addToOrder = (ImageView) findViewById(R.id.items_btn_addToOrder);
+
+        Calendar calendar=Calendar.getInstance();
+        Date date=Calendar.getInstance().getTime();
+        SimpleDateFormat simpleFormatter=new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat simpleFormatters=new SimpleDateFormat("HH:mm:ss");
+        today = simpleFormatter.format(date);
+        time = simpleFormatters.format(calendar.getTime());
 
         itemList = new ArrayList<>();
 
@@ -338,7 +351,7 @@ public class ItemActivaty extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (Double.parseDouble(total.getText().toString()) != 0) {
-                    reciveReciptMony_Cash(Double.parseDouble(point.getText().toString()));
+                    reciveReciptMony_Cash(Double.parseDouble(point.getText().toString()),Double.parseDouble(totalQ.getText().toString()));
                 } else {
                     Toast.makeText(ItemActivaty.this, "The Total Equal 0.0 ", Toast.LENGTH_SHORT).show();
                 }
@@ -393,7 +406,7 @@ public class ItemActivaty extends AppCompatActivity {
 
     }
 
-    private void reciveReciptMony_Cash(final double points) {
+    private void reciveReciptMony_Cash(final double points,final double totalQ) {
         final Dialog dialog_cash = new Dialog(ItemActivaty.this);
         dialog_cash.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog_cash.setCancelable(false);
@@ -477,7 +490,15 @@ public class ItemActivaty extends AppCompatActivity {
                     String phoneNo = customerInformation.getPhoneNo();
                     customerInformation.setPoint(current_point + points);
                     databaseHandler.updateCustomerPoint(phoneNo, points + current_point);
+                    double acount=current_point+points;
 
+                        Order order=new Order("4124564",customerInformation.getCustomerName(),customerInformation.getPhoneNo(),
+                                totalQ,points,Double.parseDouble(total_money.getText().toString()),today );
+                        databaseHandler.AddOrdre(order);
+
+                    NotificationModel notificationModel=new NotificationModel("You have earned "+points+" points, and they will be added  to your account for "+(acount)+" points"
+                            ,today,"Sales Gift",time,""+points);
+                    databaseHandler.AddNotification(notificationModel);
                     SettingOrder.Item.clear();
                     SettingOrder.ItemsOrder.clear();
                     SettingOrder.index = 0;
@@ -485,11 +506,14 @@ public class ItemActivaty extends AppCompatActivity {
                     finish();
 //                    Intent cateItem=new Intent(ItemActivaty.this,CategoryActivity.class);
 //                    startActivity(cateItem);
-                    notification("20 point ");
+
+                    notification("You have earned "+points+" points, and they will be added to your account for "+acount+" points");
 
 
+                }else{
+                    Toast.makeText(ItemActivaty.this, "Please Enter all filed ", Toast.LENGTH_SHORT).show();
                 }
-                dialog_cash.dismiss();
+
             }
         });
 
