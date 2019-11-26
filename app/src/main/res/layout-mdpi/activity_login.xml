@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/purple_background"
+    tools:context=".LoginActivity"
+    android:layoutDirection="ltr">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_margin="5dp"
+            android:background="@drawable/alpha_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/login_language_english"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="En"
+                android:textColor="@color/white_dark"
+                android:textSize="18sp"
+                />
+
+            <View
+                android:layout_toRightOf="@id/login_language_english"
+                android:background="@color/white_dark"
+                android:layout_width="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="35dp"/>
+
+            <TextView
+                android:id="@+id/login_language_arabic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/login_language_english"
+                android:padding="10dp"
+                android:text="Ar"
+                android:textColor="@color/white_dark"
+                android:textSize="18sp"
+                />
+        </RelativeLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="160dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="0dp"
+            android:padding="20dp">
+
+            <Button
+                android:id="@+id/login_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="130dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_background"
+                android:padding="10dp"
+                android:text="@string/login"
+                android:fontFamily="casual"
+                android:textAllCaps="false"
+                android:textColor="@color/white_dark"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_password"
+                app:layout_constraintVertical_bias="0.092" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="96dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="Menu"
+                android:textColor="@color/white_dark"
+                android:textSize="70sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/login_username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="80dp"
+                android:background="@drawable/alpha_frame"
+                android:drawableStart="@drawable/ic_perm_identity_white_24dp"
+                android:drawableLeft="@drawable/ic_perm_identity_white_24dp"
+                android:drawablePadding="10dp"
+                android:hint="@string/username"
+                android:padding="10dp"
+                android:textColor="@color/white_dark"
+                android:textColorHint="@color/white_dark"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <EditText
+                android:id="@+id/login_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginRight="80dp"
+                android:background="@drawable/alpha_frame"
+                android:drawableStart="@drawable/ic_lock_outline_white_24dp"
+                android:drawableLeft="@drawable/ic_lock_outline_white_24dp"
+                android:drawablePadding="10dp"
+                android:hint="@string/password"
+                android:textColorHint="@color/white_dark"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:textColor="@color/white_dark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_username" />
+
+            <Button
+                android:id="@+id/singup_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="130dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/btn_background"
+                android:padding="10dp"
+                android:text="sing up"
+                android:fontFamily="casual"
+                android:textAllCaps="false"
+                android:textColor="@color/white_dark"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_button"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

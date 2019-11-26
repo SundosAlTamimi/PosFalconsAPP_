@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -76,6 +77,7 @@ import static com.falconssoft.app_pos.models.ShareValues.senderPassword;
 
 public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
+    Intent  callIntent;
     private TextView english, arabic, emailMessage;
     private Button send, makeOrder;
     private ImageButton facebook, twitter, instagram, whatsApp;
@@ -105,6 +107,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_listview);
         picforbar= new ArrayList<>();
+        callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:0797788880"));
         orderList=(ImageView) findViewById(R.id.orderlist);
         pic2= new ArrayList<>();
         branches_list=new ArrayList<>();
@@ -1272,6 +1276,29 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
         }
 
     }
+    private static final int REQUEST_PHONE_CALL = 1;
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PHONE_CALL: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                  startActivity(callIntent);
+                }
+                else
+                {
+                    Toast.makeText(CategoryActivity.this, "check permission call ", Toast.LENGTH_SHORT).show();
+
+                }
+                return;
+            }
+        }
+    }
+
+
 
 
 }
