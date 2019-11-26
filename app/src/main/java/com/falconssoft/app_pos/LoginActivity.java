@@ -2,10 +2,14 @@ package com.falconssoft.app_pos;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -37,8 +41,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private List<Users> users = new ArrayList<>();
     private List<Tables> tables = new ArrayList<>();
 
-
-
+    NotificationManager notificationManager;
+    static int id=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         english.setOnClickListener(this);
         arabic.setOnClickListener(this);
         singup.setOnClickListener(this);
+
+       List <CustomerInformation>customerInformations= databaseHandler.getAllInformation();
+
+        if(customerInformations.size()==0){
+            singUpDialog();
+        }
+
+
     }
     Intent callIntent;
     @Override
@@ -64,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         switch (v.getId()) {
             case R.id.login_button:
-         //                SendSocket send =new SendSocket(LoginActivity.this);
+//                SendSocket send =new SendSocket(LoginActivity.this);
 //                send.sendMessage();
                 users = databaseHandler.getAllUSER();
                 boolean found = false;
@@ -103,8 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LocaleAppUtils.setConfigChange(this);
                 finish();
                 startActivity(getIntent());
-
-            break;
+                break;
             case R.id.login_language_arabic:
                 LocaleAppUtils.setLocale(new Locale("ar"));
                 LocaleAppUtils.setConfigChange(this);
@@ -119,7 +130,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
     }
-
 
 
     void singUpDialog() {
@@ -161,7 +171,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             cusName.setText("");
                             cusno.setText("");
                             email.setText("");
-
+                            notification("20 point for register for this app");
                             Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
                         } else {
@@ -189,6 +199,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         dialog.show();
 
+
+    }
+
+    private void notification (String detail){
+
+        NotificationCompat.Builder nbuilder=new NotificationCompat.Builder(LoginActivity.this)
+                .setContentTitle("POINT APP Notification ......")
+                .setContentText(detail)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.gift);
+
+        notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(id,nbuilder.build());
+        id++;
 
     }
 

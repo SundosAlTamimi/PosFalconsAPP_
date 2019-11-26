@@ -3,209 +3,225 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="900dp"
-    android:layoutDirection="ltr"
     android:background="@drawable/purple_background"
-    android:orientation="vertical">
+    android:layoutDirection="ltr"
+    android:orientation="vertical"
+    android:padding="20dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white_two"
-        android:padding="5dp">
+        android:background="@drawable/btn_background"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="900dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:id="@+id/titel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:padding="5dp"
-                android:text="Profile "
-                android:fontFamily="casual"
-                android:textAlignment="center"
-                android:textColor="@color/purple"
-                android:textSize="40sp"
-                android:textStyle="bold" />
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/alpha_frame"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="221dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:gravity="center_vertical"
-                        android:text="Customer Name :"
-                        android:fontFamily="casual"
-                        android:textColor="@color/purple"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/cusName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:ems="10"
-                        android:gravity="center"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/layer2"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/alpha_frame"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:text="Phone No :"
-                        android:fontFamily="casual"
-                        android:textColor="@color/purple"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/cusno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:ems="10"
-                        android:gravity="center"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/layer2"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/alpha_frame"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/textView7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:text="Email :"
-                        android:fontFamily="casual"
-                        android:textColor="@color/purple"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:ems="10"
-                        android:gravity="center"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/layer2"
-                        android:textSize="20sp" />
-                </TableRow>
-
-            </TableLayout>
+            android:layout_height="match_parent"
+            android:padding="5dp">
 
             <LinearLayout
-                android:id="@+id/moreDetali"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_height="900dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="126dp"
+                    android:id="@+id/titel"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/btn_background"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="Points "
-                    android:fontFamily="casual"
-                    android:textColor="@color/layer2"
-                    android:textSize="25sp" />
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="cursive"
+                    android:padding="5dp"
+                    android:text="Profile "
+                    android:textAlignment="center"
+                    android:textColor="@color/white_dark"
+                    android:textSize="50sp"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/textView_point"
-                    android:layout_width="173dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="5dp"
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/alpha_frame"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:fontFamily="cursive"
+                            android:gravity="center_vertical"
+                            android:text="Customer Name :"
+                            android:textColor="@color/white_dark"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/cusName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:ems="10"
+                            android:fontFamily="cursive"
+                            android:gravity="center"
+                            android:inputType="textPersonName"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/white_dark"
+                            android:textSize="25sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/alpha_frame"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:fontFamily="cursive"
+                            android:gravity="center_vertical"
+                            android:text="Phone No :"
+                            android:textColor="@color/white_dark"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/cusno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:ems="10"
+                            android:fontFamily="cursive"
+                            android:gravity="center"
+                            android:inputType="textPersonName"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/white_dark"
+                            android:textSize="25sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/alpha_frame"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/textView7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:fontFamily="cursive"
+                            android:gravity="center_vertical"
+                            android:text="Email :"
+                            android:textColor="@color/white_dark"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:ems="10"
+                            android:fontFamily="cursive"
+                            android:gravity="center"
+                            android:inputType="textPersonName"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/white_dark"
+                            android:textSize="25sp" />
+                    </TableRow>
+
+                </TableLayout>
+
+                <LinearLayout
+                    android:id="@+id/moreDetali"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:background="@drawable/alpha_frame"
                     android:gravity="center"
-                    android:text="0"
-                    android:textColor="@color/purple"
-                    android:textSize="25sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="126dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/btn_background"
+                        android:fontFamily="cursive"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Points "
+                        android:textColor="@color/white_dark"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/textView_point"
+                        android:layout_width="173dp"
+                        android:layout_height="70dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/alpha_frame"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white_dark"
+                        android:textSize="25sp" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="47dp"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@android:drawable/btn_star_big_on" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/layer2"
+                    android:textColor="@color/layer2" />
+
+                <TextView
+                    android:id="@+id/Barcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:fontFamily="cursive"
+                    android:text="Barcode"
+                    android:textAllCaps="false"
+                    android:textColor="@color/gray_light"
+                    android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="47dp"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/btn_star_big_on" />
+                    android:id="@+id/barcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    app:srcCompat="@drawable/alpha_frame" />
+
+
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_margin="10dp"
-                android:background="@color/layer2"
-                android:textColor="@color/layer2" />
-
-            <TextView
-                android:id="@+id/Barcode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Barcode"
-                android:textColor="@color/gray_light"
-                android:textStyle="bold" />
-
             <ImageView
-                android:id="@+id/barcode"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="20dp"
-                app:srcCompat="@drawable/alpha_frame" />
-
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/cancel"
-            android:layout_width="62dp"
-            android:layout_height="63dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="19dp"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
-    </RelativeLayout>
+                android:id="@+id/cancel"
+                android:layout_width="62dp"
+                android:layout_height="63dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="19dp"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

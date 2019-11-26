@@ -64,6 +64,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String POINT_CUSTOMER = "POINT_CUSTOMER";
     // *******************************************************************************
 
+    // *******************************************************************************
+    private static final String ORDER_PAY = "ORDER_PAY";
+
+    private static final String CUSTOMER_NAME1 = "CUSTOMER_NAME";
+    private static final String PHONE_NO1 = "PHONE_NO";
+    private static final String POINT_CUSTOMER1 = "POINT_CUSTOMER";
+    private static final String TOTAL1 = "TOTAL";
+    private static final String DATE_FOR_PAY = "DATE_FOR_PAY";
+    private static final String ITEM_COUNT = "ITEM_COUNT";
+    private static final String VOUCH_NO = "VOUCH_NO";
+
+    // *******************************************************************************
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
