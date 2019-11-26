@@ -34,7 +34,7 @@ import static android.widget.LinearLayout.VERTICAL;
 public class PointViewActivity extends AppCompatActivity {
 
     RecyclerView recyclerViews;
-    TextView pointsView;
+    TextView pointsView,expired;
     Button rewardGallary;
    List<CustomerInformation> customerInformation;
 DatabaseHandler db;
@@ -46,10 +46,12 @@ DatabaseHandler db;
         recyclerViews = (RecyclerView) findViewById(R.id.master);
         rewardGallary=(Button) findViewById(R.id.gallary);
         pointsView=(TextView) findViewById(R.id.pointsView);
+        expired=(TextView) findViewById(R.id.expired);
         customerInformation=db.getAllInformation();
 
         if(customerInformation.size()!=0){
             pointsView.setText(""+customerInformation.get(0).getPoint());
+            expired.setText(""+(customerInformation.get(0).getPoint()/10)+" JD");
         }
 
         rewardGallary.setOnClickListener(new View.OnClickListener() {

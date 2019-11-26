@@ -120,7 +120,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //        branches_list.add("33.215487");
 
 
-        picforbar.add("Reward");
+        picforbar.add("My Reward");
         picforbar.add("Notification");
         picforbar.add("Point");
         picforbar.add("Bar code");

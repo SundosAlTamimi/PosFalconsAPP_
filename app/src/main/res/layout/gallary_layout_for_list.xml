@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -20,7 +21,7 @@
             android:padding="10dp">
 
             <LinearLayout
-                android:layout_width="250dp"
+                android:layout_width="240dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -30,10 +31,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/coupe_glace" />
+                    android:background="@drawable/coupe_glace" />
 
                 <TextView
-                    android:id="@+id/vocherNo"
+                    android:id="@+id/itemName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -42,7 +43,7 @@
                     android:gravity="center"
                     android:text="Ice Cream "
                     android:textColor="@color/purple"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <Button
@@ -76,14 +77,14 @@
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/textView20"
+                        android:id="@+id/description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:padding="5dp"
                         android:text="ice cream (any type )"
                         android:textColor="@color/white_dark"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                 </TableRow>
 
@@ -96,14 +97,15 @@
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/textView21"
+                        android:id="@+id/pointNo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fontFamily="cursive"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="575 point"
                         android:textColor="@color/white_dark"
-                        android:textSize="20sp" />
+                        android:textSize="25sp" />
 
                 </TableRow>
 
