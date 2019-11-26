@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.falconssoft.app_pos">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -10,6 +11,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -20,41 +23,43 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".location_branch"></activity>
         <activity
             android:name=".OptionsActivity"
             android:screenOrientation="sensorPortrait" />
-
         <activity
             android:name=".category.CategoryActivity"
             android:screenOrientation="sensorPortrait" />
-
         <activity
-        android:name=".ListOfOrder"
-        android:screenOrientation="sensorPortrait" />
+            android:name=".ListOfOrder"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".PointViewActivity"
             android:screenOrientation="sensorPortrait" />
-
         <activity
             android:name=".RewardActivity"
             android:screenOrientation="sensorPortrait" />
-
         <activity
             android:name=".category.ItemActivaty"
             android:screenOrientation="sensorPortrait" />
-
         <activity
             android:name=".LoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="sensorPortrait">
+            android:screenOrientation="sensorPortrait"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+
     </application>
+
 
 </manifest>

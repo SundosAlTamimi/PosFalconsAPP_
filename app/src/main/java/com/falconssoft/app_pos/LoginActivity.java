@@ -1,8 +1,13 @@
 package com.falconssoft.app_pos;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -33,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private List<Tables> tables = new ArrayList<>();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +58,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         arabic.setOnClickListener(this);
         singup.setOnClickListener(this);
     }
-
+    Intent callIntent;
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.login_button:
-//                SendSocket send =new SendSocket(LoginActivity.this);
+         //                SendSocket send =new SendSocket(LoginActivity.this);
 //                send.sendMessage();
                 users = databaseHandler.getAllUSER();
                 boolean found = false;
@@ -97,7 +103,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LocaleAppUtils.setConfigChange(this);
                 finish();
                 startActivity(getIntent());
-                break;
+
+            break;
             case R.id.login_language_arabic:
                 LocaleAppUtils.setLocale(new Locale("ar"));
                 LocaleAppUtils.setConfigChange(this);
@@ -112,6 +119,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
     }
+
 
 
     void singUpDialog() {
