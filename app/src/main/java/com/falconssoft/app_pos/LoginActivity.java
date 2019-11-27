@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
@@ -234,9 +235,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         NotificationCompat.Builder nbuilder=new NotificationCompat.Builder(LoginActivity.this)
                 .setContentTitle("POINT APP Notification ......")
-                .setContentText(detail)
+                .setContentText("Point Gift For Register App  ")
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setSmallIcon(R.drawable.gift);
+                .setSmallIcon(R.drawable.gift)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(detail)
+                .setBigContentTitle("Point ").setSummaryText("Detail"))
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE);
 
         notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 

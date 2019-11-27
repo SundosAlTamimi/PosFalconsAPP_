@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.falconssoft.app_pos.DatabaseHandler;
+import com.falconssoft.app_pos.LoginActivity;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.models.CustomerInformation;
@@ -523,11 +524,17 @@ public class ItemActivaty extends AppCompatActivity {
 
     }
 
+
     private void notification (String detail){
 
         NotificationCompat.Builder nbuilder=new NotificationCompat.Builder(ItemActivaty.this)
                 .setContentTitle("POINT APP Notification ......")
-                .setContentText(detail)
+                .setContentText("Point Gift From Point App")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(detail)
+                        .setBigContentTitle("Point ")
+                        .setSummaryText("Gift"))
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setSmallIcon(R.drawable.gift);
 
