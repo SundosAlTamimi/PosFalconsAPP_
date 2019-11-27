@@ -51,12 +51,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:fontFamily="casual"
+                    android:fontFamily="cursive"
                     android:text="Iteam Name"
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white_dark"
-                    android:textSize="40sp"
+                    android:textSize="50sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -181,7 +181,7 @@
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="30dp"
                     android:background="@drawable/back_white"
-                    android:fontFamily="casual"
+                    android:fontFamily="cursive"
                     android:text="Add to order"
                     android:textAlignment="center"
                     android:textAllCaps="false"
