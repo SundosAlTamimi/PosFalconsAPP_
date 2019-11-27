@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
@@ -58,7 +59,7 @@ DatabaseHandler db;
             @Override
             public void onClick(View v) {
 
-                openRewardGallaryDialog();
+                openRewardGallaryDialog(Double.parseDouble(pointsView.getText().toString()));
 
             }
         });
@@ -69,7 +70,7 @@ DatabaseHandler db;
 
     }
 
-    void openRewardGallaryDialog(){
+    void openRewardGallaryDialog(double point ){
 
         final Dialog dialog = new Dialog(PointViewActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -98,7 +99,7 @@ DatabaseHandler db;
         layoutManager.setOrientation(VERTICAL);
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recycle_gallary);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new TestAdapterForOrder(this, listOfOrder));
+        recyclerView.setAdapter(new TestAdapterForOrder(this, listOfOrder,point));
 
         recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
 
@@ -199,15 +200,16 @@ DatabaseHandler db;
 
     static class CViewHolderForOrder extends RecyclerView.ViewHolder {
 
-        TextView ItemName, point, Qty, price;
+        TextView ItemName, point, description, price;
         ImageView itemImage;
+        Button gift;
 
         public CViewHolderForOrder(@NonNull View itemView) {
             super(itemView);
-//            ItemName = itemView.findViewById(R.id.itemName);
-//            Qty = itemView.findViewById(R.id.Qty);
-//            price = itemView.findViewById(R.id.price);
-//            point = itemView.findViewById(R.id.point);
+            ItemName = itemView.findViewById(R.id.itemName);
+            description = itemView.findViewById(R.id.description);
+            point = itemView.findViewById(R.id.pointNo);
+            gift = itemView.findViewById(R.id.gift);
 //            itemImage = itemView.findViewById(R.id.itemImage);
         }
     }
@@ -215,11 +217,13 @@ DatabaseHandler db;
     class TestAdapterForOrder extends RecyclerView.Adapter<PointViewActivity.CViewHolderForOrder> {
         Context context;
         List<Items> list;
+        double points;
 //DatabaseHandler db;
 
-        public TestAdapterForOrder(Context context, List<Items> list) {
+        public TestAdapterForOrder(Context context, List<Items> list,double point) {
             this.context = context;
             this.list = list;
+            this.points=point;
 //        db=new DatabaseHandler(this.context);
         }
 
@@ -236,7 +240,21 @@ DatabaseHandler db;
 //            cViewHolder.ItemName.setText(list.get(i).getItemName());
 ////            cViewHolder.itemImage.setBackgroundResource(getImage(list.get(i).getDescription()));
 //            cViewHolder.Qty.setText("" + list.get(i).getQTY());
-//            cViewHolder.price.setText("" + list.get(i).getPrice());
+            cViewHolder.gift.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    double Pointreq = Double.parseDouble(cViewHolder.point.getText().toString().replace("point",""));
+
+                    if(Pointreq<=points){
+                        Toast.makeText(context, "Buy", Toast.LENGTH_SHORT).show();
+
+                    }else {
+                        Toast.makeText(context, "you don't have enough points ", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
 
 
 //

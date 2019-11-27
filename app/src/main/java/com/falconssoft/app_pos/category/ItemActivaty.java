@@ -253,7 +253,7 @@ public class ItemActivaty extends AppCompatActivity {
                             motionEvent(list.get(i).getDescription());
 
                         } else {
-                            Toast.makeText(context, "is Found ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, " Update ", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(context, "Can't Add  the QTY = 0 ", Toast.LENGTH_SHORT).show();
