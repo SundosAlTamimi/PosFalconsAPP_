@@ -1,12 +1,17 @@
 package com.falconssoft.app_pos.category;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -508,7 +513,25 @@ public class ItemActivaty extends AppCompatActivity {
 //                    Intent cateItem=new Intent(ItemActivaty.this,CategoryActivity.class);
 //                    startActivity(cateItem);
 
+
+                    String currentapiVersion = Build.VERSION.RELEASE;
+
+                    Log.e("show_Notification",""+currentapiVersion.substring(0,currentapiVersion.indexOf(".")));
+
+
+                    if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
+                        // Do something for 14 and above versions
+                        Log.e("show_Notification",""+currentapiVersion);
+
+                        show_Notification("You have earned "+points+" points, and they will be added to your account for "+acount+" points");
+
+                    } else {
+
+                        // do something for phones running an SDK before 14
                     notification("You have earned "+points+" points, and they will be added to your account for "+acount+" points");
+                        Log.e("notification",""+currentapiVersion);
+                    }
+
 
 
                 }else{
@@ -542,6 +565,39 @@ public class ItemActivaty extends AppCompatActivity {
 
         notificationManager.notify(id,nbuilder.build());
         id++;
+
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+
+    public void show_Notification(String detail){
+
+        Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+        String CHANNEL_ID="MYCHANNEL";
+
+        NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name",NotificationManager.IMPORTANCE_HIGH);
+        PendingIntent pendingIntent=PendingIntent.getActivity(getApplicationContext(),1,intent,0);
+        Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
+                .setContentText("POINT APP Notification ......")
+                .setContentTitle("Point Gift From Point App")
+                .setStyle(new Notification.BigTextStyle()
+                        .bigText(detail)
+                        .setBigContentTitle("Point ")
+                        .setSummaryText("Gift"))
+//                .setContentIntent(pendingIntent)
+//                .addAction(android.R.drawable.sym_action_chat,"Title",pendingIntent)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setChannelId(CHANNEL_ID)
+                .setSmallIcon(R.drawable.gift)
+                .build();
+
+
+        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(notificationChannel);
+        notificationManager.notify(1,notification);
+
 
     }
 

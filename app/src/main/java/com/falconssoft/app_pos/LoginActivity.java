@@ -2,7 +2,9 @@ package com.falconssoft.app_pos;
 
 import android.app.Dialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -167,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         done.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
 
@@ -200,7 +204,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             databaseHandler.updateCustomerPoint(phoneNo, point);
                             databaseHandler.AddNotification(notificationModel);
 
-                            notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+//                            notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+                            String currentapiVersion = Build.VERSION.RELEASE;
+
+                            if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
+                                // Do something for 14 and above versions
+
+                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+
+                            } else {
+
+                                // do something for phones running an SDK before 14
+                                notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+
+                            }
+
                             Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         } else {
@@ -250,4 +268,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void show_Notification(String detail){
+
+        Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+        String CHANNEL_ID="MYCHANNEL";
+
+        NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name",NotificationManager.IMPORTANCE_HIGH);
+        PendingIntent pendingIntent=PendingIntent.getActivity(getApplicationContext(),1,intent,0);
+        Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
+                .setContentText("POINT APP Notification ......")
+                .setContentTitle("Point Gift From Point App")
+                .setStyle(new Notification.BigTextStyle()
+                        .bigText(detail)
+                        .setBigContentTitle("Point ")
+                        .setSummaryText("Gift"))
+//                .setContentIntent(pendingIntent)
+//                .addAction(android.R.drawable.sym_action_chat,"Title",pendingIntent)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setChannelId(CHANNEL_ID)
+                .setSmallIcon(R.drawable.gift)
+                .build();
+
+
+        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(notificationChannel);
+        notificationManager.notify(1,notification);
+
+
+    }
 }

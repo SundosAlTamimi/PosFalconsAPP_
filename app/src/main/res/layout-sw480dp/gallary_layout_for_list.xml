@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layoutDirection="ltr"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:layoutDirection="ltr"
+    android:padding="20dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 <ImageView
                     android:id="@+id/itemImage"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="80dp"
                     android:layout_weight="1"
                     android:background="@drawable/coupe_glace" />
 
@@ -37,13 +37,13 @@
                     android:id="@+id/itemName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_weight="1"
                     android:fontFamily="cursive"
                     android:gravity="center"
                     android:text="Ice Cream "
                     android:textColor="@color/purple"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <Button
@@ -55,7 +55,7 @@
                     android:text="Redeem Gift"
                     android:textAllCaps="false"
                     android:textColor="@color/layer2"
-                    android:textSize="12sp" />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="190dp"
                 android:layout_margin="10dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:background="@drawable/btn_background"
                 android:gravity="center"
                 android:padding="10dp">
@@ -78,13 +78,13 @@
 
                     <TextView
                         android:id="@+id/description"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:padding="5dp"
                         android:text="ice cream (any type )"
                         android:textColor="@color/white_dark"
-                        android:textSize="12sp" />
+                        android:textSize="18sp" />
 
                 </TableRow>
 
@@ -105,7 +105,7 @@
                         android:padding="5dp"
                         android:text="575 point"
                         android:textColor="@color/white_dark"
-                        android:textSize="15sp" />
+                        android:textSize="25sp" />
 
                 </TableRow>
 
