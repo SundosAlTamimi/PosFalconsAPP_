@@ -1,4 +1,4 @@
 package com.falconssoft.app_pos;
 
-public class CategoryAdapter {
+public class  CategoryAdapter {
 }

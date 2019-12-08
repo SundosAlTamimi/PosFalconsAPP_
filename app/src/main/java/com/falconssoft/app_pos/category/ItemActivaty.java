@@ -1,16 +1,27 @@
 package com.falconssoft.app_pos.category;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,17 +29,25 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.falconssoft.app_pos.DatabaseHandler;
+import com.falconssoft.app_pos.LoginActivity;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.SettingOrder;
+import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
+import com.falconssoft.app_pos.models.NotificationModel;
+import com.falconssoft.app_pos.models.Order;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -36,14 +55,21 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.widget.LinearLayout.HORIZONTAL;
 import static android.widget.LinearLayout.VERTICAL;
 
+
 public class ItemActivaty extends AppCompatActivity {
 
-    private TextView catName;
+    private static TextView catName;
     private ImageView catPic, orderImage, addToOrder;
     private LinearLayout swipeRefresh;
     private RecyclerView recyclerView;
     private List<Items> itemList;
+    CustomerInformation customerInformation;
+    DatabaseHandler databaseHandler;
 
+    NotificationManager notificationManager;
+    static int id=1;
+    String  today="",time="";
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +84,13 @@ public class ItemActivaty extends AppCompatActivity {
         orderImage = (ImageView) findViewById(R.id.orderIcon);
         addToOrder = (ImageView) findViewById(R.id.items_btn_addToOrder);
 
+        Calendar calendar=Calendar.getInstance();
+        Date date=Calendar.getInstance().getTime();
+        SimpleDateFormat simpleFormatter=new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat simpleFormatters=new SimpleDateFormat("HH:mm:ss");
+        today = simpleFormatter.format(date);
+        time = simpleFormatters.format(calendar.getTime());
+
         itemList = new ArrayList<>();
 
         catName.setText(categoryName);
@@ -68,16 +101,16 @@ public class ItemActivaty extends AppCompatActivity {
 
         for (int i = 0; i < 10; i++) {
             itemList.clear();
-            itemList.add(new Items("wafel1", "wafel1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("wafel2", "wafel2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0));
-            itemList.add(new Items("wafel3", "wafel3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("wafel4", "wafel4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("wafel5", "wafel5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0));
-            itemList.add(new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0));
-            itemList.add(new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("wafel9", "wafel9", -1, null, "wafel9", 1.0, null, -1, -1, 0, 0));
-            itemList.add(new Items("wafel10", "wafel10", -1, null, "wafel10", 1.0, null, -1, -1, 0, 0));
+            itemList.add(new Items("wafel1", "wafel1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0));
+            itemList.add(new Items("wafel2", "wafel2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1));
+            itemList.add(new Items("wafel3", "wafel3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2));
+            itemList.add(new Items("wafel4", "wafel4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2));
+            itemList.add(new Items("wafel5", "wafel5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0));
+            itemList.add(new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0, 1));
+            itemList.add(new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0, 0));
+            itemList.add(new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0, 0));
+            itemList.add(new Items("wafel9", "wafel9", -1, null, "wafel9", 1.0, null, -1, -1, 0, 0, 0));
+            itemList.add(new Items("wafel10", "wafel10", -1, null, "wafel10", 1.0, null, -1, -1, 0, 0, 4));
 
             SettingOrder.Item.add(i, itemList);
         }
@@ -107,6 +140,11 @@ public class ItemActivaty extends AppCompatActivity {
         recyclerView.setAdapter(new TestAdapter(this, SettingOrder.Item.get(SettingOrder.indexCat)));
 
         recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
+        databaseHandler = new DatabaseHandler(ItemActivaty.this);
+        if (databaseHandler.getAllInformation().size() != 0) {
+            customerInformation = databaseHandler.getAllInformation().get(0);
+
+        }
 
 //          swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //                           @Override
@@ -126,11 +164,11 @@ public class ItemActivaty extends AppCompatActivity {
 
     static class CViewHolder extends RecyclerView.ViewHolder {
 
-        TextView ItemName, itemDescription, addQty, subQty, balance, Qty, price,point;
+        TextView ItemName, itemDescription, addQty, subQty, balance, Qty, price;//,point;
         ImageView itemImage;
-        LinearLayout pointLinear;
+        //        LinearLayout pointLinear;
 //        CircleImageView imageOffer;
-       ImageView imageOffer;
+        ImageView imageOffer;
         public static Button addOrder;
 
         public CViewHolder(@NonNull View itemView) {
@@ -144,9 +182,9 @@ public class ItemActivaty extends AppCompatActivity {
             itemImage = itemView.findViewById(R.id.item_imge);
             addOrder = itemView.findViewById(R.id.addToOrder);
             price = itemView.findViewById(R.id.price);
-            point=itemView.findViewById(R.id.point_text);
-            pointLinear=itemView.findViewById(R.id.points);
-            imageOffer= itemView.findViewById(R.id.imageView2);
+//            point=itemView.findViewById(R.id.point_text);
+//            pointLinear=itemView.findViewById(R.id.points);
+            imageOffer = itemView.findViewById(R.id.imageView2);
 
         }
     }
@@ -178,15 +216,15 @@ public class ItemActivaty extends AppCompatActivity {
             cViewHolder.Qty.setText("" + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getQTY());
             cViewHolder.balance.setText("JD " + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getTotal());
             cViewHolder.price.setText("" + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPrice());
-            if(SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPoint()==0)
-            {
-                cViewHolder.pointLinear.setVisibility(View.INVISIBLE);
-                cViewHolder.imageOffer.setVisibility(View.INVISIBLE);
-                cViewHolder.point.setText( list.get(i).getPoint()+"");
-            }
-            else {
-                cViewHolder.point.setText(list.get(i).getPoint()+"");
-            }
+//            if(SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPoint()==0)
+//            {
+//                cViewHolder.pointLinear.setVisibility(View.INVISIBLE);
+//                cViewHolder.imageOffer.setVisibility(View.INVISIBLE);
+//                cViewHolder.point.setText( list.get(i).getPoint()+"");
+//            }
+//            else {
+//                cViewHolder.point.setText(list.get(i).getPoint()+"");
+//            }
 
 
             cViewHolder.addOrder.setOnClickListener(new View.OnClickListener() {
@@ -204,7 +242,7 @@ public class ItemActivaty extends AppCompatActivity {
                             item.setIndexOfItem(i);
                             item.setIndexOfCat(SettingOrder.indexCat);
                             item.setTotal(Double.parseDouble(cViewHolder.balance.getText().toString().replace("JD", "")));
-                            item.setPoint(Integer.parseInt(cViewHolder.point.getText().toString()));
+//                            item.setPoint(Integer.parseInt(cViewHolder.point.getText().toString()));
 
                             SettingOrder.Item.get(SettingOrder.indexCat).get(i).setQTY(Double.parseDouble(cViewHolder.Qty.getText().toString()));
                             SettingOrder.Item.get(SettingOrder.indexCat).get(i).setTotal(Double.parseDouble(cViewHolder.balance.getText().toString().replace("JD", "")));
@@ -220,7 +258,7 @@ public class ItemActivaty extends AppCompatActivity {
                             motionEvent(list.get(i).getDescription());
 
                         } else {
-                            Toast.makeText(context, "is Found ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, " Update ", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(context, "Can't Add  the QTY = 0 ", Toast.LENGTH_SHORT).show();
@@ -307,16 +345,273 @@ public class ItemActivaty extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.order_list_activaty);
         dialog.setCanceledOnTouchOutside(true);
+        final TextView totalQ, total, point, change;
+        change = (TextView) dialog.findViewById(R.id.change);
+        totalQ = (TextView) dialog.findViewById(R.id.totalQ);
+        total = (TextView) dialog.findViewById(R.id.total);
+        point = (TextView) dialog.findViewById(R.id.point_text);
+        Button checkout = (Button) dialog.findViewById(R.id.checkout);
+
+        checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (Double.parseDouble(total.getText().toString()) != 0) {
+                    reciveReciptMony_Cash(Double.parseDouble(point.getText().toString()),Double.parseDouble(totalQ.getText().toString()));
+                } else {
+                    Toast.makeText(ItemActivaty.this, "The Total Equal 0.0 ", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
         final LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(VERTICAL);
         final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.orderRecycler);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new TestItemAdapter(this, SettingOrder.ItemsOrder));
+        recyclerView.setAdapter(new TestItemAdapter(this, SettingOrder.ItemsOrder, change));
         recyclerView.setItemViewCacheSize(SettingOrder.ItemsOrder.size());
+        CalculateDialog(recyclerView, point, total, totalQ);
+
+        change.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                CalculateDialog(recyclerView, point, total, totalQ);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         dialog.show();
+    }
+
+
+    void CalculateDialog(RecyclerView recyclerView, TextView point, TextView total, TextView totalQ) {
+        double points = 0, totals = 0, totalQty = 0;
+        for (int i = 0; i < SettingOrder.ItemsOrder.size(); i++) {
+            totals += SettingOrder.ItemsOrder.get(i).getTotal();
+            totalQty += SettingOrder.ItemsOrder.get(i).getQTY();
+        }
+
+        points = totals;
+        point.setText("" + points);
+        total.setText("" + totals);
+        totalQ.setText("" + totalQty);
+
+
+    }
+
+    private void reciveReciptMony_Cash(final double points,final double totalQ) {
+        final Dialog dialog_cash = new Dialog(ItemActivaty.this);
+        dialog_cash.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog_cash.setCancelable(false);
+        dialog_cash.setContentView(R.layout.recive_money_cash_dialog);
+        dialog_cash.setCanceledOnTouchOutside(true);
+
+        final LinearLayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(this);
+        final boolean[] isPay = {false};
+        final TextView total_money, remaining_money;
+        final EditText receved_money;
+        Button save_button, cancel_button;
+        double pric = 0, recived = 0, remain = 0;
+
+        total_money = dialog_cash.findViewById(R.id.textView_total_money);
+        receved_money = dialog_cash.findViewById(R.id.recceved_money_editText);
+        remaining_money = dialog_cash.findViewById(R.id.remaining_Textview);
+        save_button = dialog_cash.findViewById(R.id.save_button);
+        cancel_button = dialog_cash.findViewById(R.id.cancel_button);
+//        save_button.setOnClickListener(onClickListener);
+
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_cash.dismiss();
+            }
+        });
+        for (int i = 0; i < SettingOrder.ItemsOrder.size(); i++) {
+
+            pric += SettingOrder.ItemsOrder.get(i).getTotal();
+
+        }
+        total_money.setText(pric + "");
+
+        final double finalPric = pric;
+        receved_money.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                double recived = 0;
+                try {
+
+                    if (!s.equals("")) {
+                        recived = Double.parseDouble(s + "");
+
+                        if (recived >= finalPric) {
+                            isPay[0] = true;
+                            remaining_money.setText((recived - finalPric) + "");
+                        } else {
+                            isPay[0] = false;
+                            remaining_money.setText("0");
+
+                        }
+
+                    } else {
+                        remaining_money.setText("0");
+                    }
+                } catch (NumberFormatException e) {
+                    recived = 0;
+                    Log.e("Exception", "recived");
+
+                }
+
+
+            }
+        });
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPay[0]) {
+                    double current_point = customerInformation.getPoint();
+                    String phoneNo = customerInformation.getPhoneNo();
+                    customerInformation.setPoint(current_point + points);
+                    databaseHandler.updateCustomerPoint(phoneNo, points + current_point);
+                    double acount=current_point+points;
+
+                        Order order=new Order("4124564",customerInformation.getCustomerName(),customerInformation.getPhoneNo(),
+                                totalQ,points,Double.parseDouble(total_money.getText().toString()),today );
+                        databaseHandler.AddOrdre(order);
+
+                    NotificationModel notificationModel=new NotificationModel("You have earned "+points+" points, and they will be added  to your account for "+(acount)+" points"
+                            ,today,"Sales Gift",time,""+points);
+                    databaseHandler.AddNotification(notificationModel);
+                    SettingOrder.Item.clear();
+                    SettingOrder.ItemsOrder.clear();
+                    SettingOrder.index = 0;
+                    dialog_cash.dismiss();
+                    finish();
+//                    Intent cateItem=new Intent(ItemActivaty.this,CategoryActivity.class);
+//                    startActivity(cateItem);
+
+
+                    String currentapiVersion = Build.VERSION.RELEASE;
+
+                    Log.e("show_Notification",""+currentapiVersion.substring(0,currentapiVersion.indexOf(".")));
+
+
+                    if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
+                        // Do something for 14 and above versions
+                        Log.e("show_Notification",""+currentapiVersion);
+
+                        show_Notification("You have earned "+points+" points, and they will be added to your account for "+acount+" points");
+
+                    } else {
+
+                        // do something for phones running an SDK before 14
+                    notification("You have earned "+points+" points, and they will be added to your account for "+acount+" points");
+                        Log.e("notification",""+currentapiVersion);
+                    }
+
+
+
+                }else{
+                    Toast.makeText(ItemActivaty.this, "Please Enter all filed ", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+        dialog_cash.show();
+
+
+    }
+
+
+    private void notification (String detail){
+
+        NotificationCompat.Builder nbuilder=new NotificationCompat.Builder(ItemActivaty.this)
+                .setContentTitle("POINT APP Notification ......")
+                .setContentText("Point Gift From Point App")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(detail)
+                        .setBigContentTitle("Point ")
+                        .setSummaryText("Gift"))
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.gift);
+
+        notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(id,nbuilder.build());
+        id++;
+
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+
+    public void show_Notification(String detail){
+
+        Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+        String CHANNEL_ID="MYCHANNEL";
+
+        NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name",NotificationManager.IMPORTANCE_HIGH);
+        PendingIntent pendingIntent=PendingIntent.getActivity(getApplicationContext(),1,intent,0);
+        Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
+                .setContentText("POINT APP Notification ......")
+                .setContentTitle("Point Gift From Point App")
+                .setStyle(new Notification.BigTextStyle()
+                        .bigText(detail)
+                        .setBigContentTitle("Point ")
+                        .setSummaryText("Gift"))
+//                .setContentIntent(pendingIntent)
+//                .addAction(android.R.drawable.sym_action_chat,"Title",pendingIntent)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setChannelId(CHANNEL_ID)
+                .setSmallIcon(R.drawable.gift)
+                .build();
+
+
+        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(notificationChannel);
+        notificationManager.notify(1,notification);
+
+
+    }
+
+    void deleteItem() {
+//        Log.e("size before ", "" + SettingOrder.ItemsOrder.size() + "    " + i + "     " + list.get(i).getIndexOfItem());
+
+//        SettingOrder.Item.get(SettingOrder.indexCat).get(SettingOrder.ItemsOrder.get(inDelete).getIndexOfItem()).setQTY(0.0);
+//        SettingOrder.Item.get(SettingOrder.indexCat).get(SettingOrder.ItemsOrder.get(inDelete).getIndexOfItem()).setTotal(0.0);
+//
+//        TestAdapter Ad = new TestAdapter(ItemActivaty.this, SettingOrder.Item.get(SettingOrder.indexCat));
+//        recyclerView.setAdapter(Ad);
+
+
+//        Ad.notifyDataSetChanged();
     }
 
 
@@ -341,10 +636,12 @@ public class ItemActivaty extends AppCompatActivity {
     class TestItemAdapter extends RecyclerView.Adapter<CViewItemHolder> {
         Context context;
         List<Items> list;
+        TextView change;
 
-        public TestItemAdapter(Context context, List<Items> list) {
+        public TestItemAdapter(Context context, List<Items> list, TextView change) {
             this.context = context;
             this.list = list;
+            this.change = change;
         }
 
         @NonNull
@@ -378,6 +675,7 @@ public class ItemActivaty extends AppCompatActivity {
                     list.remove(i);
                     Log.e("size after ", "" + SettingOrder.ItemsOrder.size() + "    " + i);
                     SettingOrder.index = SettingOrder.ItemsOrder.size();
+                    change.setText("2");
                     notifyDataSetChanged();
                 }
             });
@@ -398,7 +696,7 @@ public class ItemActivaty extends AppCompatActivity {
         return drawableResourceId;
     }
 
-    public boolean updateIfInList(String namePointer, double itemQty, int pointer, double itemTotal) {
+    public static boolean updateIfInList(String namePointer, double itemQty, int pointer, double itemTotal) {
         boolean isFound = false;
         for (int i = 0; i < SettingOrder.ItemsOrder.size(); i++) {
 
@@ -419,7 +717,7 @@ public class ItemActivaty extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-    public void motionEvent(String image){
+    public void motionEvent(String image) {
 
         addToOrder.setVisibility(View.VISIBLE);
         addToOrder.setBackgroundResource(getImage(image));

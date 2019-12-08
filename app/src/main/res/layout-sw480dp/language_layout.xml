@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="550dp"
+    android:layout_height="550dp"
+    android:background="@drawable/purple_background"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/btn_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/login_language_english"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="120dp"
+            android:layout_marginRight="180dp"
+            android:background="@drawable/gradiant_dialog"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:padding="50dp"
+            android:text="@string/en"
+            android:textColor="@color/white_dark"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/login_language_arabic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="120dp"
+            android:layout_marginRight="120dp"
+            android:layout_toRightOf="@id/login_language_english"
+            android:background="@drawable/gradiant_dialog"
+            android:gravity="center"
+            android:padding="50dp"
+            android:text="@string/ar"
+            android:textColor="@color/white_dark"
+            android:textSize="25sp" />
+    </LinearLayout>
+</LinearLayout>

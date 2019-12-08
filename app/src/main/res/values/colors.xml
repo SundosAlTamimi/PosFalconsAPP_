@@ -4,20 +4,23 @@
     <color name="colorPrimaryDark">#00574b</color>
     <color name="colorAccent">#801717</color>
 
-
+    <color name="alpha_black">#AE302E30</color>
     <color name="alpha_purple">#2C880688</color>
     <color name="alpha_purple2">#8A5C075C</color>
     <color name="purple">#460246</color>
+    <color name="purple_alpha">#8F460246</color>
+    <color name="purple_text">#860486</color>
     <color name="white_dark">#FFFFFF</color>
     <color name="white">#41FFFEFE</color>
-    <color name="white_two">#6FFFFEFE</color>
+    <color name="white_two">#90FFFEFE</color>
     <color name="gray">#464545</color>
     <color name="gray2">#B9CE98E2</color>
 
     <color name="red">#801717</color>
     <color name="green">#103601</color>
     <color name="black">#000000</color>
-    <color name="black_light">#86000000</color>
+    <color name="black_light">#A9FAF7F7</color>
+    <color name="black_light_2">#D3FAF7F7</color>
     <color name="red_item_background">#DD2424</color>
     <color name="gray_light">#CFCFCF</color>
 
@@ -28,7 +31,7 @@
     <color name="green_dark">#09500C</color>
 
     <color name="layer1">#F0FFFF</color>
-    <color name="layer2">#F0F8FF</color>
+    <color name="layer2">#E8F0F8FF</color>
     <color name="layer3">#e5e4e2</color>
     <color name="layer4">#B6B6B4</color>
     <color name="text_color">#25383C</color>

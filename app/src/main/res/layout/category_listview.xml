@@ -11,62 +11,102 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/white_two"
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/category_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/purple"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:padding="5dp"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Dark"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/categoryRecycler"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="cursive"
+                android:text="Point App"
+                android:textColor="@color/purple"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="700dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="10dp"
-                />
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="5dp">
 
-                <Button
-                    android:id="@+id/call"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                <ImageView
+                    android:id="@+id/orderlist"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    app:srcCompat="@drawable/buy_icon" />
 
-                    android:layout_marginEnd="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginBottom="1dp"
-                    android:visibility="gone"
-                    android:padding="20dp"
-                    android:background="@drawable/back_2_layout"
-                    android:text="Call Captain"
-                    android:textColor="@color/white_dark" />
+                <ImageView
+                    android:id="@+id/barcodes"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    app:srcCompat="@drawable/barcode" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/categoryRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+
+            android:layout_marginLeft="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/back_2_layout"
+            android:padding="20dp"
+            android:text="Call Captain"
+            android:textColor="@color/white_dark"
+            android:visibility="gone" />
 
 
-                 <Button
-                    android:id="@+id/makeOrder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                     android:layout_marginTop="20dp"
-                    android:layout_marginStart="200dp"
-                    android:layout_marginLeft="200dp"
-                    android:layout_marginEnd="200dp"
-                    android:layout_marginRight="200dp"
-                    android:background="@drawable/btn_background"
-                     android:textAllCaps="false"
-                    android:text="Order"
-                     android:textSize="25sp"
-                     android:fontFamily="casual"
-                    android:textColor="@color/white_dark" />
+        <Button
+            android:id="@+id/makeOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200dp"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="200dp"
+            android:layout_marginRight="200dp"
+            android:background="@drawable/btn_background"
+            android:fontFamily="casual"
+            android:text="Order"
+            android:textAllCaps="false"
+            android:textColor="@color/white_dark"
+            android:textSize="25sp"
+            tools:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/res"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:background="@drawable/btn_background" />
 
     </LinearLayout>
 
@@ -75,10 +115,11 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:layout_marginTop="60dp"
-        app:itemTextColor="@color/white_dark"
-        android:background="@color/gray2"
-        app:itemIconPadding="10dp"
+        android:background="@color/purple_alpha"
         app:headerLayout="@layout/nav_header_layout"
-        app:menu="@menu/navigation_menu"/>
+        app:itemIconPadding="10dp"
+        app:itemIconTint="@color/black_light_2"
+        app:itemTextColor="@color/white_dark"
+        app:menu="@menu/navigation_menu" />
+
 </android.support.v4.widget.DrawerLayout>

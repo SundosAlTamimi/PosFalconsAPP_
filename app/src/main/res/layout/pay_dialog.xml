@@ -51,7 +51,7 @@
             android:layout_marginLeft="5dp"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/itemName"
+                android:id="@+id/vocherNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
