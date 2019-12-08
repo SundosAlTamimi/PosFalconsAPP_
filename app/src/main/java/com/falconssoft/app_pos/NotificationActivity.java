@@ -19,6 +19,7 @@ import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.falconssoft.app_pos.models.Items;
+import com.falconssoft.app_pos.models.NotificationModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +31,13 @@ public class NotificationActivity extends AppCompatActivity {
 
     RecyclerView recyclerViews;
     Button rewardGallary;
-
+DatabaseHandler databaseHandler;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification_dialog);
         recyclerViews = (RecyclerView) findViewById(R.id.recycle_notification);
-
+        databaseHandler=new DatabaseHandler(NotificationActivity.this);
 
         CarouselLayoutManagerForPoint();
 
@@ -45,18 +46,20 @@ public class NotificationActivity extends AppCompatActivity {
     void CarouselLayoutManagerForPoint(){
 
 
-        ArrayList <String>picforbar= new ArrayList<>();
+       List <NotificationModel>picforbar= new ArrayList<>();
 
-        picforbar.add("Reward");
-        picforbar.add("Notification");
-        picforbar.add("Point");
-        picforbar.add("Bar code");
-        picforbar.add("Branch");
-        picforbar.add("Reward");
-        picforbar.add("Notification");
-        picforbar.add("Point");
-        picforbar.add("Bar code");
-        picforbar.add("Branch");
+        picforbar=databaseHandler.getAllNotification();
+
+//        picforbar.add("Reward");
+//        picforbar.add("Notification");
+//        picforbar.add("Point");
+//        picforbar.add("Bar code");
+//        picforbar.add("Branch");
+//        picforbar.add("Reward");
+//        picforbar.add("Notification");
+//        picforbar.add("Point");
+//        picforbar.add("Bar code");
+//        picforbar.add("Branch");
 
 
         final CarouselLayoutManager layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL);
@@ -121,13 +124,16 @@ public class NotificationActivity extends AppCompatActivity {
 
     static class CViewHolderForPoint extends RecyclerView.ViewHolder {
 
-        TextView ItemName;
-        ImageView itemImage;
-        LinearLayout layBar;
+        TextView noPoint,description,ExpiryDate,fromDateTime;
+//        ImageView itemImage;
+//        LinearLayout layBar;
 
         public CViewHolderForPoint(@NonNull View itemView) {
             super(itemView);
-//            ItemName = itemView.findViewById(R.id.textbar);
+            noPoint = itemView.findViewById(R.id.noPoint);
+            description = itemView.findViewById(R.id.description);
+            fromDateTime = itemView.findViewById(R.id.fromDateTime);
+            ExpiryDate = itemView.findViewById(R.id.ExpiryDate);
 //            layBar=itemView.findViewById(R.id.layBar);
 //            itemImage = itemView.findViewById(R.id.imgbar);
         }
@@ -135,10 +141,10 @@ public class NotificationActivity extends AppCompatActivity {
 
     class TestAdapterForPoint extends RecyclerView.Adapter<CViewHolderForPoint> {
         Context context;
-        List<String> list;
+        List<NotificationModel> list;
 //DatabaseHandler db;
 
-        public TestAdapterForPoint(Context context, List<String> list) {
+        public TestAdapterForPoint(Context context, List<NotificationModel> list) {
             this.context = context;
             this.list = list;
 //        db=new DatabaseHandler(this.context);
@@ -155,8 +161,10 @@ public class NotificationActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final CViewHolderForPoint cViewHolder, final int i) {
 //            cViewHolder.Qty.setText("" + list.get(i).getQTY());
-//            cViewHolder.price.setText("" + list.get(i).getPrice());
-//            cViewHolder.layBar.setTag(""+i);
+            cViewHolder.noPoint.setText("+ " + list.get(i).getPoint()+" Point   "+list.get(i).getNotificationName());
+            cViewHolder.description.setText("" + list.get(i).getDescription());
+            cViewHolder.fromDateTime.setText("" + list.get(i).getDate()+"      " +list.get(i).getTime());
+//            cViewHolder.ExpiryDate.setText("" + list.get(i).getNotificationName());
 
             //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

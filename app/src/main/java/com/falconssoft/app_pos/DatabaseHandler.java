@@ -1,5 +1,6 @@
 package com.falconssoft.app_pos;
 
+import android.app.Notification;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +12,8 @@ import android.util.Log;
 
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
+import com.falconssoft.app_pos.models.NotificationModel;
+import com.falconssoft.app_pos.models.Order;
 import com.falconssoft.app_pos.models.Tables;
 import com.falconssoft.app_pos.models.Users;
 import com.falconssoft.app_pos.models.Items;
@@ -63,17 +66,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String EMAIL = "EMAIL";
     private static final String POINT_CUSTOMER = "POINT_CUSTOMER";
     // *******************************************************************************
-
-    // *******************************************************************************
     private static final String ORDER_PAY = "ORDER_PAY";
 
     private static final String CUSTOMER_NAME1 = "CUSTOMER_NAME";
-    private static final String PHONE_NO1 = "PHONE_NO";
+    private static final String CustomerNo1 = "CustomerNo";
     private static final String POINT_CUSTOMER1 = "POINT_CUSTOMER";
     private static final String TOTAL1 = "TOTAL";
     private static final String DATE_FOR_PAY = "DATE_FOR_PAY";
-    private static final String ITEM_COUNT = "ITEM_COUNT";
+    private static final String QTY = "QTY";
     private static final String VOUCH_NO = "VOUCH_NO";
+    // *******************************************************************************
+    private static final String NOTIFICATION = "NOTIFICATION";
+
+    private static final String DESCRIPTION2 = "DESCRIPTION";
+    private static final String DATE_FOR_NOTIFICATION2 = "DATE_FOR_NOTIFICATION";
+    private static final String NOTIFICATION_NAME2 = "NOTIFICATION_NAME";
+    private static final String TIME_FOR_NOTIFICATION = "TIME_FOR_NOTIFICATION";
+    private static final String POINT_FOR_NOTIFICATION = "POINT_FOR_NOTIFICATION";
 
     // *******************************************************************************
 
@@ -115,7 +124,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + ")";
         db.execSQL(CREATE_CUSTOMER_INFORMATION_TABLE);
         // *******************************************************************************
+        String CREATE_NOTIFICATION_TABLE = "CREATE TABLE " + NOTIFICATION + "("
+                + DESCRIPTION2 + " TEXT,"
+                + DATE_FOR_NOTIFICATION2 + " TEXT,"
+                + NOTIFICATION_NAME2 + " TEXT,"
+                + POINT_FOR_NOTIFICATION + " TEXT,"
+                +  TIME_FOR_NOTIFICATION+ " TEXT"
 
+                + ")";
+        db.execSQL(CREATE_NOTIFICATION_TABLE);
+        // *******************************************************************************
+
+        String CREATE_ORDER_TABLE = "CREATE TABLE " + ORDER_PAY + "("
+                + CUSTOMER_NAME1 + " TEXT,"
+                + CustomerNo1 + " TEXT,"
+                + POINT_CUSTOMER1 + " REAL,"
+                + TOTAL1 + " REAL,"
+                +  DATE_FOR_PAY+ " TEXT,"
+                +  QTY+ " REAL,"
+                +  VOUCH_NO+ " TEXT"
+                + ")";
+        db.execSQL(CREATE_ORDER_TABLE);
+        // *******************************************************************************
 
     }
 
@@ -178,6 +208,41 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(PASSWORD, users.getPassword());
 
         db.insert(USERS_TABLE, null, values);
+        db.close();
+    }
+
+    public void AddNotification(NotificationModel notificationModel) {
+        db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(DESCRIPTION2,notificationModel.getDescription() );
+        values.put(DATE_FOR_NOTIFICATION2, notificationModel.getDate());
+
+        values.put(NOTIFICATION_NAME2,notificationModel.getNotificationName() );
+        values.put(TIME_FOR_NOTIFICATION, notificationModel.getTime());
+        values.put(POINT_FOR_NOTIFICATION, notificationModel.getPoint());
+
+
+        db.insert(NOTIFICATION, null, values);
+        db.close();
+    }
+
+
+    public void AddOrdre(Order order) {
+        db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(CUSTOMER_NAME1,order.getCustomerName() );
+        values.put(CustomerNo1, order.getCustomerNo());
+
+        values.put(POINT_CUSTOMER1,order.getNoPoint() );
+        values.put(TOTAL1, order.getTotal());
+        values.put(DATE_FOR_PAY, order.getDate());
+        values.put(QTY, order.getQty());
+        values.put(VOUCH_NO, order.getVhNo());
+
+
+        db.insert(ORDER_PAY, null, values);
         db.close();
     }
 
@@ -272,7 +337,53 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return usersList;
     }
+    public List<NotificationModel> getAllNotification() {
+        List<NotificationModel> notificationModels = new ArrayList<NotificationModel>();
 
+        String selectQuery = "SELECT  * FROM " + NOTIFICATION;
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                NotificationModel notificationModel = new NotificationModel();
+
+                notificationModel.setDescription(cursor.getString(0));
+                notificationModel.setDate(cursor.getString(1));
+                notificationModel.setNotificationName(cursor.getString(2));
+                notificationModel.setPoint(cursor.getString(3));
+                notificationModel.setTime(cursor.getString(4));
+
+                notificationModels.add(notificationModel);
+            } while (cursor.moveToNext());
+        }
+        return notificationModels;
+    }
+
+    public List<Order> getAllOrder() {
+        List<Order> orderArrayList = new ArrayList<Order>();
+
+        String selectQuery = "SELECT  * FROM " + ORDER_PAY;
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order();
+
+                order.setCustomerName(cursor.getString(0));
+                order.setCustomerNo(cursor.getString(1));
+                order.setNoPoint(cursor.getDouble(2));
+                order.setTotal(cursor.getDouble(3));
+                order.setDate(cursor.getString(4));
+                order.setQty(cursor.getDouble(5));
+                order.setVhNo(cursor.getString(6));
+
+                orderArrayList.add(order);
+            } while (cursor.moveToNext());
+        }
+        return orderArrayList;
+    }
 
 
     public List<CustomerInformation> getAllInformation() {

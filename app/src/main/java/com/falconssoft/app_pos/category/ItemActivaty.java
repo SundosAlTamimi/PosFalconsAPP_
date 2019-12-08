@@ -1,11 +1,17 @@
 package com.falconssoft.app_pos.category;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,12 +37,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.falconssoft.app_pos.DatabaseHandler;
+import com.falconssoft.app_pos.LoginActivity;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
+import com.falconssoft.app_pos.models.NotificationModel;
+import com.falconssoft.app_pos.models.Order;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -57,7 +68,8 @@ public class ItemActivaty extends AppCompatActivity {
 
     NotificationManager notificationManager;
     static int id=1;
-
+    String  today="",time="";
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +83,13 @@ public class ItemActivaty extends AppCompatActivity {
         catPic = (ImageView) findViewById(R.id.catImage);
         orderImage = (ImageView) findViewById(R.id.orderIcon);
         addToOrder = (ImageView) findViewById(R.id.items_btn_addToOrder);
+
+        Calendar calendar=Calendar.getInstance();
+        Date date=Calendar.getInstance().getTime();
+        SimpleDateFormat simpleFormatter=new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat simpleFormatters=new SimpleDateFormat("HH:mm:ss");
+        today = simpleFormatter.format(date);
+        time = simpleFormatters.format(calendar.getTime());
 
         itemList = new ArrayList<>();
 
@@ -239,7 +258,7 @@ public class ItemActivaty extends AppCompatActivity {
                             motionEvent(list.get(i).getDescription());
 
                         } else {
-                            Toast.makeText(context, "is Found ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, " Update ", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(context, "Can't Add  the QTY = 0 ", Toast.LENGTH_SHORT).show();
@@ -338,7 +357,7 @@ public class ItemActivaty extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (Double.parseDouble(total.getText().toString()) != 0) {
-                    reciveReciptMony_Cash(Double.parseDouble(point.getText().toString()));
+                    reciveReciptMony_Cash(Double.parseDouble(point.getText().toString()),Double.parseDouble(totalQ.getText().toString()));
                 } else {
                     Toast.makeText(ItemActivaty.this, "The Total Equal 0.0 ", Toast.LENGTH_SHORT).show();
                 }
@@ -393,7 +412,7 @@ public class ItemActivaty extends AppCompatActivity {
 
     }
 
-    private void reciveReciptMony_Cash(final double points) {
+    private void reciveReciptMony_Cash(final double points,final double totalQ) {
         final Dialog dialog_cash = new Dialog(ItemActivaty.this);
         dialog_cash.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog_cash.setCancelable(false);
@@ -477,7 +496,15 @@ public class ItemActivaty extends AppCompatActivity {
                     String phoneNo = customerInformation.getPhoneNo();
                     customerInformation.setPoint(current_point + points);
                     databaseHandler.updateCustomerPoint(phoneNo, points + current_point);
+                    double acount=current_point+points;
 
+                        Order order=new Order("4124564",customerInformation.getCustomerName(),customerInformation.getPhoneNo(),
+                                totalQ,points,Double.parseDouble(total_money.getText().toString()),today );
+                        databaseHandler.AddOrdre(order);
+
+                    NotificationModel notificationModel=new NotificationModel("You have earned "+points+" points, and they will be added  to your account for "+(acount)+" points"
+                            ,today,"Sales Gift",time,""+points);
+                    databaseHandler.AddNotification(notificationModel);
                     SettingOrder.Item.clear();
                     SettingOrder.ItemsOrder.clear();
                     SettingOrder.index = 0;
@@ -485,11 +512,32 @@ public class ItemActivaty extends AppCompatActivity {
                     finish();
 //                    Intent cateItem=new Intent(ItemActivaty.this,CategoryActivity.class);
 //                    startActivity(cateItem);
-                    notification("20 point ");
 
 
+                    String currentapiVersion = Build.VERSION.RELEASE;
+
+                    Log.e("show_Notification",""+currentapiVersion.substring(0,currentapiVersion.indexOf(".")));
+
+
+                    if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
+                        // Do something for 14 and above versions
+                        Log.e("show_Notification",""+currentapiVersion);
+
+                        show_Notification("You have earned "+points+" points, and they will be added to your account for "+acount+" points");
+
+                    } else {
+
+                        // do something for phones running an SDK before 14
+                    notification("You have earned "+points+" points, and they will be added to your account for "+acount+" points");
+                        Log.e("notification",""+currentapiVersion);
+                    }
+
+
+
+                }else{
+                    Toast.makeText(ItemActivaty.this, "Please Enter all filed ", Toast.LENGTH_SHORT).show();
                 }
-                dialog_cash.dismiss();
+
             }
         });
 
@@ -499,11 +547,17 @@ public class ItemActivaty extends AppCompatActivity {
 
     }
 
+
     private void notification (String detail){
 
         NotificationCompat.Builder nbuilder=new NotificationCompat.Builder(ItemActivaty.this)
                 .setContentTitle("POINT APP Notification ......")
-                .setContentText(detail)
+                .setContentText("Point Gift From Point App")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(detail)
+                        .setBigContentTitle("Point ")
+                        .setSummaryText("Gift"))
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setSmallIcon(R.drawable.gift);
 
@@ -511,6 +565,39 @@ public class ItemActivaty extends AppCompatActivity {
 
         notificationManager.notify(id,nbuilder.build());
         id++;
+
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+
+    public void show_Notification(String detail){
+
+        Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+        String CHANNEL_ID="MYCHANNEL";
+
+        NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name",NotificationManager.IMPORTANCE_HIGH);
+        PendingIntent pendingIntent=PendingIntent.getActivity(getApplicationContext(),1,intent,0);
+        Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
+                .setContentText("POINT APP Notification ......")
+                .setContentTitle("Point Gift From Point App")
+                .setStyle(new Notification.BigTextStyle()
+                        .bigText(detail)
+                        .setBigContentTitle("Point ")
+                        .setSummaryText("Gift"))
+//                .setContentIntent(pendingIntent)
+//                .addAction(android.R.drawable.sym_action_chat,"Title",pendingIntent)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setChannelId(CHANNEL_ID)
+                .setSmallIcon(R.drawable.gift)
+                .build();
+
+
+        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(notificationChannel);
+        notificationManager.notify(1,notification);
+
 
     }
 

@@ -20,8 +20,11 @@ import android.widget.TextView;
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
+import com.falconssoft.app_pos.category.CategoryActivity;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
+import com.falconssoft.app_pos.models.NotificationModel;
+import com.falconssoft.app_pos.models.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,23 +55,29 @@ DatabaseHandler db;
 
 
     }
+    public int getImage(String imageName) {
+
+        int drawableResourceId = RewardActivity.this.getResources().getIdentifier(imageName, "drawable", RewardActivity.this.getPackageName());
+        return drawableResourceId;
+    }
 
     void openRewardGallaryDialog(){
 
 
-       List <Items>listOfOrder=new ArrayList<>();
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,2));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+       List <NotificationModel>listOfOrder=new ArrayList<>();
+        listOfOrder=db.getAllNotification();
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,2));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+//        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
 
         final LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(this);
@@ -139,25 +148,26 @@ DatabaseHandler db;
 
     static class CViewHolderForOrder extends RecyclerView.ViewHolder {
 
-        TextView ItemName, point, Qty, price;
+        TextView ItemName, pointNo, description, price;
         ImageView itemImage;
+        Button gift;
 
         public CViewHolderForOrder(@NonNull View itemView) {
             super(itemView);
-//            ItemName = itemView.findViewById(R.id.itemName);
-//            Qty = itemView.findViewById(R.id.Qty);
-//            price = itemView.findViewById(R.id.price);
-//            point = itemView.findViewById(R.id.point);
-//            itemImage = itemView.findViewById(R.id.itemImage);
+            ItemName = itemView.findViewById(R.id.itemName);
+            description = itemView.findViewById(R.id.description);
+            pointNo = itemView.findViewById(R.id.pointNo);
+            itemImage = itemView.findViewById(R.id.itemImage);
+            gift = itemView.findViewById(R.id.gift);
         }
     }
 
     class TestAdapterForOrder extends RecyclerView.Adapter<RewardActivity.CViewHolderForOrder> {
         Context context;
-        List<Items> list;
+        List<NotificationModel> list;
 //DatabaseHandler db;
 
-        public TestAdapterForOrder(Context context, List<Items> list) {
+        public TestAdapterForOrder(Context context, List<NotificationModel> list) {
             this.context = context;
             this.list = list;
 //        db=new DatabaseHandler(this.context);
@@ -173,10 +183,11 @@ DatabaseHandler db;
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull final RewardActivity.CViewHolderForOrder cViewHolder, final int i) {
-//            cViewHolder.ItemName.setText(list.get(i).getItemName());
-////            cViewHolder.itemImage.setBackgroundResource(getImage(list.get(i).getDescription()));
-//            cViewHolder.Qty.setText("" + list.get(i).getQTY());
-//            cViewHolder.price.setText("" + list.get(i).getPrice());
+            cViewHolder.ItemName.setText(list.get(i).getNotificationName());
+            cViewHolder.itemImage.setBackgroundResource(getImage("starsredyellow"));
+            cViewHolder.description.setText("" + list.get(i).getDescription());
+            cViewHolder.pointNo.setText("" + list.get(i).getPoint()+"  Point ");
+            cViewHolder.gift.setVisibility(View.GONE);
 
 
 //

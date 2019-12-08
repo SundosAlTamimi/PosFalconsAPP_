@@ -3,48 +3,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layoutDirection="ltr"
-    android:padding="20dp">
+    android:orientation="vertical"
+    android:padding="10dp">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:background="@drawable/alpha_frame"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/black_light_2"
+        app:cardCornerRadius="20dp">
 
         <LinearLayout
-            android:layout_width="279dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/itemImage"
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
+                android:layout_width="110dp"
+                android:layout_height="80dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/botato" />
+                app:srcCompat="@drawable/orderpay" />
 
             <TextView
-                android:id="@+id/itemName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/vocherNo"
+                android:layout_width="257dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:fontFamily="casual"
-                android:layout_marginBottom="20dp"
+                android:fontFamily="cursive"
                 android:gravity="center"
-                android:text="Fried potato"
+                android:text="12554"
                 android:textColor="@color/purple"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_background"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dp">
 
@@ -52,27 +60,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
-                android:padding="5dp"
-                android:background="@drawable/btn_background">
+                android:background="@drawable/alpha_frame"
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/textView20"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:text="Qty :"
+                    android:fontFamily="cursive"
                     android:padding="5dp"
+                    android:text="Qty :"
                     android:textColor="@color/white_dark"
-                    android:textSize="20sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/Qty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10"
+                    android:fontFamily="cursive"
                     android:padding="5dp"
+                    android:text="10"
                     android:textColor="@color/white_dark"
-                    android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
             </TableRow>
 
@@ -80,54 +90,58 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
-                android:padding="5dp"
-                android:background="@drawable/btn_background">
+                android:background="@drawable/alpha_frame"
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/textView28"
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:text="price :"
+                    android:fontFamily="cursive"
                     android:padding="10dp"
+                    android:text="price :"
                     android:textColor="@color/white_dark"
-                    android:textSize="20sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/price"
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:text="1 JD"
+                    android:fontFamily="cursive"
                     android:padding="5dp"
+                    android:text="1 JD"
                     android:textColor="@color/white_dark"
-                    android:textStyle="bold"
-                    android:textSize="20sp"/>
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
-                android:padding="5dp"
-                android:background="@drawable/btn_background">
+                android:background="@drawable/alpha_frame"
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/textView21"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Point :"
+                    android:fontFamily="cursive"
                     android:padding="5dp"
+                    android:text="Point :"
                     android:textColor="@color/white_dark"
-                    android:textSize="20sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/point"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5 point"
+                    android:fontFamily="cursive"
                     android:padding="5dp"
+                    android:text="5 point"
                     android:textColor="@color/white_dark"
-                    android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
             </TableRow>
 
         </TableLayout>

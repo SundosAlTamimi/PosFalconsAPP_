@@ -14,12 +14,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -31,7 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -53,9 +50,9 @@ import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.email.SendMailTask;
 import com.falconssoft.app_pos.itemsReciptAdapter;
 import com.falconssoft.app_pos.adapter_branch;
-import com.falconssoft.app_pos.models.Branches;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
+import com.falconssoft.app_pos.models.Order;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -69,7 +66,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import cdflynn.android.library.turn.TurnLayoutManager;
-import in.goodiebag.carouselpicker.CarouselPicker;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
@@ -78,8 +74,6 @@ import static com.falconssoft.app_pos.models.ShareValues.emailTitle;
 import static com.falconssoft.app_pos.models.ShareValues.recipientName;
 import static com.falconssoft.app_pos.models.ShareValues.senderName;
 import static com.falconssoft.app_pos.models.ShareValues.senderPassword;
-import static android.widget.LinearLayout.HORIZONTAL;
-import static android.widget.LinearLayout.VERTICAL;
 
 public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -100,11 +94,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private TurnLayoutManager layoutManager = null;
     private RecyclerView recyclerView;
     private MediaPlayer mediaPlayer;
-    private List<Items> listOfOrder = new ArrayList<>();
+    private List<Order> listOfOrder = new ArrayList<>();
     private List<String> list = new ArrayList<>();
     private List<String> pic = new ArrayList<>();
     DatabaseHandler databaseHandler;
-    boolean isPay=false;
+    boolean isPay = false;
     CustomerInformation customerInformation;
     String phoneNo;
    double  points = 0;
@@ -126,7 +120,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //        branches_list.add("33.215487");
 
 
-        picforbar.add("Reward");
+        picforbar.add("My Reward");
         picforbar.add("Notification");
         picforbar.add("Point");
         picforbar.add("Bar code");
@@ -180,7 +174,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
             }
         });
-
+        orderList.setVisibility(View.GONE);
         orderList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -460,20 +454,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.setContentView(R.layout.my_order_dialog);
         dialog.setCanceledOnTouchOutside(true);
 
-
-//            Items items=new Items("potato","potato",1222,null,"from",1,null,1,1,1,10);
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,2));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
-        listOfOrder.add(new Items("potato", "potato", 1222, null, "from", 1, null, 1, 1, 1, 10,0));
+        listOfOrder=databaseHandler.getAllOrder();
 
         final LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(this);
@@ -741,7 +722,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         String barcode_data = null;
 
         LinearLayout moreDetali = dialog.findViewById(R.id.moreDetali);
-        List<CustomerInformation> customerInformations = databaseHandler.getAllInformation();
+        final List<CustomerInformation> customerInformations = databaseHandler.getAllInformation();
 
         cusName = (TextView) dialog.findViewById(R.id.cusName);
         cusno = (TextView) dialog.findViewById(R.id.cusno);
@@ -785,6 +766,21 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                     dialogDetail.setCancelable(false);
                     dialogDetail.setContentView(R.layout.detali);
                     dialogDetail.setCanceledOnTouchOutside(true);
+                    TextView noJD=(TextView)dialogDetail.findViewById(R.id.nojd);
+                    TextView nopoint=(TextView)dialogDetail.findViewById(R.id.nopoint);
+
+                    if( customerInformations.size()!=0){
+                        double NoJD=(customerInformations.get(0).getPoint())/10;
+                        nopoint.setText(customerInformations.get(0).getPoint()+" Point");
+                        noJD.setText(NoJD+" JD");
+                    }else {
+
+                        nopoint.setText("0.0 Point");
+                        noJD.setText("0.0 JD");
+                    }
+
+
+
                     dialogDetail.show();
                 }
             });
@@ -933,12 +929,12 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     static class CViewHolderForOrder extends RecyclerView.ViewHolder {
 
-        TextView ItemName, point, Qty, price;
+        TextView vocherNo, point, Qty, price;
         ImageView itemImage;
 
         public CViewHolderForOrder(@NonNull View itemView) {
             super(itemView);
-            ItemName = itemView.findViewById(R.id.itemName);
+            vocherNo = itemView.findViewById(R.id.vocherNo);
             Qty = itemView.findViewById(R.id.Qty);
             price = itemView.findViewById(R.id.price);
             point = itemView.findViewById(R.id.point);
@@ -948,10 +944,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     class TestAdapterForOrder extends RecyclerView.Adapter<CategoryActivity.CViewHolderForOrder> {
         Context context;
-        List<Items> list;
+        List<Order> list;
 //DatabaseHandler db;
 
-        public TestAdapterForOrder(Context context, List<Items> list) {
+        public TestAdapterForOrder(Context context, List<Order> list) {
             this.context = context;
             this.list = list;
 //        db=new DatabaseHandler(this.context);
@@ -967,10 +963,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull final CategoryActivity.CViewHolderForOrder cViewHolder, final int i) {
-            cViewHolder.ItemName.setText(list.get(i).getItemName());
+            cViewHolder.vocherNo.setText(list.get(i).getVhNo());
 //            cViewHolder.itemImage.setBackgroundResource(getImage(list.get(i).getDescription()));
-            cViewHolder.Qty.setText("" + list.get(i).getQTY());
-            cViewHolder.price.setText("" + list.get(i).getPrice());
+            cViewHolder.Qty.setText("" + list.get(i).getQty());
+            cViewHolder.price.setText("" + list.get(i).getTotal()+" JD ");
+            cViewHolder.point.setText("" + list.get(i).getNoPoint()+" Point ");
 
 
 //

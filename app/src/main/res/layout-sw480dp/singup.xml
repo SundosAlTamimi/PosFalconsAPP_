@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="740dp"
     android:background="@drawable/purple_background"
-    android:gravity="center"
     android:layoutDirection="ltr"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="10dp">
 
 
     <RelativeLayout
@@ -17,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="740dp"
             android:background="@drawable/btn_background"
             android:gravity="center"
             android:orientation="vertical"
@@ -33,17 +32,23 @@
                 android:text="Register"
                 android:textAlignment="center"
                 android:textColor="@color/white_dark"
-                android:textSize="50sp"
+                android:textSize="60sp"
                 android:textStyle="bold" />
 
             <TableLayout
-                android:layout_width="match_parent"
+                android:layout_width="518dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
                 android:padding="5dp">
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginRight="40dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/alpha_frame"
                     android:padding="10dp">
@@ -55,7 +60,7 @@
                         android:fontFamily="cursive"
                         android:text="Customer Name :"
                         android:textColor="@color/white_dark"
-                        android:textSize="20sp"
+                        android:textSize="30sp"
                         android:textStyle="bold" />
 
                     <EditText
@@ -64,13 +69,16 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:inputType="textPersonName"
-                        android:textColor="@color/layer2"
-                        android:textSize="20sp" />
+                        android:textColor="@color/layer2" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginRight="40dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/alpha_frame"
                     android:padding="10dp">
@@ -82,7 +90,7 @@
                         android:fontFamily="cursive"
                         android:text="Phone No :"
                         android:textColor="@color/white_dark"
-                        android:textSize="20sp"
+                        android:textSize="30sp"
                         android:textStyle="bold" />
 
                     <EditText
@@ -91,13 +99,16 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:inputType="phone"
-                        android:textColor="@color/white_dark"
-                        android:textSize="20sp" />
+                        android:textColor="@color/white_dark" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginRight="40dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/alpha_frame"
                     android:padding="10dp">
@@ -109,7 +120,7 @@
                         android:fontFamily="cursive"
                         android:text="Email :"
                         android:textColor="@color/white_dark"
-                        android:textSize="20sp"
+                        android:textSize="30sp"
                         android:textStyle="bold" />
 
                     <EditText
@@ -118,14 +129,13 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:inputType="textEmailAddress"
-                        android:textColor="@color/layer2"
-                        android:textSize="20sp" />
+                        android:textColor="@color/layer2" />
                 </TableRow>
 
             </TableLayout>
 
             <LinearLayout
-                android:layout_width="150dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="170dp"
                 android:layout_marginLeft="170dp"
