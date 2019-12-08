@@ -48,6 +48,7 @@ import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.ReportActivity;
 import com.falconssoft.app_pos.RewardActivity;
 import com.falconssoft.app_pos.SettingOrder;
+import com.falconssoft.app_pos.addnew.AddNewActivity;
 import com.falconssoft.app_pos.email.SendMailTask;
 import com.falconssoft.app_pos.itemsReciptAdapter;
 import com.falconssoft.app_pos.adapter_branch;
@@ -93,20 +94,26 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
     private TurnLayoutManager layoutManager = null;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView, recyclerViews;
     private MediaPlayer mediaPlayer;
     private List<Order> listOfOrder = new ArrayList<>();
     private List<String> list = new ArrayList<>();
     private List<String> pic = new ArrayList<>();
     DatabaseHandler databaseHandler;
-    boolean isPay=false;
+    boolean isPay = false;
     CustomerInformation customerInformation;
     String phoneNo;
    double  points = 0;
 
+   private  LinearLayoutManager linearLayoutManager;
+   private  CarouselLayoutManager layoutManagerd;
+   private List<Items> viewCaterogyList = new ArrayList<>();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_listview);
+
+        databaseHandler = new DatabaseHandler(CategoryActivity.this);
         picforbar= new ArrayList<>();
         callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:0797788880"));
@@ -119,21 +126,20 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         branches_list.add("Branch Resturant 4");
 //        branches_list.add("31,125415");
 //        branches_list.add("33.215487");
-
-
         picforbar.add("My Reward");
         picforbar.add("Notification");
         picforbar.add("Point");
         picforbar.add("Bar code");
         picforbar.add("Branch");
+        picforbar.add("Add New");
 
         pic2.add("rewardimg");
         pic2.add("notification");
         pic2.add("gift");
         pic2.add("barcode");
         pic2.add("branch");
+        pic2.add("plus_sign");
 
-        databaseHandler = new DatabaseHandler(CategoryActivity.this);
         recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
         makeOrder = findViewById(R.id.makeOrder);
         mTopToolbar = (Toolbar) findViewById(R.id.category_toolbar);
@@ -182,8 +188,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 orderListDialog();
             }
         });
-
-
 //        CarouselPicker carouselPicker = (CarouselPicker) findViewById(R.id.carousel);
 //
 //// Case 1 : To populate the picker with images
@@ -228,34 +232,24 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         //????????????????????????????????????????????????????????????????????????????
 
-        final CarouselLayoutManager layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL);
-
-        final RecyclerView recyclerViews = (RecyclerView) findViewById(R.id.res);
+       layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, true);
+        recyclerViews = (RecyclerView) findViewById(R.id.res);
         recyclerViews.setLayoutManager(layoutManagerd);
         recyclerViews.setHasFixedSize(true);
         recyclerViews.addOnScrollListener(new CenterScrollListener());
         layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
-
         recyclerViews.setAdapter(new TestAdapterForbar(this, picforbar));
-
         recyclerViews.requestFocus();
         recyclerViews.scrollToPosition(2);
         recyclerViews.requestFocus();
 
 //????????????????????????????????????????????????????????????????????????????
 
-        list.add("Barbecue");
-        list.add("Chips");
-        list.add("Fish finger");
-        list.add("Chips");
-        list.add("Cookies");
-        list.add("Barbecue");
-        list.add("Turkey Sandwich");
-        list.add("Fried Potato");
-        list.add("Burger");
-        list.add("Fried Potato");
+//        databaseHandler.deleteAllItems();
+//        fillCategory();
+         viewCaterogyList = databaseHandler.getAllCategory();
 
-//        pic.add("");
+    //        pic.add("");
         pic.add("ice_cream_");
         pic.add("fraze_");
         pic.add("ice_cream_sundae");
@@ -267,13 +261,12 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         pic.add("frazeicecream");
         pic.add("freaze_icecream");
 
-        final LinearLayoutManager layoutManager;
-        layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(VERTICAL);
-//         recyclerView = (RecyclerView) findViewById(R.id.itemRecycler);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new TestAdapter(this, list));
 
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(VERTICAL);
+//         recyclerView = (RecyclerView) findViewById(R.id.itemRecycler);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(new TestAdapter(this, viewCaterogyList));
         recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
 
         makeOrder.setOnClickListener(new View.OnClickListener() {
@@ -337,6 +330,36 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //                sendSocket.sendMessage();
 //            }
 //        });
+    }
+
+    void fillCategory(){
+        list.add("Barbecue");
+        list.add("Chips");
+        list.add("Fish finger");
+        list.add("Cookies");
+        list.add("Turkey Sandwich");
+        list.add("Fried Potato");
+        list.add("Burger");
+        list.add("Salad");
+        list.add("Egg");
+        list.add("Chicken Zinger");
+
+
+        for (int i = 0; i<10; i++)
+        {
+//            itemList.clear();
+            databaseHandler.addItem((new Items(list.get(i), "wafel 1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0)));
+            databaseHandler.addItem((new Items(list.get(i), "wafel 2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1)));
+            databaseHandler.addItem((new Items(list.get(i), "wafel 3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2)));
+            databaseHandler.addItem((new Items(list.get(i), "wafel 4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2)));
+            databaseHandler.addItem((new Items(list.get(i), "wafel 5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0)));
+//            databaseHandler.addItem((new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0, 1)));
+//            databaseHandler.addItem((new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0, 0)));
+//            databaseHandler.addItem((new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0, 0)));
+//            databaseHandler.addItem((new Items("wafel9", "wafel9", -1, null, "wafel9", 1.0, null, -1, -1, 0, 0, 0)));
+//            databaseHandler.addItem((new Items("wafel10", "wafel10", -1, null, "wafel10", 1.0, null, -1, -1, 0, 0, 4)));
+
+        }
     }
 
     @Override
@@ -654,10 +677,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     class TestAdapter extends RecyclerView.Adapter<CViewHolder> {
         Context context;
-        List<String> list;
+        List<Items> list;
 //DatabaseHandler db;
 
-        public TestAdapter(Context context, List<String> list) {
+        public TestAdapter(Context context, List<Items> list) {
             this.context = context;
             this.list = list;
 //        db=new DatabaseHandler(this.context);
@@ -672,7 +695,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         @Override
         public void onBindViewHolder(@NonNull final CViewHolder cViewHolder, final int i) {
-            cViewHolder.categoryName.setText(list.get(i));
+            cViewHolder.categoryName.setText(list.get(i).getCategoryName());
 //            cViewHolder.layMain.setId(i);
 //        cViewHolder.categoryName.setText(list.get(i).getCategoryName());
 //            cViewHolder.categoryImage.setBackgroundResource(getImage(pic.get(i)));
@@ -685,7 +708,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                     Log.e("item ...", "i" + v.getId() + "-->" + i + "===>" + list.get(i));
 
                     Intent itemIntent = new Intent(context, ItemActivaty.class);
-                    itemIntent.putExtra("categoryName", list.get(i));
+                    itemIntent.putExtra("categoryName", list.get(i).getCategoryName());
                     itemIntent.putExtra("catPic", pic.get(i));
                     context.startActivity(itemIntent);
                     SettingOrder.indexCat = i;
@@ -1150,6 +1173,10 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
                             break;
                         case 4:
                             BranchesDialog();
+                            break;
+                        case 5:
+                            Intent addNewIntent=new Intent(CategoryActivity.this, AddNewActivity.class);
+                            startActivity(addNewIntent);
                             break;
                     }
 

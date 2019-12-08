@@ -3,7 +3,6 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyC_FdHM0UTVEEbUo8-Wrqh18_a6pUNEBz8</string>
 
 
-
     <string name="menu">Menu...</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
