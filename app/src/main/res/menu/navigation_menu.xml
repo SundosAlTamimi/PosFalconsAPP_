@@ -17,6 +17,8 @@
             android:id="@+id/menu_transfer_points"
             android:icon="@drawable/ic_transfer_white_24dp"
             android:title="Transfer Points" />
+
+
         </menu>
     </item>
 
@@ -51,6 +53,22 @@
             android:icon="@drawable/ic_developers_white_24dp"
             android:title="App Developers" />
 
+
     </menu></item>
+
+    <item android:title="Report">
+        <menu>
+
+            <item
+                android:id="@+id/detail"
+                android:icon="@drawable/ic_developers_white_24dp"
+                android:title="Detail Report" />
+
+            <item
+                android:id="@+id/report"
+                android:icon="@drawable/ic_developers_white_24dp"
+                android:title="cash Report" />
+
+        </menu></item>
 
 </menu>

@@ -56,6 +56,9 @@
             android:name=".category.ItemActivaty"
             android:screenOrientation="sensorPortrait" />
         <activity
+            android:name=".ReportActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
             android:name=".LoginActivity"
             android:screenOrientation="sensorPortrait"
             android:windowSoftInputMode="stateAlwaysHidden">

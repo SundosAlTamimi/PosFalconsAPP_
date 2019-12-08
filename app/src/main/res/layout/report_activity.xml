@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/purple_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/gg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/alpha_frame"
+            app:cardBackgroundColor="@color/black_light"
+            app:cardCornerRadius="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/category_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Report"
+                    android:textAllCaps="false"
+                    android:textColor="@color/purple"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/purple" />
+
+                <TextView
+                    android:id="@+id/textView35"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="cursive"
+                    android:text="Cash Report"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/alpha_purple2"
+                    android:textSize="35sp" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="@color/black_light"
+            app:cardCornerRadius="30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textView38"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Day"
+                    android:textColor="@color/purple"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="3/11/1995"
+                    android:textColor="@color/purple"
+                    android:textSize="30sp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    app:cardBackgroundColor="@color/black_light"
+                    app:cardCornerRadius="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/btn_background"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:id="@+id/textView33a21"
+                                    android:layout_width="150dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="total befor tax"
+                                    android:textColor="@color/layer2"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:id="@+id/totalBeforeTax"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="200"
+                                    android:textColor="@color/layer2"
+                                    android:textSize="20sp" />
+                            </TableRow>
+
+                        </TableLayout>
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/btn_background"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:id="@+id/textView33a1"
+                                    android:layout_width="150dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="total tax"
+                                    android:textColor="@color/layer2"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:id="@+id/totalTax"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="200"
+                                    android:textColor="@color/layer2"
+                                    android:textSize="20sp" />
+                            </TableRow>
+
+                        </TableLayout>
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/btn_background"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:id="@+id/textView331"
+                                    android:layout_width="150dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Total"
+                                    android:textColor="@color/layer2"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:id="@+id/total"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="200"
+                                    android:textColor="@color/layer2"
+                                    android:textSize="20sp" />
+                            </TableRow>
+
+                        </TableLayout>
+
+                        <TextView
+                            android:id="@+id/textView34"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:gravity="bottom"
+                            android:text="Chart By hour"
+                            android:textColor="@color/alpha_purple2"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="20dp">
+
+
+                            <com.github.mikephil.charting.charts.BarChart
+                                android:id="@+id/barchart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <!--<ImageView-->
+                            <!--android:id="@+id/imageView14"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--app:srcCompat="@drawable/pie" />-->
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    app:cardBackgroundColor="@color/black_light"
+                    app:cardCornerRadius="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/btn_background"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:id="@+id/textView33"
+                                    android:layout_width="157dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Discount"
+                                    android:textColor="@color/layer2"
+                                    android:textSize="30sp" />
+
+                                <TextView
+                                    android:id="@+id/textView37"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="200"
+                                    android:textColor="@color/layer2"
+                                    android:textSize="25sp" />
+                            </TableRow>
+
+                        </TableLayout>
+
+                        <TextView
+                            android:id="@+id/textView36"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:gravity="bottom"
+                            android:text="Chart By hour"
+                            android:textColor="@color/alpha_purple2"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/piechart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                            <!--<ImageView-->
+                            <!--android:id="@+id/imageView4"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--app:srcCompat="@drawable/pie" />-->
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</LinearLayout>
