@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -78,13 +80,12 @@ import static com.falconssoft.app_pos.models.ShareValues.senderPassword;
 
 public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    Intent  callIntent;
+    Intent callIntent;
     private TextView english, arabic, emailMessage;
     private Button send, makeOrder;
     private ImageButton facebook, twitter, instagram, whatsApp;
-    ImageView barcode,orderList;
-    ArrayList <String>picforbar,pic2;
-    ArrayList<String> branches_list;
+    ImageView barcode, orderList;
+    ArrayList<String> picforbar, pic2, branches_list;
 
     //    private TextView UserNameText;
     private LinearLayout swipeRefresh;
@@ -102,23 +103,23 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     boolean isPay = false;
     CustomerInformation customerInformation;
     String phoneNo;
-   double  points = 0;
+    double points = 0;
 
-   private  LinearLayoutManager linearLayoutManager;
-   private  CarouselLayoutManager layoutManagerd;
-   private List<Items> viewCaterogyList = new ArrayList<>();
+    private LinearLayoutManager linearLayoutManager;
+    private CarouselLayoutManager layoutManagerd;
+    private List<Items> viewCaterogyList = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_listview);
 
         databaseHandler = new DatabaseHandler(CategoryActivity.this);
-        picforbar= new ArrayList<>();
+        picforbar = new ArrayList<>();
         callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:0797788880"));
-        orderList=(ImageView) findViewById(R.id.orderlist);
-        pic2= new ArrayList<>();
-        branches_list=new ArrayList<>();
+        orderList = (ImageView) findViewById(R.id.orderlist);
+        pic2 = new ArrayList<>();
+        branches_list = new ArrayList<>();
         branches_list.add("Branch Resturant 1");
         branches_list.add("Branch Resturant 2");
         branches_list.add("Branch Resturant 3");
@@ -144,15 +145,15 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         mTopToolbar = (Toolbar) findViewById(R.id.category_toolbar);
         drawerLayout = findViewById(R.id.category_drawer);
         navigationView = findViewById(R.id.category_navigation);
-        barcode= findViewById(R.id.barcodes);
-        customerInformation=new CustomerInformation();
+        barcode = findViewById(R.id.barcodes);
+        customerInformation = new CustomerInformation();
         makeOrder.setVisibility(View.GONE);
-        if(databaseHandler.getAllInformation().size()!=0){
-            customerInformation=databaseHandler.getAllInformation().get(0);
+        if (databaseHandler.getAllInformation().size() != 0) {
+            customerInformation = databaseHandler.getAllInformation().get(0);
 
         }
 
-        phoneNo=customerInformation.getPhoneNo();
+        phoneNo = customerInformation.getPhoneNo();
 
 
         setSupportActionBar(mTopToolbar);
@@ -231,7 +232,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         //????????????????????????????????????????????????????????????????????????????
 
-       layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, true);
+        layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, true);
         recyclerViews = (RecyclerView) findViewById(R.id.res);
         recyclerViews.setLayoutManager(layoutManagerd);
         recyclerViews.setHasFixedSize(true);
@@ -246,9 +247,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
 //        databaseHandler.deleteAllItems();
 //        fillCategory();
-         viewCaterogyList = databaseHandler.getAllCategory();
+        viewCaterogyList = databaseHandler.getAllCategory();
 
-    //        pic.add("");
+        //        pic.add("");
         pic.add("ice_cream_");
         pic.add("fraze_");
         pic.add("ice_cream_sundae");
@@ -331,7 +332,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //        });
     }
 
-    void fillCategory(){
+    void fillCategory() {
         list.add("Barbecue");
         list.add("Chips");
         list.add("Fish finger");
@@ -344,8 +345,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         list.add("Chicken Zinger");
 
 
-        for (int i = 0; i<10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
 //            itemList.clear();
             databaseHandler.addItem((new Items(list.get(i), "wafel 1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0)));
             databaseHandler.addItem((new Items(list.get(i), "wafel 2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1)));
@@ -477,7 +477,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.setContentView(R.layout.my_order_dialog);
         dialog.setCanceledOnTouchOutside(true);
 
-        listOfOrder=databaseHandler.getAllOrder();
+        listOfOrder = databaseHandler.getAllOrder();
 
         final LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(this);
@@ -492,6 +492,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     }
 
     TextView textView_qty, point_text, total_price_text;
+
     public void orderReciptDialog() {
         final Dialog dialog = new Dialog(CategoryActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -509,7 +510,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //        TextView textView_qty, point_text, total_price_text;
         ImageView cancel_image;
         Button cash_button;
-        double qty = 0, pric = 0,order_point=0;
+        double qty = 0, pric = 0, order_point = 0;
         textView_qty = dialog.findViewById(R.id.textView_qty);
         point_text = dialog.findViewById(R.id.textView_point);
         total_price_text = dialog.findViewById(R.id.textView_total);
@@ -529,7 +530,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         }
 
-        points=order_point;
+        points = order_point;
         textView_qty.setText(qty + "");
         point_text.setText(points + "");
         total_price_text.setText(pric + "");
@@ -541,7 +542,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.cash_pay:
-                    textView_qty.setText( "");
+                    textView_qty.setText("");
                     point_text.setText("");
                     total_price_text.setText("");
                     reciveReciptMony_Cash();
@@ -613,10 +614,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                         recived = Double.parseDouble(s + "");
 
                         if (recived >= finalPric) {
-                            isPay=true;
+                            isPay = true;
                             remaining_money.setText((recived - finalPric) + "");
                         } else {
-                            isPay=false;
+                            isPay = false;
                             remaining_money.setText("0");
 
                         }
@@ -636,11 +637,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isPay)
-                {
-                   double current_point= customerInformation.getPoint();
-                   customerInformation.setPoint(current_point+points);
-                    databaseHandler.updateCustomerPoint(phoneNo,points+current_point);
+                if (isPay) {
+                    double current_point = customerInformation.getPoint();
+                    customerInformation.setPoint(current_point + points);
+                    databaseHandler.updateCustomerPoint(phoneNo, points + current_point);
 
                 }
                 dialog_cash.dismiss();
@@ -739,7 +739,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.setContentView(R.layout.customer_register);
         dialog.setCanceledOnTouchOutside(true);
 
-        TextView cusName, cusno, email,point;
+        TextView cusName, cusno, email, point;
         ImageView barcode;
         ImageView cancel;
         String barcode_data = null;
@@ -767,7 +767,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 cusName.setText(customerInformations.get(0).getCustomerName());
                 cusno.setText(customerInformations.get(0).getPhoneNo());
                 email.setText(customerInformations.get(0).getEmail());
-                point.setText(""+customerInformations.get(0).getPoint());
+                point.setText("" + customerInformations.get(0).getPoint());
 
                 barcode_data = customerInformations.get(0).getPhoneNo();
                 try {
@@ -789,19 +789,18 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                     dialogDetail.setCancelable(false);
                     dialogDetail.setContentView(R.layout.detali);
                     dialogDetail.setCanceledOnTouchOutside(true);
-                    TextView noJD=(TextView)dialogDetail.findViewById(R.id.nojd);
-                    TextView nopoint=(TextView)dialogDetail.findViewById(R.id.nopoint);
+                    TextView noJD = (TextView) dialogDetail.findViewById(R.id.nojd);
+                    TextView nopoint = (TextView) dialogDetail.findViewById(R.id.nopoint);
 
-                    if( customerInformations.size()!=0){
-                        double NoJD=(customerInformations.get(0).getPoint())/10;
-                        nopoint.setText(customerInformations.get(0).getPoint()+" Point");
-                        noJD.setText(NoJD+" JD");
-                    }else {
+                    if (customerInformations.size() != 0) {
+                        double NoJD = (customerInformations.get(0).getPoint()) / 10;
+                        nopoint.setText(customerInformations.get(0).getPoint() + " Point");
+                        noJD.setText(NoJD + " JD");
+                    } else {
 
                         nopoint.setText("0.0 Point");
                         noJD.setText("0.0 JD");
                     }
-
 
 
                     dialogDetail.show();
@@ -989,8 +988,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             cViewHolder.vocherNo.setText(list.get(i).getVhNo());
 //            cViewHolder.itemImage.setBackgroundResource(getImage(list.get(i).getDescription()));
             cViewHolder.Qty.setText("" + list.get(i).getQty());
-            cViewHolder.price.setText("" + list.get(i).getTotal()+" JD ");
-            cViewHolder.point.setText("" + list.get(i).getNoPoint()+" Point ");
+            cViewHolder.price.setText("" + list.get(i).getTotal() + " JD ");
+            cViewHolder.point.setText("" + list.get(i).getNoPoint() + " Point ");
 
 
 //
@@ -1052,7 +1051,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     }
 
 
-//    void profileDialog() {
+    //    void profileDialog() {
 //
 //        Bitmap encodeAsBitmap (String contents, BarcodeFormat format,int img_width, int img_height) throws
 //        WriterException {
@@ -1102,19 +1101,19 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //
 //
 //    }
-static class CViewHolderForbar extends RecyclerView.ViewHolder {
+    static class CViewHolderForbar extends RecyclerView.ViewHolder {
 
-    TextView ItemName;
-    ImageView itemImage;
-    LinearLayout layBar;
+        TextView ItemName;
+        ImageView itemImage;
+        LinearLayout layBar;
 
-    public CViewHolderForbar(@NonNull View itemView) {
-        super(itemView);
-        ItemName = itemView.findViewById(R.id.textbar);
-        layBar=itemView.findViewById(R.id.layBar);
-        itemImage = itemView.findViewById(R.id.imgbar);
+        public CViewHolderForbar(@NonNull View itemView) {
+            super(itemView);
+            ItemName = itemView.findViewById(R.id.textbar);
+            layBar = itemView.findViewById(R.id.layBar);
+            itemImage = itemView.findViewById(R.id.imgbar);
+        }
     }
-}
 
     class TestAdapterForbar extends RecyclerView.Adapter<CategoryActivity.CViewHolderForbar> {
         Context context;
@@ -1141,25 +1140,25 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
             cViewHolder.itemImage.setBackgroundResource(getImage(pic2.get(i)));
 //            cViewHolder.Qty.setText("" + list.get(i).getQTY());
 //            cViewHolder.price.setText("" + list.get(i).getPrice());
-            cViewHolder.layBar.setTag(""+i);
+            cViewHolder.layBar.setTag("" + i);
 
             cViewHolder.layBar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(context, "id = "+v.getTag(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
 
-                    switch (Integer.parseInt(v.getTag().toString())){
+                    switch (Integer.parseInt(v.getTag().toString())) {
                         case 0:
-                            Intent intents=new Intent(CategoryActivity.this, RewardActivity.class);
+                            Intent intents = new Intent(CategoryActivity.this, RewardActivity.class);
                             startActivity(intents);
                             break;
                         case 1:
-                            Intent intentN=new Intent(CategoryActivity.this, NotificationActivity.class);
+                            Intent intentN = new Intent(CategoryActivity.this, NotificationActivity.class);
                             startActivity(intentN);
                             break;
                         case 2:
-                            Intent intent=new Intent(CategoryActivity.this, PointViewActivity.class);
+                            Intent intent = new Intent(CategoryActivity.this, PointViewActivity.class);
                             startActivity(intent);
                             break;
                         case 3:
@@ -1169,7 +1168,7 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
                             BranchesDialog();
                             break;
                         case 5:
-                            Intent addNewIntent=new Intent(CategoryActivity.this, AddNewActivity.class);
+                            Intent addNewIntent = new Intent(CategoryActivity.this, AddNewActivity.class);
                             startActivity(addNewIntent);
                             break;
                     }
@@ -1203,14 +1202,12 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
         final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recycler_branches);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter_branch adapterBranch=new adapter_branch(this,branches_list);
+        adapter_branch adapterBranch = new adapter_branch(this, branches_list);
 
         recyclerView.setAdapter(adapterBranch);
 
 
         dialog.show();
-
-
 
 
     }
@@ -1303,6 +1300,7 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
         }
 
     }
+
     private static final int REQUEST_PHONE_CALL = 1;
 
 
@@ -1313,10 +1311,8 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
             case REQUEST_PHONE_CALL: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                  startActivity(callIntent);
-                }
-                else
-                {
+                    startActivity(callIntent);
+                } else {
                     Toast.makeText(CategoryActivity.this, "check permission call ", Toast.LENGTH_SHORT).show();
 
                 }
@@ -1326,6 +1322,15 @@ static class CViewHolderForbar extends RecyclerView.ViewHolder {
     }
 
 
-
+    public Bitmap StringToBitMap(String image) {
+        try {
+            byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
 
 }
