@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/purple</item>
         <item name="colorPrimaryDark">@color/purple</item>
 
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/purple</item>
         <item name="actionModeCloseButtonStyle">@style/NoCloseButtonActionModeStyle</item>
 
     </style>

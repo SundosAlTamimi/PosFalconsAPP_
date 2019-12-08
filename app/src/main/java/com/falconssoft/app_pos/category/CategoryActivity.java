@@ -47,6 +47,7 @@ import com.falconssoft.app_pos.LocaleAppUtils;
 import com.falconssoft.app_pos.NotificationActivity;
 import com.falconssoft.app_pos.PointViewActivity;
 import com.falconssoft.app_pos.R;
+import com.falconssoft.app_pos.ReportActivity;
 import com.falconssoft.app_pos.RewardActivity;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.addnew.AddNewActivity;
@@ -408,6 +409,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.app_developers_dialog_layout);
                 dialog.show();
+                break;
+
+            case R.id.report:
+               Intent reportIntent=new Intent(CategoryActivity.this, ReportActivity.class);
+               startActivity(reportIntent);
                 break;
 
         }
