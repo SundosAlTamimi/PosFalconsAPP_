@@ -86,15 +86,13 @@ public class adapter_branch extends RecyclerView.Adapter<adapter_branch.ViewHold
     }
 
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, adress, time_work,  lat, longtu;
-        ImageView location,tele;
+        TextView name, adress, time_work, lat, longtu;
+        ImageView location, tele;
 
         public ViewHolder(View itemView) {
             super(itemView);
-//
             name = itemView.findViewById(R.id.textView_branchName);
             adress = itemView.findViewById(R.id.textView_adress);
             time_work = itemView.findViewById(R.id.textView_workTime);
@@ -107,31 +105,7 @@ public class adapter_branch extends RecyclerView.Adapter<adapter_branch.ViewHold
         }
     }
 
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,
-//                                           String permissions[], int[] grantResults) {
-//        switch (requestCode) {
-//            case REQUEST_PHONE_CALL: {
-//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//                    context.startActivity(callIntent);
-//                }
-//                else
-//                {
-//                    Toast.makeText(context, "check permission call ", Toast.LENGTH_SHORT).show();
-//
-//                }
-//                return;
-//            }
-//        }
-//    }
-
 }
-
-
-
-//DatabaseHandler db;
 
 
 
