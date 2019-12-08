@@ -318,6 +318,43 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return items;
     }
 
+    public List<Items> getAllCategory() {
+        List<Items> items = new ArrayList<>();
+
+//        String selectQuery = "SELECT DISTINCT CATEGORY_NAME FROM " + ITEMS_TABLE;
+        String selectQuery = "SELECT * FROM ITEMS GROUP BY CATEGORY_NAME ";
+
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Items item = new Items();
+                item.setCategoryName(cursor.getString(0));
+                item.setItemName(cursor.getString(1));
+                item.setItemBarcode(Integer.parseInt(cursor.getString(2)));
+                item.setPrice(Double.parseDouble(cursor.getString(3)));
+                item.setDescription(cursor.getString(4));
+
+                if (cursor.getBlob(5).length == 0)
+                    item.setItemPic(null);
+                else
+                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
+
+
+                if (cursor.getBlob(6).length == 0)
+                    item.setCategoryPic(null);
+                else
+                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
+
+                item.setPoint(cursor.getInt(7));
+
+                items.add(item);
+            } while (cursor.moveToNext());
+        }
+        return items;
+    }
+
     public List<Users> getAllUSER() {
         List<Users> usersList = new ArrayList<Users>();
 
@@ -337,6 +374,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return usersList;
     }
+
     public List<NotificationModel> getAllNotification() {
         List<NotificationModel> notificationModels = new ArrayList<NotificationModel>();
 
@@ -436,6 +474,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM " + USERS_TABLE + ";");
         db.close();
     }
+
+    public void deleteAllItems() {
+        db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + ITEMS_TABLE + ";");
+        db.close();
+    }
+
 
     public void deleteAllInformation() {
         db = this.getWritableDatabase();

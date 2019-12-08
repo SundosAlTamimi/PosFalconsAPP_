@@ -116,6 +116,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/purple_alpha"
+        android:theme="@style/AppTheme.NavigationView"
         app:headerLayout="@layout/nav_header_layout"
         app:itemIconPadding="10dp"
         app:itemIconTint="@color/black_light_2"
