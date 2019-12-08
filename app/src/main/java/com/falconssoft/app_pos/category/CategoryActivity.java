@@ -87,7 +87,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private List<String> list = new ArrayList<>();
     private List<String> pic = new ArrayList<>();
     DatabaseHandler databaseHandler;
-    boolean isPay=false;
+    boolean isPay = false;
     CustomerInformation customerInformation;
     String phoneNo;
    double  points = 0;

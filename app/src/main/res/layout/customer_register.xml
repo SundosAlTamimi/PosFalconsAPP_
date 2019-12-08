@@ -65,7 +65,7 @@
                         android:ems="10"
                         android:gravity="center"
                         android:inputType="textPersonName"
-                        android:textColor="@color/layer2"
+                        android:textColor="@color/purple"
                         android:textSize="20sp" />
                 </TableRow>
 
@@ -96,7 +96,7 @@
                         android:ems="10"
                         android:gravity="center"
                         android:inputType="textPersonName"
-                        android:textColor="@color/layer2"
+                        android:textColor="@color/purple"
                         android:textSize="20sp" />
                 </TableRow>
 
@@ -127,7 +127,7 @@
                         android:ems="10"
                         android:gravity="center"
                         android:inputType="textPersonName"
-                        android:textColor="@color/layer2"
+                        android:textColor="@color/purple"
                         android:textSize="20sp" />
                 </TableRow>
 

@@ -34,4 +34,7 @@
 
     <style name="MyAppTheme" parent="@style/AppTheme2" />
 
+    <style name="AppTheme.NavigationView">
+        <item name="android:textColorSecondary">#FFFFFF</item>
+    </style>
 </resources>
