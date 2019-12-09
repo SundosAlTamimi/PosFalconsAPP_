@@ -188,25 +188,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
 
-        byte[] byteImage = {};
-        byte[] byteCatImage = {};
-        if (items.getItemPic() != null) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            items.getItemPic().compress(Bitmap.CompressFormat.PNG, 0, stream);
-            byteImage = stream.toByteArray();
-        }
-        if (items.getCategoryPic() != null) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            items.getCategoryPic().compress(Bitmap.CompressFormat.PNG, 0, stream);
-            byteCatImage = stream.toByteArray();
-        }
+//        byte[] byteImage = {};
+//        byte[] byteCatImage = {};
+//        if (items.getItemPic() != null) {
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            items.getItemPic().compress(Bitmap.CompressFormat.PNG, 0, stream);
+//            byteImage = stream.toByteArray();
+//        }
+//        if (items.getCategoryPic() != null) {
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            items.getCategoryPic().compress(Bitmap.CompressFormat.PNG, 0, stream);
+//            byteCatImage = stream.toByteArray();
+//        }
         values.put(CATEGORY_NAME, items.getCategoryName());
         values.put(ITEM_NAME, items.getItemName());
         values.put(ITEM_BARCODE, items.getItemBarcode());
         values.put(PRICE, items.getPrice());
         values.put(DESCRIPTION, items.getDescription());
-        values.put(ITEM_PICTURE, byteImage);
-        values.put(CATEGORY_PICTURE, byteCatImage);
+        values.put(ITEM_PICTURE, items.getItemPic());
+        values.put(CATEGORY_PICTURE, items.getCategoryPic());
         values.put(POINT,items.getPoint());
 
         db.insert(ITEMS_TABLE, null, values);
@@ -293,6 +293,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //////////////////////////////////////////////////////// GET ///////////////////////////////////////////////
 
     public List<Items> getAllItems() {
+
+//        CATEGORY_NAME = "CATEGORY_NAME";
+//        ITEM_NAME = "ITEM_NAME";
+//        ITEM_BARCODE = "ITEM_BARCODE";
+//        PRICE = "PRICE";
+//        DESCRIPTION = "DESCRIPTION";
+//        ITEM_PICTURE = "ITEM_PICTURE";
+//        CATEGORY_PICTURE = "CATEGORY_PICTURE";
+//        POINT ="POINT";
         List<Items> items = new ArrayList<Items>();
 
         String selectQuery = "SELECT  * FROM " + ITEMS_TABLE;
@@ -308,19 +317,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 item.setItemBarcode(Integer.parseInt(cursor.getString(2)));
                 item.setPrice(Double.parseDouble(cursor.getString(3)));
                 item.setDescription(cursor.getString(4));
-
-                if (cursor.getBlob(5).length == 0)
-                    item.setItemPic(null);
-                else
-                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
-
-
-                if (cursor.getBlob(6).length == 0)
-                    item.setCategoryPic(null);
-                else
-                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
-
+                item.setItemPic(cursor.getString(5));
+                item.setCategoryPic(cursor.getString(6));
                 item.setPoint(cursor.getInt(7));
+
+                items.add(item);
+//                if (cursor.getBlob(5).length == 0)
+//                    item.setItemPic(null);
+//                else
+//                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
+//
+//
+//                if (cursor.getBlob(6).length == 0)
+//                    item.setCategoryPic(null);
+//                else
+//                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
 
 //                if (cursor.getBlob(20).length == 0)
 //                    item.setPic(null);
@@ -328,9 +339,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //                    item.setPic(BitmapFactory.decodeByteArray(cursor.getBlob(20), 0, cursor.getBlob(20).length));
 
                 // Adding transaction to list
-
-
-                items.add(item);
             } while (cursor.moveToNext());
         }
         return items;
@@ -353,21 +361,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 item.setItemBarcode(Integer.parseInt(cursor.getString(2)));
                 item.setPrice(Double.parseDouble(cursor.getString(3)));
                 item.setDescription(cursor.getString(4));
-
-                if (cursor.getBlob(5).length == 0)
-                    item.setItemPic(null);
-                else
-                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
-
-
-                if (cursor.getBlob(6).length == 0)
-                    item.setCategoryPic(null);
-                else
-                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
-
+                item.setItemPic(cursor.getString(5));
+                item.setCategoryPic(cursor.getString(6));
                 item.setPoint(cursor.getInt(7));
 
                 items.add(item);
+//                if (cursor.getBlob(5).length == 0)
+//                    item.setItemPic(null);
+//                else
+//                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
+//
+//
+//                if (cursor.getBlob(6).length == 0)
+//                    item.setCategoryPic(null);
+//                else
+//                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
             } while (cursor.moveToNext());
         }
         return items;
