@@ -16,10 +16,10 @@ public class AddNewViewHolder extends RecyclerView.ViewHolder {
     public AddNewViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        name = itemView.findViewById(R.id.add_new_name_row);
-        categoryImage = itemView.findViewById(R.id.add_new_image_row);
-        newItem = itemView.findViewById(R.id.add_new_item_row);
-        deleteCategory = itemView.findViewById(R.id.add_new_delete_row);
+        name = itemView.findViewById(R.id.view_name_row);
+        categoryImage = itemView.findViewById(R.id.view_image_row);
+        newItem = itemView.findViewById(R.id.view_add_new_item_row);
+        deleteCategory = itemView.findViewById(R.id.view_add_new_delete_row);
 
     }
 }

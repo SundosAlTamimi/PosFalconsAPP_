@@ -75,6 +75,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATE_FOR_PAY = "DATE_FOR_PAY";
     private static final String QTY = "QTY";
     private static final String VOUCH_NO = "VOUCH_NO";
+
+    private static final String TOTAL_BEFORE_TAX = "TOTAL_BEFORE_TAX";
+    private static final String TOTAL_AFTER_TAX = "TOTAL_AFTER_TAX";
+    private static final String TAX_VALUE = "TAX_VALUE";
+    private static final String ITEM_NAME1 = "ITEM_NAME";
+    private static final String ITEM_BARCODE1 = "ITEM_BARCODE";
+    private static final String PRICE1 = "PRICE";
     // *******************************************************************************
     private static final String NOTIFICATION = "NOTIFICATION";
 
@@ -142,7 +149,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + TOTAL1 + " REAL,"
                 +  DATE_FOR_PAY+ " TEXT,"
                 +  QTY+ " REAL,"
-                +  VOUCH_NO+ " TEXT"
+                +  VOUCH_NO+ " TEXT ,"
+                +  TOTAL_BEFORE_TAX+ " REAL,"
+                +  TOTAL_AFTER_TAX+ " REAL,"
+                +  TAX_VALUE+ " REAL ,"
+                +  ITEM_NAME1+ " TEXT ,"
+                +  ITEM_BARCODE1+ " TEXT ,"
+                +  PRICE1+ " REAL"
                 + ")";
         db.execSQL(CREATE_ORDER_TABLE);
         // *******************************************************************************
@@ -175,25 +188,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
 
-        byte[] byteImage = {};
-        byte[] byteCatImage = {};
-        if (items.getItemPic() != null) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            items.getItemPic().compress(Bitmap.CompressFormat.PNG, 0, stream);
-            byteImage = stream.toByteArray();
-        }
-        if (items.getCategoryPic() != null) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            items.getCategoryPic().compress(Bitmap.CompressFormat.PNG, 0, stream);
-            byteCatImage = stream.toByteArray();
-        }
+//        byte[] byteImage = {};
+//        byte[] byteCatImage = {};
+//        if (items.getItemPic() != null) {
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            items.getItemPic().compress(Bitmap.CompressFormat.PNG, 0, stream);
+//            byteImage = stream.toByteArray();
+//        }
+//        if (items.getCategoryPic() != null) {
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            items.getCategoryPic().compress(Bitmap.CompressFormat.PNG, 0, stream);
+//            byteCatImage = stream.toByteArray();
+//        }
         values.put(CATEGORY_NAME, items.getCategoryName());
         values.put(ITEM_NAME, items.getItemName());
         values.put(ITEM_BARCODE, items.getItemBarcode());
         values.put(PRICE, items.getPrice());
         values.put(DESCRIPTION, items.getDescription());
-        values.put(ITEM_PICTURE, byteImage);
-        values.put(CATEGORY_PICTURE, byteCatImage);
+        values.put(ITEM_PICTURE, items.getItemPic());
+        values.put(CATEGORY_PICTURE, items.getCategoryPic());
         values.put(POINT,items.getPoint());
 
         db.insert(ITEMS_TABLE, null, values);
@@ -234,13 +247,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         values.put(CUSTOMER_NAME1,order.getCustomerName() );
         values.put(CustomerNo1, order.getCustomerNo());
-
         values.put(POINT_CUSTOMER1,order.getNoPoint() );
         values.put(TOTAL1, order.getTotal());
         values.put(DATE_FOR_PAY, order.getDate());
         values.put(QTY, order.getQty());
         values.put(VOUCH_NO, order.getVhNo());
+        values.put(TOTAL_BEFORE_TAX, order.getTotalBeforeTax());
+        values.put(TOTAL_AFTER_TAX, order.getTotalAfterTax());
+        values.put(TAX_VALUE, order.getTax());
+        values.put(ITEM_NAME1, order.getItemName());
 
+        values.put(ITEM_BARCODE1, order.getItemBarcode());
+        values.put(PRICE1, order.getPrice());
 
         db.insert(ORDER_PAY, null, values);
         db.close();
@@ -275,6 +293,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //////////////////////////////////////////////////////// GET ///////////////////////////////////////////////
 
     public List<Items> getAllItems() {
+
+//        CATEGORY_NAME = "CATEGORY_NAME";
+//        ITEM_NAME = "ITEM_NAME";
+//        ITEM_BARCODE = "ITEM_BARCODE";
+//        PRICE = "PRICE";
+//        DESCRIPTION = "DESCRIPTION";
+//        ITEM_PICTURE = "ITEM_PICTURE";
+//        CATEGORY_PICTURE = "CATEGORY_PICTURE";
+//        POINT ="POINT";
         List<Items> items = new ArrayList<Items>();
 
         String selectQuery = "SELECT  * FROM " + ITEMS_TABLE;
@@ -290,19 +317,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 item.setItemBarcode(Integer.parseInt(cursor.getString(2)));
                 item.setPrice(Double.parseDouble(cursor.getString(3)));
                 item.setDescription(cursor.getString(4));
-
-                if (cursor.getBlob(5).length == 0)
-                    item.setItemPic(null);
-                else
-                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
-
-
-                if (cursor.getBlob(6).length == 0)
-                    item.setCategoryPic(null);
-                else
-                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
-
+                item.setItemPic(cursor.getString(5));
+                item.setCategoryPic(cursor.getString(6));
                 item.setPoint(cursor.getInt(7));
+
+                items.add(item);
+//                if (cursor.getBlob(5).length == 0)
+//                    item.setItemPic(null);
+//                else
+//                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
+//
+//
+//                if (cursor.getBlob(6).length == 0)
+//                    item.setCategoryPic(null);
+//                else
+//                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
 
 //                if (cursor.getBlob(20).length == 0)
 //                    item.setPic(null);
@@ -310,9 +339,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //                    item.setPic(BitmapFactory.decodeByteArray(cursor.getBlob(20), 0, cursor.getBlob(20).length));
 
                 // Adding transaction to list
-
-
-                items.add(item);
             } while (cursor.moveToNext());
         }
         return items;
@@ -335,21 +361,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 item.setItemBarcode(Integer.parseInt(cursor.getString(2)));
                 item.setPrice(Double.parseDouble(cursor.getString(3)));
                 item.setDescription(cursor.getString(4));
-
-                if (cursor.getBlob(5).length == 0)
-                    item.setItemPic(null);
-                else
-                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
-
-
-                if (cursor.getBlob(6).length == 0)
-                    item.setCategoryPic(null);
-                else
-                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
-
+                item.setItemPic(cursor.getString(5));
+                item.setCategoryPic(cursor.getString(6));
                 item.setPoint(cursor.getInt(7));
 
                 items.add(item);
+//                if (cursor.getBlob(5).length == 0)
+//                    item.setItemPic(null);
+//                else
+//                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
+//
+//
+//                if (cursor.getBlob(6).length == 0)
+//                    item.setCategoryPic(null);
+//                else
+//                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
             } while (cursor.moveToNext());
         }
         return items;
@@ -416,12 +442,53 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 order.setDate(cursor.getString(4));
                 order.setQty(cursor.getDouble(5));
                 order.setVhNo(cursor.getString(6));
+                order.setTotalBeforeTax(cursor.getDouble(7));
+                order.setTotalAfterTax(cursor.getDouble(8));
+                order.setTax(cursor.getDouble(9));
+                order.setItemName(cursor.getString(10));
+                order.setItemBarcode(cursor.getString(11));
+                order.setPrice(cursor.getDouble(12));
 
                 orderArrayList.add(order);
             } while (cursor.moveToNext());
         }
         return orderArrayList;
     }
+
+    public List<Order> getOrderByDate(String Date) {
+        List<Order> orderArrayList = new ArrayList<Order>();
+
+        String selectQuery = "SELECT  * FROM " + ORDER_PAY+" where DATE_FOR_PAY = '"+Date+"'";
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order();
+
+                order.setCustomerName(cursor.getString(0));
+                order.setCustomerNo(cursor.getString(1));
+                order.setNoPoint(cursor.getDouble(2));
+                order.setTotal(cursor.getDouble(3));
+                order.setDate(cursor.getString(4));
+                order.setQty(cursor.getDouble(5));
+                order.setVhNo(cursor.getString(6));
+                order.setTotalBeforeTax(cursor.getDouble(7));
+                order.setTotalAfterTax(cursor.getDouble(8));
+                order.setTax(cursor.getDouble(9));
+                order.setItemName(cursor.getString(10));
+                order.setItemBarcode(cursor.getString(11));
+                order.setPrice(cursor.getDouble(12));
+
+
+                orderArrayList.add(order);
+            } while (cursor.moveToNext());
+        }
+        return orderArrayList;
+    }
+
+
+
 
 
     public List<CustomerInformation> getAllInformation() {

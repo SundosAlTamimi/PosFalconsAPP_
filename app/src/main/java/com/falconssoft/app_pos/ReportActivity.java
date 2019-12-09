@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.falconssoft.app_pos.models.Order;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
@@ -22,14 +24,17 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class ReportActivity extends AppCompatActivity {
     PieChart pieChart;
     BarChart chart;
-    TextView date;
+    TextView date,totalCash;
+    Button Done;
     private Calendar myCalendar;
-
+    DatabaseHandler databaseHandler;
+    List<Order> orderList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +44,15 @@ public class ReportActivity extends AppCompatActivity {
         chart = findViewById(R.id.barchart);
         pieChart = findViewById(R.id.piechart);
         date = findViewById(R.id.date);
+        Done=findViewById(R.id.done);
+        totalCash=findViewById(R.id.total);
+
         myCalendar = Calendar.getInstance();
+        String myFormat = "dd-MM-yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        date.setText(sdf.format(myCalendar.getTime()));
+        databaseHandler=new DatabaseHandler(ReportActivity.this);
+         orderList=new ArrayList<>();
         final DatePickerDialog.OnDateSetListener dater = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -66,7 +79,24 @@ public class ReportActivity extends AppCompatActivity {
             }
         });
 
-        barChart();
+        Done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            if(!date.getText().toString().equals("")){
+
+               String dateT =date.getText().toString();
+
+               orderList=databaseHandler.getOrderByDate(dateT);
+               double total =0;
+               for(int i=0;i<orderList.size();i++){
+                   total=+orderList.get(i).getTotal();
+               }
+                totalCash.setText(""+total);
+            }
+            }
+        });
+
+        //barChart();
         pieChart();
     }
 
@@ -104,7 +134,7 @@ public class ReportActivity extends AppCompatActivity {
         BarDataSet bardataset = new BarDataSet(NoOfEmp, "No Of Employee");
         chart.animateY(5000);
         BarData data = new BarData(bardataset);
-        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        bardataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
         chart.setData(data);
 
     }
@@ -138,8 +168,8 @@ public class ReportActivity extends AppCompatActivity {
         year2.add("2017");
         PieData data2 = new PieData(dataSet);
         pieChart.setData(data2);
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        pieChart.animateXY(5000, 5000);
+        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        pieChart.animateXY(1500, 1500);
     }
 
 }

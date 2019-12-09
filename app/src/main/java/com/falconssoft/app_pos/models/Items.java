@@ -7,10 +7,10 @@ public class Items {
     private String categoryName;
     private String itemName;
     private int itemBarcode;
-    private Bitmap categoryPic;
+    private String categoryPic;
     private String description;
     private double price;
-    private Bitmap ItemPic;
+    private String ItemPic;
     private int indexOfItem;
     private int indexOfCat;
     private double QTY;
@@ -36,7 +36,7 @@ public class Items {
 //        this.point = point;
 //    }
 
-    public Items(String categoryName, String itemName, int itemBarcode, Bitmap categoryPic, String description, double price, Bitmap itemPic, int indexOfItem, int indexOfCat, double Qty, double Total,int  point) {
+    public Items(String categoryName, String itemName, int itemBarcode, String categoryPic, String description, double price, String itemPic, int indexOfItem, int indexOfCat, double Qty, double Total,int  point) {
         this.categoryName = categoryName;
         this.itemName = itemName;
         this.itemBarcode = itemBarcode;
@@ -83,11 +83,11 @@ public class Items {
         this.itemBarcode = itemBarcode;
     }
 
-    public Bitmap getCategoryPic() {
+    public String getCategoryPic() {
         return categoryPic;
     }
 
-    public void setCategoryPic(Bitmap categoryPic) {
+    public void setCategoryPic(String categoryPic) {
         this.categoryPic = categoryPic;
     }
 
@@ -107,11 +107,11 @@ public class Items {
         this.price = price;
     }
 
-    public Bitmap getItemPic() {
+    public String getItemPic() {
         return ItemPic;
     }
 
-    public void setItemPic(Bitmap itemPic) {
+    public void setItemPic(String itemPic) {
         ItemPic = itemPic;
     }
 

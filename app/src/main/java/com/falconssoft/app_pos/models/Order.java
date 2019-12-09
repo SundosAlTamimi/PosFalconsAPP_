@@ -9,19 +9,32 @@ public class Order {
     private double NoPoint;
     private double total;
     private String Date;
+    private double totalBeforeTax;
+    private double totalAfterTax;
+    private double Tax;
+    private String itemName;
+    private String itemBarcode;
+    private double price;
 
     public Order() {
 
     }
 
-    public Order(String vhNo, String customerName, String customerNo, double qty, double noPoint, double total, String date) {
-        this.VhNo = vhNo;
+    public Order(String vhNo, String customerName, String customerNo, double qty, double noPoint, double total, String date,
+                 double totalBeforeTax, double totalAfterTax, double tax, String itemName, String itemBarcode, double price) {
+        VhNo = vhNo;
         this.customerName = customerName;
         this.customerNo = customerNo;
-        this.Qty = qty;
-        this.NoPoint = noPoint;
+        Qty = qty;
+        NoPoint = noPoint;
         this.total = total;
-        this.Date = date;
+        Date = date;
+        this.totalBeforeTax = totalBeforeTax;
+        this.totalAfterTax = totalAfterTax;
+        Tax = tax;
+        this.itemName = itemName;
+        this.itemBarcode = itemBarcode;
+        this.price = price;
     }
 
     public String getVhNo() {
@@ -78,5 +91,53 @@ public class Order {
 
     public void setDate(String date) {
         Date = date;
+    }
+
+    public double getTotalBeforeTax() {
+        return totalBeforeTax;
+    }
+
+    public void setTotalBeforeTax(double totalBeforeTax) {
+        this.totalBeforeTax = totalBeforeTax;
+    }
+
+    public double getTotalAfterTax() {
+        return totalAfterTax;
+    }
+
+    public void setTotalAfterTax(double totalAfterTax) {
+        this.totalAfterTax = totalAfterTax;
+    }
+
+    public double getTax() {
+        return Tax;
+    }
+
+    public void setTax(double tax) {
+        Tax = tax;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getItemBarcode() {
+        return itemBarcode;
+    }
+
+    public void setItemBarcode(String itemBarcode) {
+        this.itemBarcode = itemBarcode;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
