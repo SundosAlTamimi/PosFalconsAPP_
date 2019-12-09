@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.R;
@@ -37,12 +39,12 @@ public class AddNewActivity extends AppCompatActivity implements View.OnClickLis
     private RecyclerView recyclerView;
     private DatabaseHandler databaseHandler;
     private List<Items> categoryItemsList = new ArrayList<>();
-    private ImageView saveNewCategory, takePhoto, categoryImage;
+    private ImageView saveNewCategory, takePhoto;
     private EditText addCategoryName;
     private AddNewAdapter adapter;
     private final int PICK_IMAGE = 10;
     private Bitmap bitmap = null;
-
+    private TextView categoryImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +108,7 @@ public class AddNewActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 addCategoryName.setText("");
-                categoryImage.setImageResource(R.drawable.ice_4);
+                categoryImage.setBackground(getResources().getDrawable(R.drawable.ice_4));
                 bitmap = null;
                 break;
         }
@@ -123,7 +125,9 @@ public class AddNewActivity extends AppCompatActivity implements View.OnClickLis
                 //Get image
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(AddNewActivity.this.getContentResolver(), uriImage);//extras.getParcelable("data");
-                    categoryImage.setImageURI(uriImage);
+                    Drawable drawable = new BitmapDrawable(getResources(),bitmap);
+                    categoryImage.setBackground(drawable);
+//                    categoryImage.setImageURI(uriImage);
 
                 } catch (IOException e) {
                     e.printStackTrace();
