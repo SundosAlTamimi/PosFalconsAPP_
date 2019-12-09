@@ -53,6 +53,7 @@ import com.falconssoft.app_pos.ReportActivity;
 import com.falconssoft.app_pos.RewardActivity;
 import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.SoldReportActivity;
+import com.falconssoft.app_pos.add_item;
 import com.falconssoft.app_pos.addnew.AddNewActivity;
 import com.falconssoft.app_pos.email.SendMailTask;
 import com.falconssoft.app_pos.itemsReciptAdapter;
@@ -279,6 +280,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
             }
         });
+
+
 //        pic.add("");
 
         // vertical and cycle layout
@@ -1194,7 +1197,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                             BarcodeDialog();
                             break;
                         case 4:
-                            BranchesDialog();
+//                            BranchesDialog();
+                            Intent additem = new Intent(CategoryActivity.this, add_item.class);
+                            startActivity(additem);
                             break;
                         case 5:
                             Intent addNewIntent = new Intent(CategoryActivity.this, AddNewActivity.class);
@@ -1340,8 +1345,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             case REQUEST_PHONE_CALL: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    startActivity(callIntent);
-                } else {
+                  startActivity(callIntent);
+                }
+                else
+                {
                     Toast.makeText(CategoryActivity.this, "check permission call ", Toast.LENGTH_SHORT).show();
 
                 }

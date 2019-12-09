@@ -11,6 +11,7 @@
     <string name="group_name">Group Name</string>
     <string name="description">Description</string>
     <string name="price">50$</string>
+    <string name="price_item">Price</string>
     <string name="ar">عربي</string>
     <string name="en">En</string>
     <string name="category">Category ...</string>
@@ -43,5 +44,7 @@
     <string name="cancel">Cancel</string>
     <string name="receved">Receved</string>
     <string name="remaining">Remaining</string>
+    <string name="qty">Qty</string>
+    <string name="tax">Tax</string>
 
 </resources>

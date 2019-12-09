@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/purple_background"
+       >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white_two"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/add_new_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:padding="5dp"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Dark"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="cursive"
+                    android:text="Add New"
+                    android:textColor="@color/purple"
+                    android:textSize="40sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:padding="5dp">
+
+                    <!--            <ImageView-->
+                    <!--                android:id="@+id/add_new_button"-->
+                    <!--                android:layout_width="50dp"-->
+                    <!--                android:layout_height="40dp"-->
+                    <!--                android:layout_marginRight="10dp"-->
+                    <!--                app:srcCompat="@drawable/add_row" />-->
+
+                </LinearLayout>
+
+            </android.support.v7.widget.Toolbar>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/purple"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="40dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_background"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+
+                        android:orientation="horizontal">
+
+
+
+
+                        <ImageButton
+                            android:id="@+id/item_imge"
+                            android:layout_width="100dp"
+                            android:layout_height="60dp"
+                            android:background="@drawable/ic_add_a_photo_black_24dp" />
+
+
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent">
+
+
+                            <TextView
+                                android:id="@+id/item_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:fontFamily="cursive"
+                                android:text="Iteam Name :"
+                                android:textAlignment="center"
+                                android:textAllCaps="false"
+                                android:layout_weight="1"
+                                android:textColor="@color/white_dark"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                            <EditText
+                                android:id="@+id/item_name_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:textColorHint="@color/gray2"
+                                android:layout_weight="1"
+                                android:fontFamily="cursive"
+                                android:textAlignment="center"
+                                android:textColor="@color/white_dark"
+                                android:background="@drawable/edit_back"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent">
+
+
+                            <TextView
+                                android:id="@+id/textview_pointitem"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:fontFamily="cursive"
+                                android:text="@string/description"
+
+                                android:textAlignment="center"
+                                android:textAllCaps="false"
+                                android:layout_weight="1"
+                                android:textColor="@color/white_dark"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                            <EditText
+                                android:id="@+id/desicription"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:textColorHint="@color/gray2"
+                                android:textAlignment="center"
+                                android:hint="such :  \n small dish  contain potato , original oil "
+                                android:textColor="@color/white_dark"
+                                android:background="@drawable/edit_back"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/Price"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="cursive"
+                                android:text="@string/price_item"
+                                android:textAlignment="center"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white_dark"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                />
+
+                            <EditText
+                                android:id="@+id/price"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="cursive"
+                                android:textAlignment="center"
+                                android:textColor="@color/white_dark"
+                                android:background="@drawable/edit_back"
+                                android:textSize="20sp"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textvie_point"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="cursive"
+                                android:text="@string/point"
+                                android:textAlignment="center"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white_dark"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                />
+
+                            <EditText
+                                android:id="@+id/point"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="cursive"
+                                android:textAlignment="center"
+                                android:textColor="@color/white_dark"
+                                android:background="@drawable/edit_back"
+                                android:textSize="20sp"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textview_qty"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="cursive"
+                                android:text="@string/qty"
+                                android:textAlignment="center"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white_dark"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                />
+
+                            <EditText
+                                android:id="@+id/qty"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="cursive"
+                                android:textAlignment="center"
+                                android:textColor="@color/white_dark"
+                                android:background="@drawable/edit_back"
+                                android:textSize="20sp"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textview_tax"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="cursive"
+                                android:text="@string/tax"
+                                android:textAlignment="center"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white_dark"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                />
+
+                            <EditText
+                                android:id="@+id/tax"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="cursive"
+                                android:textAlignment="center"
+                                android:textColor="@color/white_dark"
+                                android:background="@drawable/edit_back"
+                                android:textSize="20sp"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_width="match_parent">
+
+
+                            <android.support.design.widget.FloatingActionButton
+                                android:id="@+id/fab_save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_done_black_24dp"
+                                android:backgroundTint="@color/white_dark"
+                                android:layout_marginRight="60dp" />
+                            <android.support.design.widget.FloatingActionButton
+                                android:id="@+id/fab_cancel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_clear_black_24dp"
+                                android:backgroundTint="@color/white_dark"
+                                android:layout_margin="10dp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/allitem_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
