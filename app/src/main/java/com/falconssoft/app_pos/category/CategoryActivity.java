@@ -48,6 +48,7 @@ import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.ReportActivity;
 import com.falconssoft.app_pos.RewardActivity;
 import com.falconssoft.app_pos.SettingOrder;
+import com.falconssoft.app_pos.SoldReportActivity;
 import com.falconssoft.app_pos.addnew.AddNewActivity;
 import com.falconssoft.app_pos.email.SendMailTask;
 import com.falconssoft.app_pos.itemsReciptAdapter;
@@ -245,8 +246,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
 //????????????????????????????????????????????????????????????????????????????
 
-//        databaseHandler.deleteAllItems();
-//        fillCategory();
+        databaseHandler.deleteAllItems();
+        fillCategory();
          viewCaterogyList = databaseHandler.getAllCategory();
 
     //        pic.add("");
@@ -414,6 +415,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             case R.id.report:
                Intent reportIntent=new Intent(CategoryActivity.this, ReportActivity.class);
                startActivity(reportIntent);
+                break;
+            case R.id.detail:
+                Intent detailIntent=new Intent(CategoryActivity.this, SoldReportActivity.class);
+                startActivity(detailIntent);
                 break;
 
         }

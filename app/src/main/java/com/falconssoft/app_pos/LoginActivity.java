@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -31,6 +30,7 @@ import com.falconssoft.app_pos.models.NotificationModel;
 import com.falconssoft.app_pos.models.Tables;
 import com.falconssoft.app_pos.models.Users;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -60,11 +60,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Calendar calendar=Calendar.getInstance();
         Date date=Calendar.getInstance().getTime();
-        SimpleDateFormat simpleFormatter=new SimpleDateFormat("dd-MM-yyyy");
-        today = simpleFormatter.format(date);
-        SimpleDateFormat simpleFormatters=new SimpleDateFormat("HH:mm:ss");
+        String myFormat = "dd-MM-yyyy"; //In which you need put here
+        String myFormattime = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        SimpleDateFormat sdf2=new SimpleDateFormat(myFormattime, Locale.US);
 
-        time = simpleFormatters.format(calendar.getTime());
+        time = sdf2.format(calendar.getTime());
+        today = sdf.format(calendar.getTime());
+
+//        SimpleDateFormat simpleFormatter=new SimpleDateFormat("dd-MM-yyyy");
+//        SimpleDateFormat simpleFormatters=new SimpleDateFormat("HH:mm:ss");
+
+//        time = simpleFormatters.format(calendar.getTime());
 
         username = findViewById(R.id.login_username);
         password = findViewById(R.id.login_password);

@@ -10,7 +10,6 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,10 +44,12 @@ import com.falconssoft.app_pos.models.Items;
 import com.falconssoft.app_pos.models.NotificationModel;
 import com.falconssoft.app_pos.models.Order;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -86,10 +87,19 @@ public class ItemActivaty extends AppCompatActivity {
 
         Calendar calendar=Calendar.getInstance();
         Date date=Calendar.getInstance().getTime();
-        SimpleDateFormat simpleFormatter=new SimpleDateFormat("dd-MM-yyyy");
-        SimpleDateFormat simpleFormatters=new SimpleDateFormat("HH:mm:ss");
-        today = simpleFormatter.format(date);
-        time = simpleFormatters.format(calendar.getTime());
+        String myFormat = "dd-MM-yyyy"; //In which you need put here
+        String myFormattime = "HH:mm:ss";
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(myFormat, Locale.US);
+        java.text.SimpleDateFormat sdf2=new SimpleDateFormat(myFormattime, Locale.US);
+
+        time = sdf2.format(calendar.getTime());
+        today = sdf.format(calendar.getTime());
+
+
+//        SimpleDateFormat simpleFormatter=new SimpleDateFormat("dd-MM-yyyy");
+//        SimpleDateFormat simpleFormatters=new SimpleDateFormat("HH:mm:ss");
+//        today = simpleFormatter.format(date);
+//        time = simpleFormatters.format(calendar.getTime());
 
         itemList = new ArrayList<>();
 
@@ -499,7 +509,7 @@ public class ItemActivaty extends AppCompatActivity {
                     double acount=current_point+points;
 
                         Order order=new Order("4124564",customerInformation.getCustomerName(),customerInformation.getPhoneNo(),
-                                totalQ,points,Double.parseDouble(total_money.getText().toString()),today );
+                                totalQ,points,Double.parseDouble(total_money.getText().toString()),today,0,0,0 ,"item name","01112",0);
                         databaseHandler.AddOrdre(order);
 
                     NotificationModel notificationModel=new NotificationModel("You have earned "+points+" points, and they will be added  to your account for "+(acount)+" points"

@@ -75,6 +75,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATE_FOR_PAY = "DATE_FOR_PAY";
     private static final String QTY = "QTY";
     private static final String VOUCH_NO = "VOUCH_NO";
+
+    private static final String TOTAL_BEFORE_TAX = "TOTAL_BEFORE_TAX";
+    private static final String TOTAL_AFTER_TAX = "TOTAL_AFTER_TAX";
+    private static final String TAX_VALUE = "TAX_VALUE";
+    private static final String ITEM_NAME1 = "ITEM_NAME";
+    private static final String ITEM_BARCODE1 = "ITEM_BARCODE";
+    private static final String PRICE1 = "PRICE";
     // *******************************************************************************
     private static final String NOTIFICATION = "NOTIFICATION";
 
@@ -142,7 +149,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + TOTAL1 + " REAL,"
                 +  DATE_FOR_PAY+ " TEXT,"
                 +  QTY+ " REAL,"
-                +  VOUCH_NO+ " TEXT"
+                +  VOUCH_NO+ " TEXT ,"
+                +  TOTAL_BEFORE_TAX+ " REAL,"
+                +  TOTAL_AFTER_TAX+ " REAL,"
+                +  TAX_VALUE+ " REAL ,"
+                +  ITEM_NAME1+ " TEXT ,"
+                +  ITEM_BARCODE1+ " TEXT ,"
+                +  PRICE1+ " REAL"
                 + ")";
         db.execSQL(CREATE_ORDER_TABLE);
         // *******************************************************************************
@@ -234,13 +247,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         values.put(CUSTOMER_NAME1,order.getCustomerName() );
         values.put(CustomerNo1, order.getCustomerNo());
-
         values.put(POINT_CUSTOMER1,order.getNoPoint() );
         values.put(TOTAL1, order.getTotal());
         values.put(DATE_FOR_PAY, order.getDate());
         values.put(QTY, order.getQty());
         values.put(VOUCH_NO, order.getVhNo());
+        values.put(TOTAL_BEFORE_TAX, order.getTotalBeforeTax());
+        values.put(TOTAL_AFTER_TAX, order.getTotalAfterTax());
+        values.put(TAX_VALUE, order.getTax());
+        values.put(ITEM_NAME1, order.getItemName());
 
+        values.put(ITEM_BARCODE1, order.getItemBarcode());
+        values.put(PRICE1, order.getPrice());
 
         db.insert(ORDER_PAY, null, values);
         db.close();
@@ -416,12 +434,53 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 order.setDate(cursor.getString(4));
                 order.setQty(cursor.getDouble(5));
                 order.setVhNo(cursor.getString(6));
+                order.setTotalBeforeTax(cursor.getDouble(7));
+                order.setTotalAfterTax(cursor.getDouble(8));
+                order.setTax(cursor.getDouble(9));
+                order.setItemName(cursor.getString(10));
+                order.setItemBarcode(cursor.getString(11));
+                order.setPrice(cursor.getDouble(12));
 
                 orderArrayList.add(order);
             } while (cursor.moveToNext());
         }
         return orderArrayList;
     }
+
+    public List<Order> getOrderByDate(String Date) {
+        List<Order> orderArrayList = new ArrayList<Order>();
+
+        String selectQuery = "SELECT  * FROM " + ORDER_PAY+" where DATE_FOR_PAY = '"+Date+"'";
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order();
+
+                order.setCustomerName(cursor.getString(0));
+                order.setCustomerNo(cursor.getString(1));
+                order.setNoPoint(cursor.getDouble(2));
+                order.setTotal(cursor.getDouble(3));
+                order.setDate(cursor.getString(4));
+                order.setQty(cursor.getDouble(5));
+                order.setVhNo(cursor.getString(6));
+                order.setTotalBeforeTax(cursor.getDouble(7));
+                order.setTotalAfterTax(cursor.getDouble(8));
+                order.setTax(cursor.getDouble(9));
+                order.setItemName(cursor.getString(10));
+                order.setItemBarcode(cursor.getString(11));
+                order.setPrice(cursor.getDouble(12));
+
+
+                orderArrayList.add(order);
+            } while (cursor.moveToNext());
+        }
+        return orderArrayList;
+    }
+
+
+
 
 
     public List<CustomerInformation> getAllInformation() {

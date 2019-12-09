@@ -37,6 +37,10 @@
         <activity
             android:name=".ReportActivity"
             android:screenOrientation="sensorPortrait" />
+
+        <activity
+            android:name=".SoldReportActivity"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="sensorPortrait"
