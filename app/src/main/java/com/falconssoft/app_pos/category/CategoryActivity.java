@@ -277,8 +277,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
             }
         });
-
-
 //        pic.add("");
 
         // vertical and cycle layout

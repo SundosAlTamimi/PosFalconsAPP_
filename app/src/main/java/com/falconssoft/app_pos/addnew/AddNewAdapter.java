@@ -16,9 +16,9 @@ import java.util.List;
 public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
 
     private List<Items> categoryList;
-    private Context context;
+    private AddNewActivity context;
 
-    public AddNewAdapter(Context context, List<Items> categoryList) {
+    public AddNewAdapter(AddNewActivity context, List<Items> categoryList) {
         this.categoryList = categoryList;
         this.context = context;
 //        Log.e("size 2", "");
@@ -37,7 +37,7 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
 //        Log.e("size 4", "" + i);
 
         addNewViewHolder.name.setText(categoryList.get(i).getCategoryName());
-        addNewViewHolder.categoryImage.setImageBitmap(categoryList.get(i).getCategoryPic());
+        addNewViewHolder.categoryImage.setImageBitmap(context.stringToBitmap(categoryList.get(i).getCategoryPic()));
 
         addNewViewHolder.deleteCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,4 +59,6 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
 //        Log.e("size 5", "");
         return categoryList.size();
     }
+
+
 }
