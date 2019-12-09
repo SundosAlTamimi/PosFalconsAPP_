@@ -49,7 +49,6 @@ DatabaseHandler db;
         pointsView=(TextView) findViewById(R.id.pointsView);
         expired=(TextView) findViewById(R.id.expired);
         customerInformation=db.getAllInformation();
-
         if(customerInformation.size()!=0){
             pointsView.setText(""+customerInformation.get(0).getPoint());
             expired.setText(""+(customerInformation.get(0).getPoint()/10)+" JD");

@@ -11,26 +11,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".addnew.AddNewActivity"></activity>
+        <activity android:name=".add_item">
+
+        </activity>
         <activity android:name=".location_branch" />
+        <activity android:name=".addnew.AddNewActivity">
+
+        </activity>
+
         <activity
             android:name=".OptionsActivity"
             android:screenOrientation="sensorPortrait" />
+
         <activity
             android:name=".category.CategoryActivity"
             android:screenOrientation="sensorPortrait" />
+
         <activity
             android:name=".ListOfOrder"
             android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".PointViewActivity"
             android:screenOrientation="sensorPortrait" />
+
         <activity
             android:name=".RewardActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".NotificationActivity"
             android:screenOrientation="sensorPortrait" />
+
         <activity
             android:name=".category.ItemActivaty"
             android:screenOrientation="sensorPortrait" />
@@ -46,6 +56,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <meta-data

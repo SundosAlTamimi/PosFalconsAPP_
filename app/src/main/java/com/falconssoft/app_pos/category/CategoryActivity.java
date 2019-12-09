@@ -50,6 +50,7 @@ import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.ReportActivity;
 import com.falconssoft.app_pos.RewardActivity;
 import com.falconssoft.app_pos.SettingOrder;
+import com.falconssoft.app_pos.add_item;
 import com.falconssoft.app_pos.addnew.AddNewActivity;
 import com.falconssoft.app_pos.email.SendMailTask;
 import com.falconssoft.app_pos.itemsReciptAdapter;
@@ -246,9 +247,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
 //????????????????????????????????????????????????????????????????????????????
 
-//        databaseHandler.deleteAllItems();
-//        fillCategory();
-        viewCaterogyList = databaseHandler.getAllCategory();
+        databaseHandler.deleteAllItems();
+        fillCategory();
+         viewCaterogyList = databaseHandler.getAllCategory();
 
         //        pic.add("");
         pic.add("ice_cream_");
@@ -333,7 +334,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //        });
     }
 
-    void fillCategory() {
+    void fillCategory(){
         list.add("Barbecue");
         list.add("Chips");
         list.add("Fish finger");
@@ -346,7 +347,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         list.add("Chicken Zinger");
 
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i<10; i++)
+        {
 //            itemList.clear();
             databaseHandler.addItem((new Items(list.get(i), "wafel 1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0)));
             databaseHandler.addItem((new Items(list.get(i), "wafel 2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1)));
@@ -745,7 +747,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.setContentView(R.layout.customer_register);
         dialog.setCanceledOnTouchOutside(true);
 
-        TextView cusName, cusno, email, point;
+        TextView cusName, cusno, email,point;
         ImageView barcode;
         ImageView cancel;
         String barcode_data = null;
@@ -773,7 +775,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 cusName.setText(customerInformations.get(0).getCustomerName());
                 cusno.setText(customerInformations.get(0).getPhoneNo());
                 email.setText(customerInformations.get(0).getEmail());
-                point.setText("" + customerInformations.get(0).getPoint());
+                point.setText(""+customerInformations.get(0).getPoint());
 
                 barcode_data = customerInformations.get(0).getPhoneNo();
                 try {
@@ -994,8 +996,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             cViewHolder.vocherNo.setText(list.get(i).getVhNo());
 //            cViewHolder.itemImage.setBackgroundResource(getImage(list.get(i).getDescription()));
             cViewHolder.Qty.setText("" + list.get(i).getQty());
-            cViewHolder.price.setText("" + list.get(i).getTotal() + " JD ");
-            cViewHolder.point.setText("" + list.get(i).getNoPoint() + " Point ");
+            cViewHolder.price.setText("" + list.get(i).getTotal()+" JD ");
+            cViewHolder.point.setText("" + list.get(i).getNoPoint()+" Point ");
 
 
 //
@@ -1057,7 +1059,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     }
 
 
-    //    void profileDialog() {
+//    void profileDialog() {
 //
 //        Bitmap encodeAsBitmap (String contents, BarcodeFormat format,int img_width, int img_height) throws
 //        WriterException {
@@ -1171,7 +1173,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                             BarcodeDialog();
                             break;
                         case 4:
-                            BranchesDialog();
+//                            BranchesDialog();
+                            Intent additem = new Intent(CategoryActivity.this, add_item.class);
+                            startActivity(additem);
                             break;
                         case 5:
                             Intent addNewIntent = new Intent(CategoryActivity.this, AddNewActivity.class);
@@ -1214,6 +1218,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
 
         dialog.show();
+
+
 
 
     }
@@ -1306,7 +1312,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
 
     }
-
     private static final int REQUEST_PHONE_CALL = 1;
 
 
@@ -1317,8 +1322,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             case REQUEST_PHONE_CALL: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    startActivity(callIntent);
-                } else {
+                  startActivity(callIntent);
+                }
+                else
+                {
                     Toast.makeText(CategoryActivity.this, "check permission call ", Toast.LENGTH_SHORT).show();
 
                 }
