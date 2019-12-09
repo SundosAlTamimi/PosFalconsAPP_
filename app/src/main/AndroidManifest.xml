@@ -13,6 +13,9 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".addnew.AddNewActivity"
             android:screenOrientation="sensorPortrait"></activity>
+        <activity android:name=".add_item">
+
+        </activity>
         <activity android:name=".location_branch" />
         <activity
             android:name=".OptionsActivity"
