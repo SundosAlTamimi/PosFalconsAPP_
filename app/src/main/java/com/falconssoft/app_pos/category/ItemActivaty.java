@@ -247,6 +247,7 @@ public class ItemActivaty extends AppCompatActivity {
                             item.setItemName(cViewHolder.ItemName.getText().toString());
 //                    item.setItemPic(pic.get(i));
                             item.setCategoryName(catName.getText().toString());
+                            item.setPrice(SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPrice());
                             item.setQTY(Double.parseDouble(cViewHolder.Qty.getText().toString()));
                             item.setDescription(list.get(i).getDescription());
                             item.setIndexOfItem(i);
@@ -507,10 +508,20 @@ public class ItemActivaty extends AppCompatActivity {
                     customerInformation.setPoint(current_point + points);
                     databaseHandler.updateCustomerPoint(phoneNo, points + current_point);
                     double acount=current_point+points;
+                    for(int i=0;i<SettingOrder.ItemsOrder.size();i++){
+                        double totalBeforTax=SettingOrder.ItemsOrder.get(i).getPrice()*SettingOrder.ItemsOrder.get(i).getQTY();
+//                        double tax=SettingOrder.ItemsOrder.get(i).get()
 
                         Order order=new Order("4124564",customerInformation.getCustomerName(),customerInformation.getPhoneNo(),
-                                totalQ,points,Double.parseDouble(total_money.getText().toString()),today,0,0,0 ,"item name","01112",0);
+                                SettingOrder.ItemsOrder.get(i).getQTY(),-1,totalBeforTax,today,totalBeforTax,totalBeforTax,
+                                0 ,SettingOrder.ItemsOrder.get(i).getItemName(),""+SettingOrder.ItemsOrder.get(i).getItemBarcode(),SettingOrder.ItemsOrder.get(i).getPrice());
                         databaseHandler.AddOrdre(order);
+
+                    }
+
+//                        Order order=new Order("4124564",customerInformation.getCustomerName(),customerInformation.getPhoneNo(),
+//                                totalQ,points,Double.parseDouble(total_money.getText().toString()),today,0,0,0 ,"item name","01112",0);
+//                        databaseHandler.AddOrdre(order);
 
                     NotificationModel notificationModel=new NotificationModel("You have earned "+points+" points, and they will be added  to your account for "+(acount)+" points"
                             ,today,"Sales Gift",time,""+points);

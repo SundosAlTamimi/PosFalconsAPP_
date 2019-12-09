@@ -455,6 +455,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return orderArrayList;
     }
 
+    public List<Order> getAllOrderGroupByItemName() {
+        List<Order> orderArrayList = new ArrayList<Order>();
+
+        String selectQuery = "SELECT ITEM_NAME , GROUP_CONCAT(QTY),GROUP_CONCAT(PRICE), GROUP_CONCAT(DATE_FOR_PAY)," +
+                "GROUP_CONCAT(TOTAL_AFTER_TAX),GROUP_CONCAT(TAX_VALUE) FROM " + ORDER_PAY+ " group by ITEM_NAME " ;
+
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order();
+
+                order.setItemName(cursor.getString(0));
+                order.setCustomerName(cursor.getString(1));
+                order.setCustomerNo(cursor.getString(2));
+                order.setDate(cursor.getString(3));
+                order.setItemBarcode(cursor.getString(4));
+                order.setVhNo(cursor.getString(5));
+
+                orderArrayList.add(order);
+            } while (cursor.moveToNext());
+        }
+        return orderArrayList;
+    }
+
     public List<Order> getOrderByDate(String Date) {
         List<Order> orderArrayList = new ArrayList<Order>();
 
