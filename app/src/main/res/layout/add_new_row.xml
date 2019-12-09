@@ -27,7 +27,6 @@
                 android:id="@+id/view_image_row"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_weight="1"
                 android:background="@drawable/ice_4" />
 
             <LinearLayout

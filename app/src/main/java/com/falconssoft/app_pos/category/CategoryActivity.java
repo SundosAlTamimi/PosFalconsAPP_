@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -247,9 +249,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
 //????????????????????????????????????????????????????????????????????????????
 
-        databaseHandler.deleteAllItems();
-        fillCategory();
-         viewCaterogyList = databaseHandler.getAllCategory();
+//        databaseHandler.deleteAllItems();
+//        fillCategory();
+        viewCaterogyList = databaseHandler.getAllCategory();
 
         //        pic.add("");
         pic.add("ice_cream_");
@@ -262,7 +264,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         pic.add("coupe_glace_png");
         pic.add("frazeicecream");
         pic.add("freaze_icecream");
-
 
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(VERTICAL);
@@ -679,11 +680,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     }
 
     class TestAdapter extends RecyclerView.Adapter<CViewHolder> {
-        Context context;
+        CategoryActivity context;
         List<Items> list;
 //DatabaseHandler db;
 
-        public TestAdapter(Context context, List<Items> list) {
+        public TestAdapter(CategoryActivity context, List<Items> list) {
             this.context = context;
             this.list = list;
 //        db=new DatabaseHandler(this.context);
@@ -699,10 +700,17 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         @Override
         public void onBindViewHolder(@NonNull final CViewHolder cViewHolder, final int i) {
             cViewHolder.categoryName.setText(list.get(i).getCategoryName());
+            String image = list.get(i).getCategoryPic();
+            if (image == null || (image.equals(""))) {
+                cViewHolder.categoryImage.setBackgroundResource(R.drawable.ice_4);
+            }
+            else {
+                Drawable drawable = new BitmapDrawable(context.getResources(), context.stringToBitmap(image));
+                cViewHolder.categoryImage.setBackground(drawable);
+            }
 //            cViewHolder.layMain.setId(i);
 //        cViewHolder.categoryName.setText(list.get(i).getCategoryName());
 //            cViewHolder.categoryImage.setBackgroundResource(getImage(pic.get(i)));
-
 
             cViewHolder.layMain.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -733,6 +741,18 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //            return Integer.MAX_VALUE;
         }
     }
+
+    public Bitmap stringToBitmap(String image) {
+        try {
+            byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
 
     public int getImage(String imageName) {
 
@@ -1331,15 +1351,5 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     }
 
 
-    public Bitmap StringToBitMap(String image) {
-        try {
-            byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
-        }
-    }
 
 }

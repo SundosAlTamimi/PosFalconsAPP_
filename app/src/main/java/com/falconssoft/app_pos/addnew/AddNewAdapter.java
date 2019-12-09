@@ -1,6 +1,8 @@
 package com.falconssoft.app_pos.addnew;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,7 +30,7 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
     @Override
     public AddNewViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 //        Log.e("size 3", "");
-        View view = LayoutInflater.from(context).inflate(R.layout.add_new_row,viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.add_new_row, viewGroup, false);
         return new AddNewViewHolder(view);
     }
 
@@ -37,7 +39,15 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
 //        Log.e("size 4", "" + i);
 
         addNewViewHolder.name.setText(categoryList.get(i).getCategoryName());
-        addNewViewHolder.categoryImage.setImageBitmap(context.stringToBitmap(categoryList.get(i).getCategoryPic()));
+        String image = categoryList.get(i).getCategoryPic();
+        if (image == null || (image.equals(""))) {
+            addNewViewHolder.categoryImage.setBackgroundResource(R.drawable.ice_4);
+        }
+        else {
+            Drawable drawable = new BitmapDrawable(context.getResources(), context.stringToBitmap(image));
+            addNewViewHolder.categoryImage.setBackground(drawable);
+        }
+//        addNewViewHolder.categoryImage.setBackground(context.stringToBitmap(categoryList.get(i).getCategoryPic()));
 
         addNewViewHolder.deleteCategory.setOnClickListener(new View.OnClickListener() {
             @Override
