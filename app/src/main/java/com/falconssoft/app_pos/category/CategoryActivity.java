@@ -351,11 +351,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         for (int i = 0; i < 10; i++) {
 //            itemList.clear();
-            databaseHandler.addItem((new Items(list.get(i), "wafel 1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0)));
-            databaseHandler.addItem((new Items(list.get(i), "wafel 2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1)));
-            databaseHandler.addItem((new Items(list.get(i), "wafel 3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2)));
-            databaseHandler.addItem((new Items(list.get(i), "wafel 4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2)));
-            databaseHandler.addItem((new Items(list.get(i), "wafel 5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0)));
+//            databaseHandler.addItem((new Items(list.get(i), "wafel 1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0)));
+//            databaseHandler.addItem((new Items(list.get(i), "wafel 2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1)));
+//            databaseHandler.addItem((new Items(list.get(i), "wafel 3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2)));
+//            databaseHandler.addItem((new Items(list.get(i), "wafel 4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2)));
+//            databaseHandler.addItem((new Items(list.get(i), "wafel 5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0)));
 //            databaseHandler.addItem((new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0, 1)));
 //            databaseHandler.addItem((new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0, 0)));
 //            databaseHandler.addItem((new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0, 0)));
@@ -703,7 +703,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         @Override
         public void onBindViewHolder(@NonNull final CViewHolder cViewHolder, final int i) {
             cViewHolder.categoryName.setText(list.get(i).getCategoryName());
-            String image = list.get(i).getCategoryPic();
+//            String image = list.get(i).getCategoryPic();
+            String image =null;
             if (image == null || (image.equals(""))) {
                 cViewHolder.categoryImage.setBackgroundResource(R.drawable.ice_4);
             }

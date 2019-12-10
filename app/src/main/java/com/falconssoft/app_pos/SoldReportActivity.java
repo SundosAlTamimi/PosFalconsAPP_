@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class SoldReportActivity extends AppCompatActivity {
-    PieChart pieChart;
+    PieChart pieChart,piecharttotal;
     BarChart chart;
     TextView date,todate;
     Button Done;
@@ -54,6 +54,7 @@ public class SoldReportActivity extends AppCompatActivity {
         Done=findViewById(R.id.done);
         todate=findViewById(R.id.todate);
         soldItem=findViewById(R.id.soldItem);
+        piecharttotal= findViewById(R.id.piecharttotal);
 
         myCalendar = Calendar.getInstance();
         String myFormat = "dd-MM-yyyy"; //In which you need put here
@@ -124,6 +125,7 @@ public class SoldReportActivity extends AppCompatActivity {
                }
                    Order order=new Order();
                    order.setQty(qty);
+                   order.setTotal(Total);
                    orderListChart.add(order);
                    if(noIn) {
                        insertRowForSoldReport(soldItem, itemName, "" + qty,
@@ -131,8 +133,8 @@ public class SoldReportActivity extends AppCompatActivity {
                    }
                }
 
-                pieChart(orderListChart);
-
+                pieChartForQTY(orderListChart);
+                pieChartForTotal(orderListChart);
             }
             }
         });
@@ -201,7 +203,7 @@ public class SoldReportActivity extends AppCompatActivity {
 
     }
 
-    void pieChart(List<Order> orderListCharts) {
+    void pieChartForQTY(List<Order> orderListCharts) {
         ArrayList NoOfEmp = new ArrayList();
 
         for(int i=0;i<orderListCharts.size();i++){
@@ -232,6 +234,39 @@ public class SoldReportActivity extends AppCompatActivity {
         pieChart.setData(data2);
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         pieChart.animateXY(1500, 1500);
+    }
+
+    void pieChartForTotal(List<Order> orderListCharts) {
+        ArrayList NoOfEmp = new ArrayList();
+
+        for(int i=0;i<orderListCharts.size();i++){
+            NoOfEmp.add(new PieEntry(Float.parseFloat(""+orderListCharts.get(i).getTotal()),orderListCharts.get(i).getTotal()));
+
+        }
+
+        PieDataSet dataSet = new PieDataSet(NoOfEmp, "Total");
+
+        ArrayList year2 = new ArrayList();
+
+        year2.add("2008");
+        year2.add("2009");
+        year2.add("2010");
+        year2.add("2011");
+        year2.add("2012");
+        year2.add("2013");
+        year2.add("2014");
+        year2.add("2015");
+        year2.add("2016");
+        year2.add("2017");
+        piecharttotal.setCenterTextRadiusPercent(0);
+        Description v=new Description();
+        v.setText("");
+        piecharttotal.setDescription(v);
+        PieData data2 = new PieData(dataSet);
+
+        piecharttotal.setData(data2);
+        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        piecharttotal.animateXY(1500, 1500);
     }
 
     void insertRowForSoldReport(TableLayout tableLayout, String itemname, String itemqty, String price, String tax, String net) {
