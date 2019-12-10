@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.R;
+import com.falconssoft.app_pos.category.CategoryActivity;
 import com.falconssoft.app_pos.models.Items;
 
 import java.io.ByteArrayOutputStream;
@@ -160,4 +161,12 @@ public class AddNewActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(AddNewActivity.this, CategoryActivity.class);
+        startActivity(intent);
+//        new CategoryActivity().refreshTestAdapter(AddNewActivity.this);
+        Log.e("on","5");
+    }
 }

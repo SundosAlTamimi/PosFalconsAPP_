@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.R;
+import com.falconssoft.app_pos.category.CategoryActivity;
 import com.falconssoft.app_pos.models.Items;
 
 import java.util.List;
@@ -19,10 +21,12 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
 
     private List<Items> categoryList;
     private AddNewActivity context;
+    private DatabaseHandler databaseHandler;
 
     public AddNewAdapter(AddNewActivity context, List<Items> categoryList) {
         this.categoryList = categoryList;
         this.context = context;
+        databaseHandler = new DatabaseHandler(context);
 //        Log.e("size 2", "");
     }
 
@@ -35,7 +39,7 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddNewViewHolder addNewViewHolder, int i) {
+    public void onBindViewHolder(@NonNull AddNewViewHolder addNewViewHolder, final int i) {
 //        Log.e("size 4", "" + i);
 
         addNewViewHolder.name.setText(categoryList.get(i).getCategoryName());
@@ -52,7 +56,8 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
         addNewViewHolder.deleteCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                databaseHandler.deleteCategory(categoryList.get(i).getCategoryName());
+                context.fillAdapter();
             }
         });
 
