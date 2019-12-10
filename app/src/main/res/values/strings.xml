@@ -46,5 +46,7 @@
     <string name="remaining">Remaining</string>
     <string name="qty">Qty</string>
     <string name="tax">Tax</string>
+    <string name="barcode">Barcode</string>
+    <string name="required_filed">Required Filed</string>
 
 </resources>

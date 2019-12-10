@@ -26,7 +26,7 @@ import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION =2;
+    private static final int DATABASE_VERSION =5;
     private static final String DATABASE_NAME = "MenuDB";
     static SQLiteDatabase db;
     String TAG="Dbhandler";
@@ -51,6 +51,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String ITEM_PICTURE = "ITEM_PICTURE";
     private static final String CATEGORY_PICTURE = "CATEGORY_PICTURE";
     private static final String POINT ="POINT";
+    private static final String QTY_ITEM ="QTY_ITEM";
+    private static final String TAX ="TAX";
+
+
     // *******************************************************************************
 
     private static final String TABLES_TABLE = "TABLES_TABLE";
@@ -105,7 +109,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + DESCRIPTION + " TEXT,"
                 + ITEM_PICTURE + " BLOB,"
                 + CATEGORY_PICTURE + " BLOB,"
-                + POINT + " REAL" + ")";
+                + POINT + " REAL,"
+                + QTY_ITEM + " REAL,"
+                + TAX + " REAL" +
+
+
+                ")";
+
         db.execSQL(CREATE_TABLE_ITEMS);
         // *******************************************************************************
 
@@ -165,6 +175,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try{
+            db.execSQL("ALTER TABLE ITEMS_TABLE ADD TAX  REAL NOT NULL DEFAULT '0'");
+        }catch (Exception e)
+        {
+            Log.e(TAG, e.getMessage().toString());
+        }
+        try{
+            db.execSQL("ALTER TABLE ITEMS_TABLE ADD QTY_ITEM  REAL NOT NULL DEFAULT '0'");
+        }catch (Exception e)
+        {
+            Log.e(TAG, e.getMessage().toString());
+        }
+        try{
             db.execSQL("ALTER TABLE ITEMS_TABLE ADD POINT  REAL NOT NULL DEFAULT '0'");
         }catch (Exception e)
         {
@@ -208,7 +230,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(ITEM_PICTURE, items.getItemPic());
         values.put(CATEGORY_PICTURE, items.getCategoryPic());
         values.put(POINT,items.getPoint());
-
+        values.put(QTY_ITEM,items.getQTY());
+        values.put(TAX,items.getTax());
         db.insert(ITEMS_TABLE, null, values);
         db.close();
     }
@@ -294,19 +317,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public List<Items> getAllItems() {
 
-//        CATEGORY_NAME = "CATEGORY_NAME";
-//        ITEM_NAME = "ITEM_NAME";
-//        ITEM_BARCODE = "ITEM_BARCODE";
-//        PRICE = "PRICE";
-//        DESCRIPTION = "DESCRIPTION";
-//        ITEM_PICTURE = "ITEM_PICTURE";
-//        CATEGORY_PICTURE = "CATEGORY_PICTURE";
-//        POINT ="POINT";
         List<Items> items = new ArrayList<Items>();
 
-        String selectQuery = "SELECT  * FROM " + ITEMS_TABLE;
+        String selectQuery = "SELECT  * FROM  ITEMS";
         db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+        Log.e("select",""+selectQuery);
 
         if (cursor.moveToFirst()) {
             do {
@@ -320,27 +336,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 item.setItemPic(cursor.getString(5));
                 item.setCategoryPic(cursor.getString(6));
                 item.setPoint(cursor.getInt(7));
+                item.setQTY(cursor.getDouble(8));
+                item.setTax(cursor.getDouble(9));
 
                 items.add(item);
-//                if (cursor.getBlob(5).length == 0)
-//                    item.setItemPic(null);
-//                else
-//                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
-//
-//
-//                if (cursor.getBlob(6).length == 0)
-//                    item.setCategoryPic(null);
-//                else
-//                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
-
-//                if (cursor.getBlob(20).length == 0)
-//                    item.setPic(null);
-//                else
-//                    item.setPic(BitmapFactory.decodeByteArray(cursor.getBlob(20), 0, cursor.getBlob(20).length));
 
                 // Adding transaction to list
             } while (cursor.moveToNext());
         }
+        Log.e("items=",""+items.size());
         return items;
     }
 
@@ -563,6 +567,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
              values.put(POINT_CUSTOMER, points);
              db.update(CUSTOMER_INFORMATION, values, PHONE_NO + " = '" + phoneNo +"'", null);
+    }
+    public void updateitem_information(String categoryName,String itemName,
+                                       int itemBarcode,String description, double price,String ItemPic,double QTY,int point) {
+
+       Items items=new Items();
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        values.put(ITEM_NAME, itemName);
+        values.put(PRICE, price);
+
+        values.put(ITEM_BARCODE, itemBarcode);
+
+        values.put(DESCRIPTION, description);
+
+        values.put(ITEM_PICTURE, ItemPic);
+
+        values.put(POINT, point);
+        values.put(QTY_ITEM, QTY);
+
+
+        db.update(ITEMS_TABLE, values, CATEGORY_NAME + " = '" + categoryName +"'", null);
     }
 
 }
