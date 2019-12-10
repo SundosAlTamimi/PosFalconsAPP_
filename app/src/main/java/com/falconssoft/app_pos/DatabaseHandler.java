@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.falconssoft.app_pos.models.CategoryModel;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
 import com.falconssoft.app_pos.models.NotificationModel;
@@ -49,7 +50,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String ITEM_BARCODE = "ITEM_BARCODE";
     private static final String DESCRIPTION = "DESCRIPTION";
     private static final String ITEM_PICTURE = "ITEM_PICTURE";
-    private static final String CATEGORY_PICTURE = "CATEGORY_PICTURE";
     private static final String POINT ="POINT";
     private static final String QTY_ITEM ="QTY_ITEM";
     private static final String TAX ="TAX";
@@ -62,6 +62,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String SECTION_NO = "SECTION_NO";
     private static final String TABEL_NO = "TABEL_NO";
     private static final String NO_OF_SEITS = "NO_OF_SEITS";
+    // *******************************************************************************
+
+    private static final String CATEGORY_TABLE = "CATEGORY_TABLE";
+
+    private static final String CATEGORY_NAME1 = "CATEGORY_NAME";
+    private static final String CATEGORY_PIC1 = "CATEGORY_PIC";
+
+
     // *******************************************************************************
     private static final String CUSTOMER_INFORMATION = "CUSTOMER_INFORMATION";
 
@@ -108,7 +116,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + PRICE + " INTEGER,"
                 + DESCRIPTION + " TEXT,"
                 + ITEM_PICTURE + " BLOB,"
-                + CATEGORY_PICTURE + " BLOB,"
                 + POINT + " REAL,"
                 + QTY_ITEM + " REAL,"
                 + TAX + " REAL" +
@@ -130,6 +137,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + NO_OF_SEITS + " TEXT"
                 + ")";
         db.execSQL(CREATE_TABLES_TABLE);
+
+        // *******************************************************************************
+        String CREATE_CATEGORY_TABLE = "CREATE TABLE " + CATEGORY_TABLE + "("
+                + CATEGORY_NAME1 + " TEXT,"
+                + CATEGORY_PIC1 + " TEXT"
+                + ")";
+        db.execSQL(CREATE_CATEGORY_TABLE);
         // *******************************************************************************
 
         String CREATE_CUSTOMER_INFORMATION_TABLE = "CREATE TABLE " + CUSTOMER_INFORMATION + "("
@@ -228,7 +242,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(PRICE, items.getPrice());
         values.put(DESCRIPTION, items.getDescription());
         values.put(ITEM_PICTURE, items.getItemPic());
-        values.put(CATEGORY_PICTURE, items.getCategoryPic());
         values.put(POINT,items.getPoint());
         values.put(QTY_ITEM,items.getQTY());
         values.put(TAX,items.getTax());
@@ -299,6 +312,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void addCategory(CategoryModel categoryModel) {
+        db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(CATEGORY_NAME1,categoryModel.getCategoryName() );
+        values.put(CATEGORY_PIC1, categoryModel.getCategoryPic());
+
+
+        db.insert(TABLES_TABLE, null, values);
+        db.close();
+    }
+
 
     public void addCustomer(CustomerInformation customerInformation) {
         db = this.getReadableDatabase();
@@ -334,10 +359,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 item.setPrice(Double.parseDouble(cursor.getString(3)));
                 item.setDescription(cursor.getString(4));
                 item.setItemPic(cursor.getString(5));
-                item.setCategoryPic(cursor.getString(6));
-                item.setPoint(cursor.getInt(7));
-                item.setQTY(cursor.getDouble(8));
-                item.setTax(cursor.getDouble(9));
+                item.setPoint(cursor.getInt(6));
+                item.setQTY(cursor.getDouble(7));
+                item.setTax(cursor.getDouble(8));
 
                 items.add(item);
 
@@ -366,8 +390,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 item.setPrice(Double.parseDouble(cursor.getString(3)));
                 item.setDescription(cursor.getString(4));
                 item.setItemPic(cursor.getString(5));
-                item.setCategoryPic(cursor.getString(6));
-                item.setPoint(cursor.getInt(7));
+                item.setPoint(cursor.getInt(6));
 
                 items.add(item);
 //                if (cursor.getBlob(5).length == 0)
@@ -459,6 +482,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return orderArrayList;
     }
 
+    public List<Order> getAllOrderGroupByItemName() {
+        List<Order> orderArrayList = new ArrayList<Order>();
+
+        String selectQuery = "SELECT ITEM_NAME , GROUP_CONCAT(QTY),GROUP_CONCAT(PRICE), GROUP_CONCAT(DATE_FOR_PAY)," +
+                "GROUP_CONCAT(TOTAL_AFTER_TAX),GROUP_CONCAT(TAX_VALUE) FROM " + ORDER_PAY+ " group by ITEM_NAME " ;
+
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order();
+
+                order.setItemName(cursor.getString(0));
+                order.setCustomerName(cursor.getString(1));
+                order.setCustomerNo(cursor.getString(2));
+                order.setDate(cursor.getString(3));
+                order.setItemBarcode(cursor.getString(4));
+                order.setVhNo(cursor.getString(5));
+
+                orderArrayList.add(order);
+            } while (cursor.moveToNext());
+        }
+        return orderArrayList;
+    }
+
     public List<Order> getOrderByDate(String Date) {
         List<Order> orderArrayList = new ArrayList<Order>();
 
@@ -490,10 +539,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return orderArrayList;
     }
-
-
-
-
 
     public List<CustomerInformation> getAllInformation() {
         List<CustomerInformation> usersList = new ArrayList<CustomerInformation>();
@@ -552,12 +597,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteCategory(String category) {
+        db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + ITEMS_TABLE + " WHERE CATEGORY_NAME= '" + category + "';");
+        db.close();
+    }
 
     public void deleteAllInformation() {
         db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + CUSTOMER_INFORMATION + ";");
         db.close();
     }
+
+    //////////////////////////////////////////////////////// UPDATE ///////////////////////////////////////////////
 
     public void updateCustomerPoint(String phoneNo, double points) {
 

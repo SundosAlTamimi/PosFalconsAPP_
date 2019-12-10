@@ -104,7 +104,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private List<Order> listOfOrder = new ArrayList<>();
     private List<String> list = new ArrayList<>();
     private List<String> pic = new ArrayList<>();
-    DatabaseHandler databaseHandler;
+    private DatabaseHandler databaseHandler;
     boolean isPay = false;
     CustomerInformation customerInformation;
     String phoneNo;
@@ -269,10 +269,15 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(VERTICAL);
 //         recyclerView = (RecyclerView) findViewById(R.id.itemRecycler);
+
+//        databaseHandler.deleteAllItems();
+//        fillCategory();
+        viewCaterogyList = databaseHandler.getAllCategory();
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new TestAdapter(this, viewCaterogyList));
         recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
 
+//        refreshTestAdapter();
         makeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -351,11 +356,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         for (int i = 0; i < 10; i++) {
 //            itemList.clear();
-            databaseHandler.addItem((new Items(list.get(i), "wafel 1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0)));
-            databaseHandler.addItem((new Items(list.get(i), "wafel 2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1)));
-            databaseHandler.addItem((new Items(list.get(i), "wafel 3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2)));
-            databaseHandler.addItem((new Items(list.get(i), "wafel 4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2)));
-            databaseHandler.addItem((new Items(list.get(i), "wafel 5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0)));
+//            databaseHandler.addItem((new Items(list.get(i), "wafel 1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0)));
+//            databaseHandler.addItem((new Items(list.get(i), "wafel 2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1)));
+//            databaseHandler.addItem((new Items(list.get(i), "wafel 3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2)));
+//            databaseHandler.addItem((new Items(list.get(i), "wafel 4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2)));
+//            databaseHandler.addItem((new Items(list.get(i), "wafel 5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0)));
 //            databaseHandler.addItem((new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0, 1)));
 //            databaseHandler.addItem((new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0, 0)));
 //            databaseHandler.addItem((new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0, 0)));
@@ -415,11 +420,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 break;
 
             case R.id.report:
-               Intent reportIntent=new Intent(CategoryActivity.this, ReportActivity.class);
-               startActivity(reportIntent);
+                Intent reportIntent = new Intent(CategoryActivity.this, ReportActivity.class);
+                startActivity(reportIntent);
                 break;
             case R.id.detail:
-                Intent detailIntent=new Intent(CategoryActivity.this, SoldReportActivity.class);
+                Intent detailIntent = new Intent(CategoryActivity.this, SoldReportActivity.class);
                 startActivity(detailIntent);
                 break;
 
@@ -682,10 +687,13 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    class TestAdapter extends RecyclerView.Adapter<CViewHolder> {
+    public class TestAdapter extends RecyclerView.Adapter<CViewHolder> {
         CategoryActivity context;
         List<Items> list;
 //DatabaseHandler db;
+
+        public TestAdapter() {
+        }
 
         public TestAdapter(CategoryActivity context, List<Items> list) {
             this.context = context;
@@ -703,11 +711,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         @Override
         public void onBindViewHolder(@NonNull final CViewHolder cViewHolder, final int i) {
             cViewHolder.categoryName.setText(list.get(i).getCategoryName());
-            String image = list.get(i).getCategoryPic();
+//            String image = list.get(i).getCategoryPic();
+            String image =null;
             if (image == null || (image.equals(""))) {
                 cViewHolder.categoryImage.setBackgroundResource(R.drawable.ice_4);
-            }
-            else {
+            } else {
                 Drawable drawable = new BitmapDrawable(context.getResources(), context.stringToBitmap(image));
                 cViewHolder.categoryImage.setBackground(drawable);
             }
@@ -744,6 +752,17 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //            return Integer.MAX_VALUE;
         }
     }
+
+//    public void refreshTestAdapter(AddNewActivity context) {
+//
+//        DatabaseHandler databaseHandler = new DatabaseHandler(context);
+//        viewCaterogyList = databaseHandler.getAllCategory();
+//        new TestAdapter().notifyDataSetChanged();
+////        recyclerView.setLayoutManager(linearLayoutManager);
+////        recyclerView.setAdapter(new TestAdapter(this, viewCaterogyList));
+////        recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
+//
+//    }
 
     public Bitmap stringToBitmap(String image) {
         try {
@@ -1204,6 +1223,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                         case 5:
                             Intent addNewIntent = new Intent(CategoryActivity.this, AddNewActivity.class);
                             startActivity(addNewIntent);
+                            finish();
                             break;
                     }
 
@@ -1345,10 +1365,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             case REQUEST_PHONE_CALL: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                  startActivity(callIntent);
-                }
-                else
-                {
+                    startActivity(callIntent);
+                } else {
                     Toast.makeText(CategoryActivity.this, "check permission call ", Toast.LENGTH_SHORT).show();
 
                 }

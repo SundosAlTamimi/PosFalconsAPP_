@@ -1,7 +1,6 @@
 package com.falconssoft.app_pos;
 
 import android.app.DatePickerDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -35,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class SoldReportActivity extends AppCompatActivity {
-    PieChart pieChart;
+    PieChart pieChart,piecharttotal;
     BarChart chart;
     TextView date,todate;
     Button Done;
@@ -55,6 +54,7 @@ public class SoldReportActivity extends AppCompatActivity {
         Done=findViewById(R.id.done);
         todate=findViewById(R.id.todate);
         soldItem=findViewById(R.id.soldItem);
+        piecharttotal= findViewById(R.id.piecharttotal);
 
         myCalendar = Calendar.getInstance();
         String myFormat = "dd-MM-yyyy"; //In which you need put here
@@ -69,7 +69,7 @@ public class SoldReportActivity extends AppCompatActivity {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(SoldReportActivity.this, datePicer(date), myCalendar
+                new DatePickerDialog(SoldReportActivity.this, datePicker(date), myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -78,7 +78,7 @@ public class SoldReportActivity extends AppCompatActivity {
         todate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(SoldReportActivity.this, datePicer(todate), myCalendar
+                new DatePickerDialog(SoldReportActivity.this, datePicker(todate), myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -91,20 +91,50 @@ public class SoldReportActivity extends AppCompatActivity {
                 List<Order>orderListChart=new ArrayList<>();
                String datefrom =date.getText().toString();
                 String dateTo =todate.getText().toString();
-               orderList=databaseHandler.getAllOrder();
+               orderList=databaseHandler.getAllOrderGroupByItemName();
+
+
+
                 soldItem.removeAllViews();
-               for(int i=0;i<orderList.size();i++){
-                   if(filtersDate(datefrom,dateTo,orderList.get(i).getDate())){
-                       Order order=new Order();
-                       order=orderList.get(i);
-                       orderListChart.add(order);
-                       insertRowForSoldReport(soldItem,orderList.get(i).getItemName(),""+orderList.get(i).getQty(),
-                               ""+ orderList.get(i).getPrice(),""+orderList.get(i).getTax(),"");
+               for(int i=0;i<orderList.size();i++) {
+
+
+
+                   String getDate = orderList.get(i).getDate();
+                   String cou_total = orderList.get(i).getItemBarcode();
+                   String cou_qty = orderList.get(i).getCustomerName();
+                   String cou_price = orderList.get(i).getCustomerNo();
+                   String cou_tax = orderList.get(i).getVhNo();
+
+                   String itemName = orderList.get(i).getItemName();
+                   String[] arrayDate = getDate.split(",");
+                   String[] arrayTotal = cou_total.split(",");
+                   String[] arrayQty = cou_qty.split(",");
+                   String[] arrayPrice = cou_price.split(",");
+                   String[] arrayTax = cou_tax.split(",");
+
+                   double Total=0,qty=0,tax=0;
+                   boolean noIn=false;
+                   for(int k=0;k<arrayDate.length;k++){
+                   if (filtersDate(datefrom, dateTo, arrayDate[k])) {
+                       Total+=Double.parseDouble(arrayTotal[k]);
+                       qty+=Double.parseDouble(arrayQty[k]);
+                       tax+=Double.parseDouble(arrayTax[k]);
+                       noIn=true;
+                   }
+               }
+                   Order order=new Order();
+                   order.setQty(qty);
+                   order.setTotal(Total);
+                   orderListChart.add(order);
+                   if(noIn) {
+                       insertRowForSoldReport(soldItem, itemName, "" + qty,
+                               "" + Double.parseDouble(arrayPrice[0]), "" + tax, "" + Total);
                    }
                }
 
-                pieChart(orderListChart);
-
+                pieChartForQTY(orderListChart);
+                pieChartForTotal(orderListChart);
             }
             }
         });
@@ -114,7 +144,7 @@ public class SoldReportActivity extends AppCompatActivity {
 
     }
 
-    DatePickerDialog.OnDateSetListener datePicer(final TextView text){
+    DatePickerDialog.OnDateSetListener datePicker(final TextView text){
 
         final DatePickerDialog.OnDateSetListener dater = new DatePickerDialog.OnDateSetListener() {
 
@@ -163,10 +193,7 @@ public class SoldReportActivity extends AppCompatActivity {
         year.add("2011");
         year.add("2012");
         year.add("2013");
-//        year.add("2014");
-//        year.add("2015");
-//        year.add("2016");
-//        year.add("2017");
+
 
         BarDataSet bardataset = new BarDataSet(NoOfEmp, "No Of Employee");
         chart.animateY(5000);
@@ -176,7 +203,7 @@ public class SoldReportActivity extends AppCompatActivity {
 
     }
 
-    void pieChart(List<Order> orderListCharts) {
+    void pieChartForQTY(List<Order> orderListCharts) {
         ArrayList NoOfEmp = new ArrayList();
 
         for(int i=0;i<orderListCharts.size();i++){
@@ -184,15 +211,6 @@ public class SoldReportActivity extends AppCompatActivity {
 
         }
 
-//        NoOfEmp.add(new PieEntry(1040f, 1));
-//        NoOfEmp.add(new PieEntry(1133f, 2));
-//        NoOfEmp.add(new PieEntry(1240f, 3));
-//        NoOfEmp.add(new PieEntry(1369f, 4));
-//        NoOfEmp.add(new PieEntry(1487f, 5));
-//        NoOfEmp.add(new PieEntry(1501f, 6));
-//        NoOfEmp.add(new PieEntry(1645f, 7));
-//        NoOfEmp.add(new PieEntry(1578f, 8));
-//        NoOfEmp.add(new PieEntry(1695f, 9));
         PieDataSet dataSet = new PieDataSet(NoOfEmp, "Item Qty ");
 
         ArrayList year2 = new ArrayList();
@@ -216,6 +234,39 @@ public class SoldReportActivity extends AppCompatActivity {
         pieChart.setData(data2);
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         pieChart.animateXY(1500, 1500);
+    }
+
+    void pieChartForTotal(List<Order> orderListCharts) {
+        ArrayList NoOfEmp = new ArrayList();
+
+        for(int i=0;i<orderListCharts.size();i++){
+            NoOfEmp.add(new PieEntry(Float.parseFloat(""+orderListCharts.get(i).getTotal()),orderListCharts.get(i).getTotal()));
+
+        }
+
+        PieDataSet dataSet = new PieDataSet(NoOfEmp, "Total");
+
+        ArrayList year2 = new ArrayList();
+
+        year2.add("2008");
+        year2.add("2009");
+        year2.add("2010");
+        year2.add("2011");
+        year2.add("2012");
+        year2.add("2013");
+        year2.add("2014");
+        year2.add("2015");
+        year2.add("2016");
+        year2.add("2017");
+        piecharttotal.setCenterTextRadiusPercent(0);
+        Description v=new Description();
+        v.setText("");
+        piecharttotal.setDescription(v);
+        PieData data2 = new PieData(dataSet);
+
+        piecharttotal.setData(data2);
+        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        piecharttotal.animateXY(1500, 1500);
     }
 
     void insertRowForSoldReport(TableLayout tableLayout, String itemname, String itemqty, String price, String tax, String net) {

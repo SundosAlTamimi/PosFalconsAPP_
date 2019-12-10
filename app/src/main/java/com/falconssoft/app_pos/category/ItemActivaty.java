@@ -110,19 +110,19 @@ public class ItemActivaty extends AppCompatActivity {
 //        swipeRefresh = findViewById(R.id.swipeRefresh);
 
         for (int i = 0; i < 10; i++) {
-            itemList.clear();
-            itemList.add(new Items("wafel1", "wafel1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0));
-            itemList.add(new Items("wafel2", "wafel2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1));
-            itemList.add(new Items("wafel3", "wafel3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2));
-            itemList.add(new Items("wafel4", "wafel4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2));
-            itemList.add(new Items("wafel5", "wafel5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0));
-            itemList.add(new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0, 1));
-            itemList.add(new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0, 0));
-            itemList.add(new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0, 0));
-            itemList.add(new Items("wafel9", "wafel9", -1, null, "wafel9", 1.0, null, -1, -1, 0, 0, 0));
-            itemList.add(new Items("wafel10", "wafel10", -1, null, "wafel10", 1.0, null, -1, -1, 0, 0, 4));
+//            itemList.clear();
+//            itemList.add(new Items("wafel1", "wafel1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0));
+//            itemList.add(new Items("wafel2", "wafel2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1));
+//            itemList.add(new Items("wafel3", "wafel3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2));
+//            itemList.add(new Items("wafel4", "wafel4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2));
+//            itemList.add(new Items("wafel5", "wafel5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0));
+//            itemList.add(new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0, 1));
+//            itemList.add(new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0, 0));
+//            itemList.add(new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0, 0));
+//            itemList.add(new Items("wafel9", "wafel9", -1, null, "wafel9", 1.0, null, -1, -1, 0, 0, 0));
+//            itemList.add(new Items("wafel10", "wafel10", -1, null, "wafel10", 1.0, null, -1, -1, 0, 0, 4));
 
-            SettingOrder.Item.add(i, itemList);
+//            SettingOrder.Item.add(i, itemList);
         }
 
         orderImage.setOnClickListener(new View.OnClickListener() {
@@ -247,6 +247,7 @@ public class ItemActivaty extends AppCompatActivity {
                             item.setItemName(cViewHolder.ItemName.getText().toString());
 //                    item.setItemPic(pic.get(i));
                             item.setCategoryName(catName.getText().toString());
+                            item.setPrice(SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPrice());
                             item.setQTY(Double.parseDouble(cViewHolder.Qty.getText().toString()));
                             item.setDescription(list.get(i).getDescription());
                             item.setIndexOfItem(i);
@@ -507,10 +508,20 @@ public class ItemActivaty extends AppCompatActivity {
                     customerInformation.setPoint(current_point + points);
                     databaseHandler.updateCustomerPoint(phoneNo, points + current_point);
                     double acount=current_point+points;
+                    for(int i=0;i<SettingOrder.ItemsOrder.size();i++){
+                        double totalBeforTax=SettingOrder.ItemsOrder.get(i).getPrice()*SettingOrder.ItemsOrder.get(i).getQTY();
+//                        double tax=SettingOrder.ItemsOrder.get(i).get()
 
                         Order order=new Order("4124564",customerInformation.getCustomerName(),customerInformation.getPhoneNo(),
-                                totalQ,points,Double.parseDouble(total_money.getText().toString()),today,0,0,0 ,"item name","01112",0);
+                                SettingOrder.ItemsOrder.get(i).getQTY(),-1,totalBeforTax,today,totalBeforTax,totalBeforTax,
+                                0 ,SettingOrder.ItemsOrder.get(i).getItemName(),""+SettingOrder.ItemsOrder.get(i).getItemBarcode(),SettingOrder.ItemsOrder.get(i).getPrice());
                         databaseHandler.AddOrdre(order);
+
+                    }
+
+//                        Order order=new Order("4124564",customerInformation.getCustomerName(),customerInformation.getPhoneNo(),
+//                                totalQ,points,Double.parseDouble(total_money.getText().toString()),today,0,0,0 ,"item name","01112",0);
+//                        databaseHandler.AddOrdre(order);
 
                     NotificationModel notificationModel=new NotificationModel("You have earned "+points+" points, and they will be added  to your account for "+(acount)+" points"
                             ,today,"Sales Gift",time,""+points);
