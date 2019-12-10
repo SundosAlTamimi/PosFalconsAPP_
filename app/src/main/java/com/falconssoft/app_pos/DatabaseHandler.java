@@ -536,10 +536,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return orderArrayList;
     }
 
-
-
-
-
     public List<CustomerInformation> getAllInformation() {
         List<CustomerInformation> usersList = new ArrayList<CustomerInformation>();
 
@@ -597,12 +593,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteCategory(String category) {
+        db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + ITEMS_TABLE + " WHERE CATEGORY_NAME= '" + category + "';");
+        db.close();
+    }
 
     public void deleteAllInformation() {
         db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + CUSTOMER_INFORMATION + ";");
         db.close();
     }
+
+    //////////////////////////////////////////////////////// UPDATE ///////////////////////////////////////////////
 
     public void updateCustomerPoint(String phoneNo, double points) {
 

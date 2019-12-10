@@ -104,7 +104,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private List<Order> listOfOrder = new ArrayList<>();
     private List<String> list = new ArrayList<>();
     private List<String> pic = new ArrayList<>();
-    DatabaseHandler databaseHandler;
+    private DatabaseHandler databaseHandler;
     boolean isPay = false;
     CustomerInformation customerInformation;
     String phoneNo;
@@ -159,7 +159,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
 
         phoneNo = customerInformation.getPhoneNo();
-
 
         setSupportActionBar(mTopToolbar);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
@@ -248,12 +247,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         recyclerViews.scrollToPosition(2);
         recyclerViews.requestFocus();
 
-//????????????????????????????????????????????????????????????????????????????
-
-//        databaseHandler.deleteAllItems();
-//        fillCategory();
-        viewCaterogyList = databaseHandler.getAllCategory();
-
         //        pic.add("");
         pic.add("ice_cream_");
         pic.add("fraze_");
@@ -269,10 +262,15 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(VERTICAL);
 //         recyclerView = (RecyclerView) findViewById(R.id.itemRecycler);
+
+//        databaseHandler.deleteAllItems();
+//        fillCategory();
+        viewCaterogyList = databaseHandler.getAllCategory();
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new TestAdapter(this, viewCaterogyList));
         recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
 
+//        refreshTestAdapter();
         makeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,8 +278,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
             }
         });
-
-
 //        pic.add("");
 
         // vertical and cycle layout
@@ -415,11 +411,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 break;
 
             case R.id.report:
-               Intent reportIntent=new Intent(CategoryActivity.this, ReportActivity.class);
-               startActivity(reportIntent);
+                Intent reportIntent = new Intent(CategoryActivity.this, ReportActivity.class);
+                startActivity(reportIntent);
                 break;
             case R.id.detail:
-                Intent detailIntent=new Intent(CategoryActivity.this, SoldReportActivity.class);
+                Intent detailIntent = new Intent(CategoryActivity.this, SoldReportActivity.class);
                 startActivity(detailIntent);
                 break;
 
@@ -682,10 +678,13 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    class TestAdapter extends RecyclerView.Adapter<CViewHolder> {
+    public class TestAdapter extends RecyclerView.Adapter<CViewHolder> {
         CategoryActivity context;
         List<Items> list;
 //DatabaseHandler db;
+
+        public TestAdapter() {
+        }
 
         public TestAdapter(CategoryActivity context, List<Items> list) {
             this.context = context;
@@ -707,8 +706,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             String image =null;
             if (image == null || (image.equals(""))) {
                 cViewHolder.categoryImage.setBackgroundResource(R.drawable.ice_4);
-            }
-            else {
+            } else {
                 Drawable drawable = new BitmapDrawable(context.getResources(), context.stringToBitmap(image));
                 cViewHolder.categoryImage.setBackground(drawable);
             }
@@ -746,6 +744,17 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
+//    public void refreshTestAdapter(AddNewActivity context) {
+//
+//        DatabaseHandler databaseHandler = new DatabaseHandler(context);
+//        viewCaterogyList = databaseHandler.getAllCategory();
+//        new TestAdapter().notifyDataSetChanged();
+////        recyclerView.setLayoutManager(linearLayoutManager);
+////        recyclerView.setAdapter(new TestAdapter(this, viewCaterogyList));
+////        recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
+//
+//    }
+
     public Bitmap stringToBitmap(String image) {
         try {
             byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
@@ -756,7 +765,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             return null;
         }
     }
-
 
     public int getImage(String imageName) {
 
@@ -1083,7 +1091,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         return null;
     }
 
-
     //    void profileDialog() {
 //
 //        Bitmap encodeAsBitmap (String contents, BarcodeFormat format,int img_width, int img_height) throws
@@ -1205,6 +1212,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                         case 5:
                             Intent addNewIntent = new Intent(CategoryActivity.this, AddNewActivity.class);
                             startActivity(addNewIntent);
+                            finish();
                             break;
                     }
 
@@ -1265,7 +1273,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.show();
     }
 
-
     class CViewItemHolder extends RecyclerView.ViewHolder {
         TextView itemName;
         TextView balance, Qty;
@@ -1282,7 +1289,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             delete = itemView.findViewById(R.id.delete);
         }
     }
-
 
     class TestItemAdapter extends RecyclerView.Adapter<CategoryActivity.CViewItemHolder> {
         Context context;
@@ -1338,7 +1344,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     private static final int REQUEST_PHONE_CALL = 1;
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -1346,10 +1351,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             case REQUEST_PHONE_CALL: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                  startActivity(callIntent);
-                }
-                else
-                {
+                    startActivity(callIntent);
+                } else {
                     Toast.makeText(CategoryActivity.this, "check permission call ", Toast.LENGTH_SHORT).show();
 
                 }
@@ -1357,7 +1360,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             }
         }
     }
-
 
 
 }
