@@ -60,6 +60,8 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
             @Override
             public void onClick(View v) {
                 databaseHandler.deleteCategory(categoryList.get(i).getCategoryName());
+                databaseHandler.deleteItemForCategory(categoryList.get(i).getCategoryName());
+
                 context.fillAdapter();
             }
         });

@@ -685,9 +685,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteCategory(String category) {
+    public void deleteItemForCategory(String category) {
         db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + ITEMS_TABLE + " WHERE CATEGORY_NAME= '" + category + "';");
+        db.close();
+    }
+
+    public void deleteCategory(String category) {
+        db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + CATEGORY_TABLE + " WHERE CATEGORY_NAME= '" + category + "';");
         db.close();
     }
 
