@@ -81,7 +81,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/itemRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="900dp"
                 android:layout_gravity="center"
                 android:layout_weight="2"
                 android:padding="10dp" />
@@ -94,17 +94,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/items_btn_addToOrder"
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginStart="152dp"
+    android:layout_marginBottom="177dp"
 
-        <ImageView
-            android:id="@+id/items_btn_addToOrder"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="152dp"
-            android:layout_marginBottom="177dp"
+    android:visibility="invisible" />
 
-            android:visibility="invisible" />
     </RelativeLayout>
 
 </RelativeLayout>

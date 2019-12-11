@@ -66,7 +66,8 @@ import static android.widget.LinearLayout.VERTICAL;
 public class ItemActivaty extends AppCompatActivity {
 
     private static TextView catName;
-    private ImageView catPic, orderImage, addToOrder;
+    private ImageView catPic, orderImage;
+   CircleImageView addToOrder;
     private LinearLayout swipeRefresh;
     private RecyclerView recyclerView;
     private List<Items> itemList;
@@ -89,7 +90,7 @@ public class ItemActivaty extends AppCompatActivity {
         catName = (TextView) findViewById(R.id.catName);
         catPic = (ImageView) findViewById(R.id.catImage);
         orderImage = (ImageView) findViewById(R.id.orderIcon);
-        addToOrder = (ImageView) findViewById(R.id.items_btn_addToOrder);
+        addToOrder = (CircleImageView) findViewById(R.id.items_btn_addToOrder);
 
         Calendar calendar=Calendar.getInstance();
         Date date=Calendar.getInstance().getTime();
@@ -187,11 +188,11 @@ public class ItemActivaty extends AppCompatActivity {
     static class CViewHolder extends RecyclerView.ViewHolder {
 
         TextView ItemName, itemDescription, addQty, subQty, balance, Qty, price;//,point;
-        ImageView itemImage;
+        LinearLayout itemImage;
         //        LinearLayout pointLinear;
 //        CircleImageView imageOffer;
         ImageView imageOffer;
-        public static Button addOrder;
+        public static Button addOrder,changePrice;
 
         public CViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -203,6 +204,7 @@ public class ItemActivaty extends AppCompatActivity {
             Qty = itemView.findViewById(R.id.Qty);
             itemImage = itemView.findViewById(R.id.item_imge);
             addOrder = itemView.findViewById(R.id.addToOrder);
+            changePrice= itemView.findViewById(R.id.changePrice);
             price = itemView.findViewById(R.id.price);
 //            point=itemView.findViewById(R.id.point_text);
 //            pointLinear=itemView.findViewById(R.id.points);
@@ -249,6 +251,53 @@ public class ItemActivaty extends AppCompatActivity {
 //            else {
 //                cViewHolder.point.setText(list.get(i).getPoint()+"");
 //            }
+
+
+            cViewHolder.changePrice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    final Dialog dialog = new Dialog(context);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.change_price_dialog);
+                    dialog.setCanceledOnTouchOutside(false);
+
+                    Button Done,cancel;
+                    TextView oldPrice;
+                    final EditText newPrice;
+                    oldPrice=dialog.findViewById(R.id.ChangePRICEOldText);
+                    newPrice=dialog.findViewById(R.id.ChangePRICENewEdit);
+
+                    Done=dialog.findViewById(R.id.ChangePRICEDoneButton);
+                    cancel=dialog.findViewById(R.id.ChangePRICECancelButton);
+
+                    oldPrice.setText(list.get(i).getPrice()+"");
+                    Done.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(!newPrice.getText().toString().equals("")&&Double.parseDouble(newPrice.getText().toString())!=0) {
+                                SettingOrder.Item.get(SettingOrder.indexCat).get(i).setPrice(Double.parseDouble(newPrice.getText().toString()));
+                                cViewHolder.price.setText(newPrice.getText().toString());
+
+                                dialog.dismiss();
+                            }else {
+                                Toast.makeText(ItemActivaty.this, "Please add all data", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+
+                }
+            });
 
 
             cViewHolder.addOrder.setOnClickListener(new View.OnClickListener() {
