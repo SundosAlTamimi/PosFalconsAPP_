@@ -165,6 +165,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         phoneNo = customerInformation.getPhoneNo();
 
+
         setSupportActionBar(mTopToolbar);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
             @Override
@@ -252,6 +253,12 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         recyclerViews.scrollToPosition(2);
         recyclerViews.requestFocus();
 
+//????????????????????????????????????????????????????????????????????????????
+
+        databaseHandler.deleteAllItems();
+//        fillCategory();
+        viewCaterogyList = databaseHandler.getAllCategory();
+
         //        pic.add("");
         pic.add("ice_cream_");
         pic.add("fraze_");
@@ -283,6 +290,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
             }
         });
+
+
 //        pic.add("");
 
         // vertical and cycle layout
@@ -747,6 +756,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
+
     public int getImage(String imageName) {
 
         int drawableResourceId = CategoryActivity.this.getResources().getIdentifier(imageName, "drawable", CategoryActivity.this.getPackageName());
@@ -1072,6 +1082,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         return null;
     }
 
+
     //    void profileDialog() {
 //
 //        Bitmap encodeAsBitmap (String contents, BarcodeFormat format,int img_width, int img_height) throws
@@ -1262,6 +1273,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.show();
     }
 
+
     class CViewItemHolder extends RecyclerView.ViewHolder {
         TextView itemName;
         TextView balance, Qty;
@@ -1278,6 +1290,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             delete = itemView.findViewById(R.id.delete);
         }
     }
+
 
     class TestItemAdapter extends RecyclerView.Adapter<CategoryActivity.CViewItemHolder> {
         Context context;
@@ -1333,6 +1346,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     private static final int REQUEST_PHONE_CALL = 1;
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -1349,6 +1363,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             }
         }
     }
+
 
 
 }

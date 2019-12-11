@@ -16,6 +16,32 @@ public class Items {
     private double QTY;
     private double Total;
     private  int point;
+    private  double tax;
+
+    public Items(String categoryName, String itemName, int itemBarcode, String categoryPic,
+                 String description, double price, String itemPic, int indexOfItem, int indexOfCat, double QTY, double total, int point, double tax) {
+        this.categoryName = categoryName;
+        this.itemName = itemName;
+        this.itemBarcode = itemBarcode;
+        this.categoryPic = categoryPic;
+        this.description = description;
+        this.price = price;
+        ItemPic = itemPic;
+        this.indexOfItem = indexOfItem;
+        this.indexOfCat = indexOfCat;
+        this.QTY = QTY;
+        Total = total;
+        this.point = point;
+        this.tax = tax;
+    }
+
+    public double getTax() {
+        return tax;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
 
     public Items() {
     }
