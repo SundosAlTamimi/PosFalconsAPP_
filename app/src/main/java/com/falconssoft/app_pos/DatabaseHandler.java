@@ -444,6 +444,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return items;
     }
 
+    public boolean IfBarCodeIsFound(String BARCODE) {
+        List<Items> items = new ArrayList<>();
+        String selectQuery = "SELECT * FROM ITEMS where  ITEM_BARCODE = '"+BARCODE+"'";
+
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Items item = new Items();
+                item.setCategoryName(cursor.getString(0));
+                item.setItemName(cursor.getString(1));
+                item.setItemBarcode(Integer.parseInt(cursor.getString(2)));
+                item.setPrice(Double.parseDouble(cursor.getString(3)));
+                item.setDescription(cursor.getString(4));
+                item.setItemPic(cursor.getString(5));
+                item.setPoint(cursor.getInt(6));
+
+                items.add(item);
+
+            } while (cursor.moveToNext());
+        }
+        if (items.size()==0){
+            return false;
+        }else{
+            return true;
+
+        }
+
+    }
+
     public List<Users> getAllUSER() {
         List<Users> usersList = new ArrayList<Users>();
 

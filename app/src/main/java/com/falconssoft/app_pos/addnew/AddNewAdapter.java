@@ -1,6 +1,7 @@
 package com.falconssoft.app_pos.addnew;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.R;
+import com.falconssoft.app_pos.add_item;
 import com.falconssoft.app_pos.category.CategoryActivity;
 import com.falconssoft.app_pos.models.CategoryModel;
 import com.falconssoft.app_pos.models.Items;
@@ -40,7 +42,7 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddNewViewHolder addNewViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final AddNewViewHolder addNewViewHolder, final int i) {
 //        Log.e("size 4", "" + i);
 
         addNewViewHolder.name.setText(categoryList.get(i).getCategoryName());
@@ -65,6 +67,9 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
         addNewViewHolder.newItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent additem = new Intent(context, add_item.class);
+                additem.putExtra("categoryNames", addNewViewHolder.name.getText());
+                context.startActivity(additem);
 
             }
         });

@@ -103,7 +103,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="152dp"
             android:layout_marginBottom="177dp"
-            android:background="@drawable/burger"
+
             android:visibility="invisible" />
     </RelativeLayout>
 

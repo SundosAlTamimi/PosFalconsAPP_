@@ -53,7 +53,7 @@ public class add_item extends AppCompatActivity implements View.OnClickListener 
     private DatabaseHandler databaseHandler;
     private  final  int requestCode_image=1;
     private Bitmap bitmap = null;
-
+    String categoryName="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,13 +61,16 @@ public class add_item extends AppCompatActivity implements View.OnClickListener 
 
         databaseHandler = new DatabaseHandler(this);
 
+        Intent userName = getIntent();
+         categoryName = userName.getStringExtra("categoryNames");
+
 //
         final LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(VERTICAL);
         recyclerView = (RecyclerView) findViewById(R.id.allitem_recycler);
         items = new ArrayList<>();
-        items = databaseHandler.getAllItems();
+        items = databaseHandler.getAllItemCategory(categoryName);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new Adapter_add_items(this, items));
 
@@ -141,7 +144,7 @@ public class add_item extends AppCompatActivity implements View.OnClickListener 
         barcode.setText("");
         tax.setText("");
 //        databaseHandler.deleteAllItems();
-        item_pic.setBackground(getResources().getDrawable(R.drawable.ic_add_a_photo_black_24dp));
+        item_pic.setBackground(getResources().getDrawable(R.drawable.ic_add_a_photo_24dp));
 
 
     }
@@ -149,21 +152,29 @@ public class add_item extends AppCompatActivity implements View.OnClickListener 
     private void addItemToCategory() {
 
         if(CheckInformationEntered()) {
-            Items one_item = new Items();
-            one_item.setCategoryName("cold");
-            one_item.setItemPic(bitmapToString(bitmap));
-            one_item.setCategoryPic(bitmapToString(bitmap));
-            one_item.setQTY(qty_value);
-            one_item.setItemName(name_str);
-            one_item.setPrice(price_value);
-            one_item.setTax(tax_value);
-            one_item.setDescription(description_str);
-            one_item.setItemBarcode(barcode_value);
-            items.add(one_item);
-            databaseHandler.addItem(one_item);
-            recyclerView.setAdapter(new Adapter_add_items(this, items));
-            bitmap = null;
-            clearData();
+
+            boolean  barcodeFound=databaseHandler.IfBarCodeIsFound(String.valueOf(barcode_value));
+            if(!barcodeFound){
+                Items one_item = new Items();
+                one_item.setCategoryName(categoryName);
+                one_item.setItemPic(bitmapToString(bitmap));
+                one_item.setQTY(qty_value);
+                one_item.setItemName(name_str);
+                one_item.setPrice(price_value);
+                one_item.setTax(tax_value);
+                one_item.setDescription(description_str);
+                one_item.setItemBarcode(barcode_value);
+                items.add(one_item);
+                databaseHandler.addItem(one_item);
+                recyclerView.setAdapter(new Adapter_add_items(this, items));
+                bitmap = null;
+                clearData();
+                Toast.makeText(this, "save", Toast.LENGTH_SHORT).show();
+
+            }else {
+                Toast.makeText(this, "This Bar Code Add Before", Toast.LENGTH_SHORT).show();
+            }
+
         }
         else{
             Toast.makeText(this, "please fill required filed", Toast.LENGTH_SHORT).show();
