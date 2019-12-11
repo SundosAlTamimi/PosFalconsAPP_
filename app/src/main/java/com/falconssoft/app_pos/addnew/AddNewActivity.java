@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.category.CategoryActivity;
+import com.falconssoft.app_pos.models.CategoryModel;
 import com.falconssoft.app_pos.models.Items;
 
 import java.io.ByteArrayOutputStream;
@@ -39,7 +40,7 @@ public class AddNewActivity extends AppCompatActivity implements View.OnClickLis
 
     private RecyclerView recyclerView;
     private DatabaseHandler databaseHandler;
-    private List<Items> categoryItemsList = new ArrayList<>();
+    private List<CategoryModel> categoryItemsList = new ArrayList<>();
     private ImageView saveNewCategory, takePhoto;
     private EditText addCategoryName;
     private AddNewAdapter adapter;
@@ -73,7 +74,7 @@ public class AddNewActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     void fillAdapter() {
-        categoryItemsList = databaseHandler.getAllCategory();
+        categoryItemsList = databaseHandler.getAllCategoryTable();
         adapter = new AddNewAdapter(this, categoryItemsList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -103,8 +104,8 @@ public class AddNewActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.add_new_save:
                 if (!TextUtils.isEmpty(addCategoryName.getText())) {
                     String image = bitmapToString(bitmap);
-                    Items newItem = new Items(addCategoryName.getText().toString(), "", -1, image, "No Description", 0, null, -1, -1, 0, 0, 0);
-                    databaseHandler.addItem(newItem);
+                    CategoryModel categoryModel=new CategoryModel(addCategoryName.getText().toString(),image);
+                    databaseHandler.addCategory(categoryModel);
                     fillAdapter();
                 }
 

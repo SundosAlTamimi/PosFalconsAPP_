@@ -13,17 +13,18 @@ import android.view.ViewGroup;
 import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.category.CategoryActivity;
+import com.falconssoft.app_pos.models.CategoryModel;
 import com.falconssoft.app_pos.models.Items;
 
 import java.util.List;
 
 public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
 
-    private List<Items> categoryList;
+    private List<CategoryModel> categoryList;
     private AddNewActivity context;
     private DatabaseHandler databaseHandler;
 
-    public AddNewAdapter(AddNewActivity context, List<Items> categoryList) {
+    public AddNewAdapter(AddNewActivity context, List<CategoryModel> categoryList) {
         this.categoryList = categoryList;
         this.context = context;
         databaseHandler = new DatabaseHandler(context);

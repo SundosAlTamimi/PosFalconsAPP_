@@ -297,7 +297,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(CATEGORY_PIC1, categoryModel.getCategoryPic());
 
 
-        db.insert(TABLES_TABLE, null, values);
+        db.insert(CATEGORY_TABLE, null, values);
         db.close();
     }
 
@@ -373,6 +373,42 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 //        String selectQuery = "SELECT DISTINCT CATEGORY_NAME FROM " + ITEMS_TABLE;
         String selectQuery = "SELECT * FROM ITEMS GROUP BY CATEGORY_NAME ";
+
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Items item = new Items();
+                item.setCategoryName(cursor.getString(0));
+                item.setItemName(cursor.getString(1));
+                item.setItemBarcode(Integer.parseInt(cursor.getString(2)));
+                item.setPrice(Double.parseDouble(cursor.getString(3)));
+                item.setDescription(cursor.getString(4));
+                item.setItemPic(cursor.getString(5));
+                item.setPoint(cursor.getInt(6));
+
+                items.add(item);
+//                if (cursor.getBlob(5).length == 0)
+//                    item.setItemPic(null);
+//                else
+//                    item.setItemPic(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
+//
+//
+//                if (cursor.getBlob(6).length == 0)
+//                    item.setCategoryPic(null);
+//                else
+//                    item.setCategoryPic(BitmapFactory.decodeByteArray(cursor.getBlob(6), 0, cursor.getBlob(6).length));
+            } while (cursor.moveToNext());
+        }
+        return items;
+    }
+
+    public List<Items> getAllItemCategory(String Category) {
+        List<Items> items = new ArrayList<>();
+
+//        String selectQuery = "SELECT DISTINCT CATEGORY_NAME FROM " + ITEMS_TABLE;
+        String selectQuery = "SELECT * FROM ITEMS where  CATEGORY_NAME = '"+Category+"'";
 
         db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -574,6 +610,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 tables1.setNoOfSeits(cursor.getInt(2));
 
                 tables.add(tables1);
+            } while (cursor.moveToNext());
+        }
+        return tables;
+    }
+
+    public List<CategoryModel> getAllCategoryTable() {
+        List<CategoryModel> tables = new ArrayList<CategoryModel>();
+
+        String selectQuery = "SELECT  * FROM " + CATEGORY_TABLE;
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                CategoryModel categoryModel = new CategoryModel();
+
+                categoryModel.setCategoryName(cursor.getString(0));
+                categoryModel.setCategoryPic(cursor.getString(1));
+
+
+                tables.add(categoryModel);
             } while (cursor.moveToNext());
         }
         return tables;
