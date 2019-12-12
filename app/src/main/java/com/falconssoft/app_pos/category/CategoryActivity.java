@@ -597,7 +597,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
                     Intent itemIntent = new Intent(context, ItemActivaty.class);
                     itemIntent.putExtra("categoryName", list.get(i).getCategoryName());
-//                    itemIntent.putExtra("catPic",  list.get(i).getCategoryPic());
+                    itemIntent.putExtra("catPic",  list.get(i).getCategoryPic());
                     context.startActivity(itemIntent);
                     SettingOrder.indexCat = i;
                 }

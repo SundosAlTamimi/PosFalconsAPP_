@@ -1,10 +1,12 @@
 package com.falconssoft.app_pos.addnew;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,10 +61,30 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
         addNewViewHolder.deleteCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHandler.deleteCategory(categoryList.get(i).getCategoryName());
-                databaseHandler.deleteItemForCategory(categoryList.get(i).getCategoryName());
 
-                context.fillAdapter();
+                new AlertDialog.Builder(context)
+                        .setTitle("Delete Category")
+                        .setMessage("Are you sure you want to delete this entry?" +
+                                "\n \n \n Note : \"when Delete any Category the item for this category will be delete  \"")
+
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Continue with delete operation
+                                databaseHandler.deleteCategory(categoryList.get(i).getCategoryName());
+                                databaseHandler.deleteItemForCategory(categoryList.get(i).getCategoryName());
+
+                                context.fillAdapter();
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(R.drawable.ic_delete_black_24dp)
+                        .show();
+
             }
         });
 

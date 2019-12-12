@@ -66,14 +66,14 @@ import static android.widget.LinearLayout.VERTICAL;
 public class ItemActivaty extends AppCompatActivity {
 
     private static TextView catName;
-    private ImageView catPic, orderImage;
+    private ImageView  orderImage;
    CircleImageView addToOrder;
     private LinearLayout swipeRefresh;
     private RecyclerView recyclerView;
     private List<Items> itemList;
     CustomerInformation customerInformation;
     DatabaseHandler databaseHandler;
-
+    LinearLayout catPic;
     NotificationManager notificationManager;
     static int id=1;
     String  today="",time="";
@@ -83,12 +83,12 @@ public class ItemActivaty extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_activaty);
-        Intent userName = getIntent();
-        String categoryName = userName.getStringExtra("categoryName");
-        String CatPic = userName.getStringExtra("catPic");
+        Intent categoryIntent = getIntent();
+        String categoryName = categoryIntent.getStringExtra("categoryName");
+        String CatPic = categoryIntent.getStringExtra("catPic");
 
         catName = (TextView) findViewById(R.id.catName);
-        catPic = (ImageView) findViewById(R.id.catImage);
+        catPic = (LinearLayout) findViewById(R.id.catImage);
         orderImage = (ImageView) findViewById(R.id.orderIcon);
         addToOrder = (CircleImageView) findViewById(R.id.items_btn_addToOrder);
 
@@ -102,16 +102,16 @@ public class ItemActivaty extends AppCompatActivity {
         time = sdf2.format(calendar.getTime());
         today = sdf.format(calendar.getTime());
 
-
-//        SimpleDateFormat simpleFormatter=new SimpleDateFormat("dd-MM-yyyy");
-//        SimpleDateFormat simpleFormatters=new SimpleDateFormat("HH:mm:ss");
-//        today = simpleFormatter.format(date);
-//        time = simpleFormatters.format(calendar.getTime());
-
         itemList = new ArrayList<>();
-
         catName.setText(categoryName);
-//        catPic.setBackgroundResource(getImage(CatPic));
+        if(stringToBitmap(CatPic)==null){
+
+            catPic.setBackgroundResource(getImage("ice_4"));
+        }else {
+            Drawable drawable = new BitmapDrawable(getResources(),stringToBitmap(CatPic));
+            catPic.setBackground(drawable);
+        }
+
 //        baseHandler=new DatabaseHandler(CategoryActivity.this);
 //        SettingOrder.Item=baseHandler.getAllItems();
 //        swipeRefresh = findViewById(R.id.swipeRefresh);
