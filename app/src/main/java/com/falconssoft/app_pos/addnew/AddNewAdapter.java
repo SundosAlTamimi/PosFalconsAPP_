@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.R;
+import com.falconssoft.app_pos.SettingOrder;
 import com.falconssoft.app_pos.add_item;
 import com.falconssoft.app_pos.category.CategoryActivity;
 import com.falconssoft.app_pos.models.CategoryModel;
@@ -65,7 +66,7 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
                 new AlertDialog.Builder(context)
                         .setTitle("Delete Category")
                         .setMessage("Are you sure you want to delete this entry?" +
-                                "\n \n \n Note : \"when Delete any Category the item for this category will be delete  \"")
+                                "\n \n \n Note : \"when Delete any Category the item for this category will be delete and  delete all order \"")
 
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
@@ -76,6 +77,7 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
                                 databaseHandler.deleteCategory(categoryList.get(i).getCategoryName());
                                 databaseHandler.deleteItemForCategory(categoryList.get(i).getCategoryName());
 
+                                isInOrderList(addNewViewHolder.name.getText().toString());
                                 context.fillAdapter();
                             }
                         })
@@ -105,5 +107,19 @@ public class AddNewAdapter extends RecyclerView.Adapter<AddNewViewHolder> {
         return categoryList.size();
     }
 
+    void isInOrderList(String Category){
+
+        for (int i = 0; i < SettingOrder.ItemsOrder.size(); i++) {
+
+            if (SettingOrder.ItemsOrder.get(i).getCategoryName().equals(Category)) {
+                SettingOrder.ItemsOrder.remove(i);
+                SettingOrder.index--;
+                break;
+
+            }
+
+        }}
+
 
 }
+

@@ -9,6 +9,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -305,12 +307,13 @@ public class ItemActivaty extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Items item = new Items();
-                    boolean isFound = updateIfInList(cViewHolder.ItemName.getText().toString(), Double.parseDouble(cViewHolder.Qty.getText().toString()), i, Double.parseDouble(cViewHolder.balance.getText().toString().replace("JD", "")));
+                    boolean isFound = updateIfInList(String.valueOf(list.get(i).getItemBarcode()), Double.parseDouble(cViewHolder.Qty.getText().toString()), i, Double.parseDouble(cViewHolder.balance.getText().toString().replace("JD", "")));
                     if (Double.parseDouble(cViewHolder.Qty.getText().toString()) != 0) {
                         if (!isFound) {
                             item.setItemName(cViewHolder.ItemName.getText().toString());
 //                    item.setItemPic(pic.get(i));
                             item.setCategoryName(catName.getText().toString());
+                            item.setItemBarcode(list.get(i).getItemBarcode());
                             item.setPrice(SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPrice());
                             item.setQTY(Double.parseDouble(cViewHolder.Qty.getText().toString()));
                             item.setDescription(list.get(i).getDescription());
@@ -333,7 +336,26 @@ public class ItemActivaty extends AppCompatActivity {
                             motionEvent(list.get(i).getItemPic());
 
                         } else {
-                            Toast.makeText(context, " Update ", Toast.LENGTH_SHORT).show();//Alert message for update
+//                            new AlertDialog.Builder(context)
+//                                    .setTitle("Update Qty")
+//                                    .setMessage("Are you sure you want to Update  this "+cViewHolder.ItemName.getText().toString() +"Qty ="++" To New Qty = "+cViewHolder.Qty.getText().toString()+"?" +
+//                                            "\n \n \n Note : \"when Delete any Category the item for this category will be delete  \"")
+//
+//
+//                                    // Specifying a listener allows you to take an action before dismissing the dialog.
+//                                    // The dialog is automatically dismissed when a dialog button is clicked.
+//                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            // Continue with delete operation
+//                                        }
+//                                    })
+//
+//                                    // A null listener allows the button to dismiss the dialog and take no further action.
+//                                    .setNegativeButton(android.R.string.no, null)
+//                                    .setIcon(R.drawable.ic_delete_black_24dp)
+//                                    .show();
+
+                            Toast.makeText(context, " Update Order ", Toast.LENGTH_SHORT).show();//Alert message for update
                         }
                     } else {
                         Toast.makeText(context, "Can't Add  the QTY = 0 ", Toast.LENGTH_SHORT).show();
@@ -743,11 +765,11 @@ public class ItemActivaty extends AppCompatActivity {
         return drawableResourceId;
     }
 
-    public static boolean updateIfInList(String namePointer, double itemQty, int pointer, double itemTotal) {
+    public static boolean updateIfInList(String barCodePointer, double itemQty, int pointer, double itemTotal) {
         boolean isFound = false;
         for (int i = 0; i < SettingOrder.ItemsOrder.size(); i++) {
 
-            if (namePointer.equals(SettingOrder.ItemsOrder.get(i).getItemName())) {
+            if (barCodePointer.equals(SettingOrder.ItemsOrder.get(i).getItemBarcode())) {
                 SettingOrder.Item.get(SettingOrder.indexCat).get(pointer).setQTY(itemQty);
                 SettingOrder.ItemsOrder.get(i).setQTY(itemQty);
 
