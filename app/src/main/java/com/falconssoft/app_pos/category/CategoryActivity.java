@@ -58,6 +58,7 @@ import com.falconssoft.app_pos.addnew.AddNewActivity;
 import com.falconssoft.app_pos.email.SendMailTask;
 import com.falconssoft.app_pos.itemsReciptAdapter;
 import com.falconssoft.app_pos.adapter_branch;
+import com.falconssoft.app_pos.models.CategoryModel;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
 import com.falconssoft.app_pos.models.Order;
@@ -91,6 +92,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private ImageButton facebook, twitter, instagram, whatsApp;
     ImageView barcode, orderList;
     ArrayList<String> picforbar, pic2, branches_list;
+    public static Bitmap categoryImage=null;
 
     //    private TextView UserNameText;
     private LinearLayout swipeRefresh;
@@ -113,6 +115,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private LinearLayoutManager linearLayoutManager;
     private CarouselLayoutManager layoutManagerd;
     private List<Items> viewCaterogyList = new ArrayList<>();
+    private List<CategoryModel> Categorys = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +128,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         orderList = (ImageView) findViewById(R.id.orderlist);
         pic2 = new ArrayList<>();
         branches_list = new ArrayList<>();
+
+        FillCategory();
+
         branches_list.add("Branch Resturant 1");
         branches_list.add("Branch Resturant 2");
         branches_list.add("Branch Resturant 3");
@@ -160,6 +166,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         phoneNo = customerInformation.getPhoneNo();
 
+
         setSupportActionBar(mTopToolbar);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
             @Override
@@ -192,47 +199,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 orderListDialog();
             }
         });
-//        CarouselPicker carouselPicker = (CarouselPicker) findViewById(R.id.carousel);
-//
-//// Case 1 : To populate the picker with images
-//        List<CarouselPicker.PickerItem> imageItems = new ArrayList<>();
-//        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.wafel8));
-//        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.bell));
-//        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.bell));
-////Create an adapter
-//        CarouselPicker.CarouselViewAdapter imageAdapter = new CarouselPicker.CarouselViewAdapter(this, imageItems, 0);
-////Set the adapter
-//        carouselPicker.setAdapter(imageAdapter);
-//
-//        carouselPicker.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                //position of the selected item
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-
-
-//        layoutManager = new TurnLayoutManager(this,
-//                TurnLayoutManager.Gravity.START,
-//                TurnLayoutManager.Orientation.VERTICAL,
-//                200,
-//                200,
-//                false);// vertical and cycle layout
-//
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(new TestAdapter(this, list));
-
 
         //????????????????????????????????????????????????????????????????????????????
 
@@ -247,27 +213,23 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         recyclerViews.scrollToPosition(2);
         recyclerViews.requestFocus();
 
-        //        pic.add("");
-        pic.add("ice_cream_");
-        pic.add("fraze_");
-        pic.add("ice_cream_sundae");
-        pic.add("limeice_cream");
-        pic.add("ice_cream_chocolate");
-        pic.add("zemenu_saldejuma");
-        pic.add("coupe_glace");
-        pic.add("coupe_glace_png");
-        pic.add("frazeicecream");
-        pic.add("freaze_icecream");
+//????????????????????????????????????????????????????????????????????????????
+
+//        pic.add("ice_cream_");
+//        pic.add("fraze_");
+//        pic.add("ice_cream_sundae");
+//        pic.add("limeice_cream");
+//        pic.add("ice_cream_chocolate");
+//        pic.add("zemenu_saldejuma");
+//        pic.add("coupe_glace");
+//        pic.add("coupe_glace_png");
+//        pic.add("frazeicecream");
+//        pic.add("freaze_icecream");
 
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(VERTICAL);
-//         recyclerView = (RecyclerView) findViewById(R.id.itemRecycler);
-
-//        databaseHandler.deleteAllItems();
-//        fillCategory();
-        viewCaterogyList = databaseHandler.getAllCategory();
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new TestAdapter(this, viewCaterogyList));
+        recyclerView.setAdapter(new TestAdapter(this, Categorys));
         recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
 
 //        refreshTestAdapter();
@@ -278,87 +240,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
             }
         });
-//        pic.add("");
 
-        // vertical and cycle layout
-//        layoutManager = new TurnLayoutManager(this,
-//                TurnLayoutManager.Gravity.START,
-//                TurnLayoutManager.Orientation.HORIZONTAL,
-//                200,
-//                200,
-//                false);
-//
-//
-//        recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(new TestAdapter(this, list));
-//
-//        recyclerView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.e("itemRec", "");
-//            }
-//        });
-
-//        makeOrder.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                SettingOrder.Item.clear();
-//                SettingOrder.ItemsOrder.clear();
-//                SettingOrder.index = 0;
-//            }
-//        });
-
-//          swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//                           @Override
-//                         public void onRefresh() {
-//
-//                               Toast.makeText(CategoryActivity.this, "refresh ..", Toast.LENGTH_SHORT).show();
-//                              swipeRefresh.setRefreshing(false);
-//                           }
-//        swipeRefresh.setRefreshing(false);
-//    }
-
-//        CallCaptain.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//               mediaPlayer = MediaPlayer.create(CategoryActivity.this, R.raw.bell);
-//                mediaPlayer.start();
-//
-//                SendSocket sendSocket = new SendSocket(CategoryActivity.this);
-//                sendSocket.sendMessage();
-//            }
-//        });
-    }
-
-    void fillCategory() {
-        list.add("Barbecue");
-        list.add("Chips");
-        list.add("Fish finger");
-        list.add("Cookies");
-        list.add("Turkey Sandwich");
-        list.add("Fried Potato");
-        list.add("Burger");
-        list.add("Salad");
-        list.add("Egg");
-        list.add("Chicken Zinger");
-
-
-        for (int i = 0; i < 10; i++) {
-//            itemList.clear();
-//            databaseHandler.addItem((new Items(list.get(i), "wafel 1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0)));
-//            databaseHandler.addItem((new Items(list.get(i), "wafel 2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1)));
-//            databaseHandler.addItem((new Items(list.get(i), "wafel 3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2)));
-//            databaseHandler.addItem((new Items(list.get(i), "wafel 4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2)));
-//            databaseHandler.addItem((new Items(list.get(i), "wafel 5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0)));
-//            databaseHandler.addItem((new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0, 1)));
-//            databaseHandler.addItem((new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0, 0)));
-//            databaseHandler.addItem((new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0, 0)));
-//            databaseHandler.addItem((new Items("wafel9", "wafel9", -1, null, "wafel9", 1.0, null, -1, -1, 0, 0, 0)));
-//            databaseHandler.addItem((new Items("wafel10", "wafel10", -1, null, "wafel10", 1.0, null, -1, -1, 0, 0, 4)));
-
-        }
     }
 
     @Override
@@ -596,12 +478,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
         total_money.setText(pric + "");
         Log.e("pric", "" + pric);
-//        if (!receved_money.getText().toString().equals(""))
-//        {
-//            recived = Double.parseDouble(receved_money.getText().toString());
-//
-//    }
-//        final double finalRecived = recived;
+
         final double finalPric = pric;
         receved_money.addTextChangedListener(new TextWatcher() {
             @Override
@@ -680,13 +557,13 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     public class TestAdapter extends RecyclerView.Adapter<CViewHolder> {
         CategoryActivity context;
-        List<Items> list;
+        List<CategoryModel> list;
 //DatabaseHandler db;
 
         public TestAdapter() {
         }
 
-        public TestAdapter(CategoryActivity context, List<Items> list) {
+        public TestAdapter(CategoryActivity context, List<CategoryModel> list) {
             this.context = context;
             this.list = list;
 //        db=new DatabaseHandler(this.context);
@@ -702,8 +579,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         @Override
         public void onBindViewHolder(@NonNull final CViewHolder cViewHolder, final int i) {
             cViewHolder.categoryName.setText(list.get(i).getCategoryName());
-//            String image = list.get(i).getCategoryPic();
-            String image =null;
+            String image = list.get(i).getCategoryPic();
             if (image == null || (image.equals(""))) {
                 cViewHolder.categoryImage.setBackgroundResource(R.drawable.ice_4);
             } else {
@@ -722,17 +598,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
                     Intent itemIntent = new Intent(context, ItemActivaty.class);
                     itemIntent.putExtra("categoryName", list.get(i).getCategoryName());
-                    itemIntent.putExtra("catPic", pic.get(i));
+//                    itemIntent.putExtra("catPic",  stringToBitmap(list.get(i).getCategoryPic()));
+                    categoryImage=stringToBitmap(list.get(i).getCategoryPic());
                     context.startActivity(itemIntent);
                     SettingOrder.indexCat = i;
-//                CustomIntent.customType(context,"left-to-right");
-//             //   bottom-to-up "left-to-right"
-//                /**left-to-right
-//                 *right-to-left
-//                 *bottom-to-up
-//                 *up-to-bottom
-//                 *fadein-to-fadeout
-//                 *rotateout-to-rotatein*/
                 }
             });
         }
@@ -744,16 +613,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-//    public void refreshTestAdapter(AddNewActivity context) {
-//
-//        DatabaseHandler databaseHandler = new DatabaseHandler(context);
-//        viewCaterogyList = databaseHandler.getAllCategory();
-//        new TestAdapter().notifyDataSetChanged();
-////        recyclerView.setLayoutManager(linearLayoutManager);
-////        recyclerView.setAdapter(new TestAdapter(this, viewCaterogyList));
-////        recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
-//
-//    }
 
     public Bitmap stringToBitmap(String image) {
         try {
@@ -765,6 +624,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             return null;
         }
     }
+
 
     public int getImage(String imageName) {
 
@@ -1091,6 +951,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         return null;
     }
 
+
     //    void profileDialog() {
 //
 //        Bitmap encodeAsBitmap (String contents, BarcodeFormat format,int img_width, int img_height) throws
@@ -1178,8 +1039,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         public void onBindViewHolder(@NonNull final CategoryActivity.CViewHolderForbar cViewHolder, final int i) {
             cViewHolder.ItemName.setText(list.get(i));
             cViewHolder.itemImage.setBackgroundResource(getImage(pic2.get(i)));
-//            cViewHolder.Qty.setText("" + list.get(i).getQTY());
-//            cViewHolder.price.setText("" + list.get(i).getPrice());
             cViewHolder.layBar.setTag("" + i);
 
             cViewHolder.layBar.setOnClickListener(new View.OnClickListener() {
@@ -1205,9 +1064,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                             BarcodeDialog();
                             break;
                         case 4:
-//                            BranchesDialog();
-                            Intent additem = new Intent(CategoryActivity.this, add_item.class);
-                            startActivity(additem);
+                            BranchesDialog();
                             break;
                         case 5:
                             Intent addNewIntent = new Intent(CategoryActivity.this, AddNewActivity.class);
@@ -1255,6 +1112,23 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     }
 
+    public  void FillCategory(){
+        Categorys=databaseHandler.getAllCategoryTable();
+        SettingOrder.Item.clear();
+        for(int i=0;i<Categorys.size();i++){
+            SettingOrder.Item.add(databaseHandler.getAllItemCategory(Categorys.get(i).getCategoryName()));
+        }
+    }
+
+    public  void FillCategoryReturn(DatabaseHandler db){
+
+       List<CategoryModel> Categorys1=db.getAllCategoryTable();
+        SettingOrder.Item.clear();
+        for(int i=0;i<Categorys1.size();i++){
+            SettingOrder.Item.add(db.getAllItemCategory(Categorys1.get(i).getCategoryName()));
+        }
+    }
+
     public void orderListDialog() {
         Dialog dialog = new Dialog(CategoryActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1273,6 +1147,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         dialog.show();
     }
 
+
     class CViewItemHolder extends RecyclerView.ViewHolder {
         TextView itemName;
         TextView balance, Qty;
@@ -1289,6 +1164,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             delete = itemView.findViewById(R.id.delete);
         }
     }
+
 
     class TestItemAdapter extends RecyclerView.Adapter<CategoryActivity.CViewItemHolder> {
         Context context;
@@ -1344,6 +1220,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     private static final int REQUEST_PHONE_CALL = 1;
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -1360,6 +1237,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             }
         }
     }
+
 
 
 }

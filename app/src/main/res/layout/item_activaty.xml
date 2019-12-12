@@ -27,16 +27,37 @@
                 android:layout_margin="2dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_background"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                <ImageView
-                    android:id="@+id/catImage"
+                <android.support.v7.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:background="@drawable/botato" />
+                    app:cardBackgroundColor="@color/purple"
+                    app:cardCornerRadius="20dp">
+
+                    <LinearLayout
+                        android:id="@+id/catImage"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/botato"
+                        android:orientation="vertical">
+
+                        <!--<ImageView-->
+                        <!--android:id="@+id/catImage"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="2dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:background="@drawable/botato" />-->
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
             </LinearLayout>
+
 
             <TextView
                 android:id="@+id/catName"
@@ -81,7 +102,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/itemRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="900dp"
                 android:layout_gravity="center"
                 android:layout_weight="2"
                 android:padding="10dp" />
@@ -94,17 +115,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/items_btn_addToOrder"
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginStart="152dp"
+    android:layout_marginBottom="177dp"
 
-        <ImageView
-            android:id="@+id/items_btn_addToOrder"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="152dp"
-            android:layout_marginBottom="177dp"
-            android:background="@drawable/burger"
-            android:visibility="invisible" />
+    android:visibility="invisible" />
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -10,6 +10,10 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +25,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +44,7 @@ import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.LoginActivity;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.SettingOrder;
+import com.falconssoft.app_pos.models.CategoryModel;
 import com.falconssoft.app_pos.models.CustomerInformation;
 import com.falconssoft.app_pos.models.Items;
 import com.falconssoft.app_pos.models.NotificationModel;
@@ -55,18 +61,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.widget.LinearLayout.HORIZONTAL;
 import static android.widget.LinearLayout.VERTICAL;
+import static com.falconssoft.app_pos.category.CategoryActivity.categoryImage;
 
 
 public class ItemActivaty extends AppCompatActivity {
 
     private static TextView catName;
-    private ImageView catPic, orderImage, addToOrder;
+    private ImageView  orderImage;
+   CircleImageView addToOrder;
     private LinearLayout swipeRefresh;
     private RecyclerView recyclerView;
     private List<Items> itemList;
     CustomerInformation customerInformation;
     DatabaseHandler databaseHandler;
-
+    LinearLayout catPic;
     NotificationManager notificationManager;
     static int id=1;
     String  today="",time="";
@@ -76,14 +84,14 @@ public class ItemActivaty extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_activaty);
-        Intent userName = getIntent();
-        String categoryName = userName.getStringExtra("categoryName");
-        String CatPic = userName.getStringExtra("catPic");
+        Intent categoryIntent = getIntent();
+        String categoryName = categoryIntent.getStringExtra("categoryName");
+//        String CatPic = categoryIntent.getStringExtra("catPic");
 
         catName = (TextView) findViewById(R.id.catName);
-        catPic = (ImageView) findViewById(R.id.catImage);
+        catPic = (LinearLayout) findViewById(R.id.catImage);
         orderImage = (ImageView) findViewById(R.id.orderIcon);
-        addToOrder = (ImageView) findViewById(R.id.items_btn_addToOrder);
+        addToOrder = (CircleImageView) findViewById(R.id.items_btn_addToOrder);
 
         Calendar calendar=Calendar.getInstance();
         Date date=Calendar.getInstance().getTime();
@@ -95,35 +103,35 @@ public class ItemActivaty extends AppCompatActivity {
         time = sdf2.format(calendar.getTime());
         today = sdf.format(calendar.getTime());
 
-
-//        SimpleDateFormat simpleFormatter=new SimpleDateFormat("dd-MM-yyyy");
-//        SimpleDateFormat simpleFormatters=new SimpleDateFormat("HH:mm:ss");
-//        today = simpleFormatter.format(date);
-//        time = simpleFormatters.format(calendar.getTime());
-
         itemList = new ArrayList<>();
-
         catName.setText(categoryName);
-        catPic.setBackgroundResource(getImage(CatPic));
+        if(categoryImage==null){
+
+            catPic.setBackgroundResource(getImage("ice_4"));
+        }else {
+            Drawable drawable = new BitmapDrawable(getResources(),categoryImage);
+            catPic.setBackground(drawable);
+        }
+
 //        baseHandler=new DatabaseHandler(CategoryActivity.this);
 //        SettingOrder.Item=baseHandler.getAllItems();
 //        swipeRefresh = findViewById(R.id.swipeRefresh);
-
-        for (int i = 0; i < 10; i++) {
-//            itemList.clear();
-//            itemList.add(new Items("wafel1", "wafel1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0));
-//            itemList.add(new Items("wafel2", "wafel2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1));
-//            itemList.add(new Items("wafel3", "wafel3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2));
-//            itemList.add(new Items("wafel4", "wafel4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2));
-//            itemList.add(new Items("wafel5", "wafel5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0));
-//            itemList.add(new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0, 1));
-//            itemList.add(new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0, 0));
-//            itemList.add(new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0, 0));
-//            itemList.add(new Items("wafel9", "wafel9", -1, null, "wafel9", 1.0, null, -1, -1, 0, 0, 0));
-//            itemList.add(new Items("wafel10", "wafel10", -1, null, "wafel10", 1.0, null, -1, -1, 0, 0, 4));
-
-//            SettingOrder.Item.add(i, itemList);
-        }
+//
+//        for (int i = 0; i < 10; i++) {
+////            itemList.clear();
+////            itemList.add(new Items("wafel1", "wafel1", -1, null, "wafel1", 2.0, null, -1, -1, 0, 0, 0));
+////            itemList.add(new Items("wafel2", "wafel2", -1, null, "wafel2", 2.50, null, -1, -1, 0, 0, 1));
+////            itemList.add(new Items("wafel3", "wafel3", -1, null, "wafel3", 1.0, null, -1, -1, 0, 0, 2));
+////            itemList.add(new Items("wafel4", "wafel4", -1, null, "wafel4", 1.0, null, -1, -1, 0, 0, 2));
+////            itemList.add(new Items("wafel5", "wafel5", -1, null, "wafel5", 1.0, null, -1, -1, 0, 0, 0));
+////            itemList.add(new Items("wafel6", "wafel6", -1, null, "wafel6", 0.5, null, -1, -1, 0, 0, 1));
+////            itemList.add(new Items("wafel7", "wafel7", -1, null, "wafel7", 0.25, null, -1, -1, 0, 0, 0));
+////            itemList.add(new Items("wafel8", "wafel8", -1, null, "wafel8", 1.0, null, -1, -1, 0, 0, 0));
+////            itemList.add(new Items("wafel9", "wafel9", -1, null, "wafel9", 1.0, null, -1, -1, 0, 0, 0));
+////            itemList.add(new Items("wafel10", "wafel10", -1, null, "wafel10", 1.0, null, -1, -1, 0, 0, 4));
+//
+////            SettingOrder.Item.add(i, itemList);
+//        }
 
         orderImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,8 +155,14 @@ public class ItemActivaty extends AppCompatActivity {
         layoutManager.setOrientation(HORIZONTAL);
         recyclerView = (RecyclerView) findViewById(R.id.itemRecycler);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new TestAdapter(this, SettingOrder.Item.get(SettingOrder.indexCat)));
 
+        Log.e("SettingOrder.Item",""+SettingOrder.Item.size());
+
+        if(SettingOrder.Item.get(SettingOrder.indexCat).size()!=0) {
+            recyclerView.setAdapter(new TestAdapter(this, SettingOrder.Item.get(SettingOrder.indexCat)));
+        }else {
+            Toast.makeText(this, "No Item For This Category", Toast.LENGTH_SHORT).show();
+        }
         recyclerView.setItemViewCacheSize(SettingOrder.Item.size());
         databaseHandler = new DatabaseHandler(ItemActivaty.this);
         if (databaseHandler.getAllInformation().size() != 0) {
@@ -175,11 +189,11 @@ public class ItemActivaty extends AppCompatActivity {
     static class CViewHolder extends RecyclerView.ViewHolder {
 
         TextView ItemName, itemDescription, addQty, subQty, balance, Qty, price;//,point;
-        ImageView itemImage;
+        LinearLayout itemImage;
         //        LinearLayout pointLinear;
 //        CircleImageView imageOffer;
         ImageView imageOffer;
-        public static Button addOrder;
+        public static Button addOrder,changePrice;
 
         public CViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -191,6 +205,7 @@ public class ItemActivaty extends AppCompatActivity {
             Qty = itemView.findViewById(R.id.Qty);
             itemImage = itemView.findViewById(R.id.item_imge);
             addOrder = itemView.findViewById(R.id.addToOrder);
+            changePrice= itemView.findViewById(R.id.changePrice);
             price = itemView.findViewById(R.id.price);
 //            point=itemView.findViewById(R.id.point_text);
 //            pointLinear=itemView.findViewById(R.id.points);
@@ -222,10 +237,12 @@ public class ItemActivaty extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final CViewHolder cViewHolder, final int i) {
             cViewHolder.ItemName.setText(list.get(i).getItemName());
-            cViewHolder.itemImage.setBackgroundResource(getImage(list.get(i).getDescription()));
+            Drawable drawable = new BitmapDrawable(getResources(),stringToBitmap(list.get(i).getItemPic()));
+            cViewHolder.itemImage.setBackground(drawable);
             cViewHolder.Qty.setText("" + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getQTY());
             cViewHolder.balance.setText("JD " + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getTotal());
             cViewHolder.price.setText("" + SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPrice());
+            cViewHolder.itemDescription.setText(list.get(i).getDescription());
 //            if(SettingOrder.Item.get(SettingOrder.indexCat).get(i).getPoint()==0)
 //            {
 //                cViewHolder.pointLinear.setVisibility(View.INVISIBLE);
@@ -235,6 +252,53 @@ public class ItemActivaty extends AppCompatActivity {
 //            else {
 //                cViewHolder.point.setText(list.get(i).getPoint()+"");
 //            }
+
+
+            cViewHolder.changePrice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    final Dialog dialog = new Dialog(context);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.change_price_dialog);
+                    dialog.setCanceledOnTouchOutside(false);
+
+                    Button Done,cancel;
+                    TextView oldPrice;
+                    final EditText newPrice;
+                    oldPrice=dialog.findViewById(R.id.ChangePRICEOldText);
+                    newPrice=dialog.findViewById(R.id.ChangePRICENewEdit);
+
+                    Done=dialog.findViewById(R.id.ChangePRICEDoneButton);
+                    cancel=dialog.findViewById(R.id.ChangePRICECancelButton);
+
+                    oldPrice.setText(list.get(i).getPrice()+"");
+                    Done.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(!newPrice.getText().toString().equals("")&&Double.parseDouble(newPrice.getText().toString())!=0) {
+                                SettingOrder.Item.get(SettingOrder.indexCat).get(i).setPrice(Double.parseDouble(newPrice.getText().toString()));
+                                cViewHolder.price.setText(newPrice.getText().toString());
+
+                                dialog.dismiss();
+                            }else {
+                                Toast.makeText(ItemActivaty.this, "Please add all data", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+
+                }
+            });
 
 
             cViewHolder.addOrder.setOnClickListener(new View.OnClickListener() {
@@ -266,10 +330,10 @@ public class ItemActivaty extends AppCompatActivity {
 
                             SettingOrder.index += 1;
 
-                            motionEvent(list.get(i).getDescription());
+                            motionEvent(list.get(i).getItemPic());
 
                         } else {
-                            Toast.makeText(context, " Update ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, " Update ", Toast.LENGTH_SHORT).show();//Alert message for update
                         }
                     } else {
                         Toast.makeText(context, "Can't Add  the QTY = 0 ", Toast.LENGTH_SHORT).show();
@@ -277,26 +341,6 @@ public class ItemActivaty extends AppCompatActivity {
 
                 }
             });
-
-//            cViewHolder.layMain.setOnClickListener(new View.OnClickListener() {
-//                @RequiresApi(api = Build.VERSION_CODES.N)
-//                @Override
-//                public void onClick(View v) {
-//                    Log.e("item ...", "i" + v.getId() + "-->" + i + "===>" + list.get(i));
-//
-////                Intent itemIntent=new Intent(context,ItemsActivity.class);
-////                itemIntent.putExtra("categoryName",list.get(i));
-////                context.startActivity(itemIntent);
-////                CustomIntent.customType(context,"left-to-right");
-////             //   bottom-to-up "left-to-right"
-////                /**left-to-right
-////                 *right-to-left
-////                 *bottom-to-up
-////                 *up-to-bottom
-////                 *fadein-to-fadeout
-////                 *rotateout-to-rotatein*/
-//                }
-//            });
 
             //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -519,10 +563,6 @@ public class ItemActivaty extends AppCompatActivity {
 
                     }
 
-//                        Order order=new Order("4124564",customerInformation.getCustomerName(),customerInformation.getPhoneNo(),
-//                                totalQ,points,Double.parseDouble(total_money.getText().toString()),today,0,0,0 ,"item name","01112",0);
-//                        databaseHandler.AddOrdre(order);
-
                     NotificationModel notificationModel=new NotificationModel("You have earned "+points+" points, and they will be added  to your account for "+(acount)+" points"
                             ,today,"Sales Gift",time,""+points);
                     databaseHandler.AddNotification(notificationModel);
@@ -531,10 +571,8 @@ public class ItemActivaty extends AppCompatActivity {
                     SettingOrder.index = 0;
                     dialog_cash.dismiss();
                     finish();
-//                    Intent cateItem=new Intent(ItemActivaty.this,CategoryActivity.class);
-//                    startActivity(cateItem);
-
-
+                    CategoryActivity vw=new CategoryActivity();
+                    vw.FillCategoryReturn(databaseHandler);
                     String currentapiVersion = Build.VERSION.RELEASE;
 
                     Log.e("show_Notification",""+currentapiVersion.substring(0,currentapiVersion.indexOf(".")));
@@ -622,20 +660,6 @@ public class ItemActivaty extends AppCompatActivity {
 
     }
 
-    void deleteItem() {
-//        Log.e("size before ", "" + SettingOrder.ItemsOrder.size() + "    " + i + "     " + list.get(i).getIndexOfItem());
-
-//        SettingOrder.Item.get(SettingOrder.indexCat).get(SettingOrder.ItemsOrder.get(inDelete).getIndexOfItem()).setQTY(0.0);
-//        SettingOrder.Item.get(SettingOrder.indexCat).get(SettingOrder.ItemsOrder.get(inDelete).getIndexOfItem()).setTotal(0.0);
-//
-//        TestAdapter Ad = new TestAdapter(ItemActivaty.this, SettingOrder.Item.get(SettingOrder.indexCat));
-//        recyclerView.setAdapter(Ad);
-
-
-//        Ad.notifyDataSetChanged();
-    }
-
-
     class CViewItemHolder extends RecyclerView.ViewHolder {
         TextView itemName;
         TextView balance, Qty;
@@ -687,11 +711,13 @@ public class ItemActivaty extends AppCompatActivity {
                 public void onClick(View v) {
 
                     Log.e("size before ", "" + SettingOrder.ItemsOrder.size() + "    " + i + "     " + list.get(i).getIndexOfItem());
-                    SettingOrder.Item.get(SettingOrder.indexCat).get(list.get(i).getIndexOfItem()).setQTY(0.0);
-                    SettingOrder.Item.get(SettingOrder.indexCat).get(list.get(i).getIndexOfItem()).setTotal(0.0);
+                    SettingOrder.Item.get(list.get(i).getIndexOfCat()).get(list.get(i).getIndexOfItem()).setQTY(0.0);
+                    SettingOrder.Item.get(list.get(i).getIndexOfCat()).get(list.get(i).getIndexOfItem()).setTotal(0.0);
 
-                    TestAdapter Ad = new TestAdapter(ItemActivaty.this, SettingOrder.Item.get(SettingOrder.indexCat));
-                    recyclerView.setAdapter(Ad);
+                    if(list.get(i).getIndexOfCat()==SettingOrder.indexCat) {
+                        TestAdapter Ad = new TestAdapter(ItemActivaty.this, SettingOrder.Item.get(SettingOrder.indexCat));
+                        recyclerView.setAdapter(Ad);
+                    }
 
                     list.remove(i);
                     Log.e("size after ", "" + SettingOrder.ItemsOrder.size() + "    " + i);
@@ -741,7 +767,7 @@ public class ItemActivaty extends AppCompatActivity {
     public void motionEvent(String image) {
 
         addToOrder.setVisibility(View.VISIBLE);
-        addToOrder.setBackgroundResource(getImage(image));
+        addToOrder.setImageBitmap(stringToBitmap(image));
         int p1[] = new int[2];
         int p2[] = new int[2];
         orderImage.getLocationInWindow(p1);
@@ -757,11 +783,21 @@ public class ItemActivaty extends AppCompatActivity {
 
     }
 
+    public Bitmap stringToBitmap(String image) {
+        try {
+            byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        SettingOrder.Item.clear();
     }
 }

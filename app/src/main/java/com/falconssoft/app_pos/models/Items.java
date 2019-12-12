@@ -7,7 +7,7 @@ public class Items {
     private String categoryName;
     private String itemName;
     private int itemBarcode;
-    private String categoryPic;
+//    private String categoryPic;
     private String description;
     private double price;
     private String ItemPic;
@@ -16,6 +16,16 @@ public class Items {
     private double QTY;
     private double Total;
     private  int point;
+    private  double tax;
+
+
+    public double getTax() {
+        return tax;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
 
     public Items() {
     }
@@ -36,18 +46,19 @@ public class Items {
 //        this.point = point;
 //    }
 
-    public Items(String categoryName, String itemName, int itemBarcode, String categoryPic, String description, double price, String itemPic, int indexOfItem, int indexOfCat, double Qty, double Total,int  point) {
+
+    public Items(String categoryName, String itemName, int itemBarcode,
+                 String description, double price, String itemPic, int indexOfItem, int indexOfCat, double QTY, double total, int point) {
         this.categoryName = categoryName;
         this.itemName = itemName;
         this.itemBarcode = itemBarcode;
-        this.categoryPic = categoryPic;
         this.description = description;
         this.price = price;
         this.ItemPic = itemPic;
         this.indexOfItem = indexOfItem;
         this.indexOfCat = indexOfCat;
-        this.QTY = Qty;
-        this.Total = Total;
+        this.QTY = QTY;
+        this.Total = total;
         this.point = point;
     }
 
@@ -81,14 +92,6 @@ public class Items {
 
     public void setItemBarcode(int itemBarcode) {
         this.itemBarcode = itemBarcode;
-    }
-
-    public String getCategoryPic() {
-        return categoryPic;
-    }
-
-    public void setCategoryPic(String categoryPic) {
-        this.categoryPic = categoryPic;
     }
 
     public String getDescription() {

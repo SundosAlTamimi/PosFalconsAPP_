@@ -50,7 +50,7 @@ public class ReportActivity extends AppCompatActivity {
         myCalendar = Calendar.getInstance();
         String myFormat = "dd-MM-yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        date.setText(sdf.format(myCalendar.getTime()));
+        date.setText(sdf.format(myCalendar.getTime())); 
         databaseHandler=new DatabaseHandler(ReportActivity.this);
          orderList=new ArrayList<>();
         final DatePickerDialog.OnDateSetListener dater = new DatePickerDialog.OnDateSetListener() {

@@ -5,6 +5,10 @@ public class CategoryModel {
     private String categoryName;
     private String categoryPic;
 
+    public CategoryModel() {
+
+    }
+
     public CategoryModel(String categoryName, String categoryPic) {
         this.categoryName = categoryName;
         this.categoryPic = categoryPic;

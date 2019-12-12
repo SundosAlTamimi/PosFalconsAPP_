@@ -25,16 +25,34 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/item_imge"
-                    android:layout_width="250dp"
-                    android:layout_height="300dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/botato" />
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/purple"
+                    app:cardCornerRadius="120dp">
+
+                    <LinearLayout
+                        android:id="@+id/item_imge"
+                        android:layout_width="250dp"
+                        android:layout_height="270dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/botato"
+                        android:orientation="vertical">
+
+                        <!--<ImageButton-->
+                        <!--android:id="@+id/item_imge2"-->
+                        <!--android:layout_width="250dp"-->
+                        <!--android:layout_height="270dp"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:background="@drawable/botato" />-->
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
 
 
             </LinearLayout>
@@ -50,7 +68,12 @@
                     android:id="@+id/item_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
                     android:fontFamily="cursive"
                     android:text="Iteam Name"
                     android:textAlignment="center"
@@ -101,15 +124,28 @@
                         android:text="JD"
                         android:textColor="@color/gray2"
                         android:textSize="18sp" />
+
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/changePrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/back_white"
+                    android:text="Change Price"
+                    android:textColor="@color/purple"
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="150dp"
                     android:layout_height="4dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="5dp"
                     android:background="@color/purple" />
 
                 <LinearLayout
