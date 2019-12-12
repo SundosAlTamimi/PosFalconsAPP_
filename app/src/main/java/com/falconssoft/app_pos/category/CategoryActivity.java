@@ -92,6 +92,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private ImageButton facebook, twitter, instagram, whatsApp;
     ImageView barcode, orderList;
     ArrayList<String> picforbar, pic2, branches_list;
+    public static Bitmap categoryImage=null;
 
     //    private TextView UserNameText;
     private LinearLayout swipeRefresh;
@@ -597,7 +598,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
                     Intent itemIntent = new Intent(context, ItemActivaty.class);
                     itemIntent.putExtra("categoryName", list.get(i).getCategoryName());
-                    itemIntent.putExtra("catPic",  list.get(i).getCategoryPic());
+//                    itemIntent.putExtra("catPic",  stringToBitmap(list.get(i).getCategoryPic()));
+                    categoryImage=stringToBitmap(list.get(i).getCategoryPic());
                     context.startActivity(itemIntent);
                     SettingOrder.indexCat = i;
                 }

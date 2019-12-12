@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.falconssoft.app_pos.models.Items;
@@ -84,7 +85,7 @@ public class Adapter_add_items extends RecyclerView.Adapter<Adapter_add_items.Vi
     {
 
         TextView qty, itemName,price,tax;
-        ImageView itemImage;
+        LinearLayout itemImage;
         public ViewHolder(View itemView)
         {
             super(itemView);

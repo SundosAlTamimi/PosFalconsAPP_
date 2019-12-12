@@ -61,6 +61,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.widget.LinearLayout.HORIZONTAL;
 import static android.widget.LinearLayout.VERTICAL;
+import static com.falconssoft.app_pos.category.CategoryActivity.categoryImage;
 
 
 public class ItemActivaty extends AppCompatActivity {
@@ -85,7 +86,7 @@ public class ItemActivaty extends AppCompatActivity {
         setContentView(R.layout.item_activaty);
         Intent categoryIntent = getIntent();
         String categoryName = categoryIntent.getStringExtra("categoryName");
-        String CatPic = categoryIntent.getStringExtra("catPic");
+//        String CatPic = categoryIntent.getStringExtra("catPic");
 
         catName = (TextView) findViewById(R.id.catName);
         catPic = (LinearLayout) findViewById(R.id.catImage);
@@ -104,11 +105,11 @@ public class ItemActivaty extends AppCompatActivity {
 
         itemList = new ArrayList<>();
         catName.setText(categoryName);
-        if(stringToBitmap(CatPic)==null){
+        if(categoryImage==null){
 
             catPic.setBackgroundResource(getImage("ice_4"));
         }else {
-            Drawable drawable = new BitmapDrawable(getResources(),stringToBitmap(CatPic));
+            Drawable drawable = new BitmapDrawable(getResources(),categoryImage);
             catPic.setBackground(drawable);
         }
 

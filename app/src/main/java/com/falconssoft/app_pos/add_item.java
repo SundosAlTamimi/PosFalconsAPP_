@@ -67,7 +67,7 @@ public class add_item extends AppCompatActivity implements View.OnClickListener 
 //
         final LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(VERTICAL);
+        layoutManager.setOrientation(HORIZONTAL);
         recyclerView = (RecyclerView) findViewById(R.id.allitem_recycler);
         items = new ArrayList<>();
         items = databaseHandler.getAllItemCategory(categoryName);
