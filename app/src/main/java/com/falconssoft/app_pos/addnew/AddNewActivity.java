@@ -64,7 +64,7 @@ public class AddNewActivity extends AppCompatActivity implements View.OnClickLis
         Log.e("size 1", "" + categoryItemsList.size());
 
         fillAdapter();
-//        adapter = new AddNewAdapter(this, categoryItemsList);
+//        adapter = new AddNewAdapter(this, categoryItemsList);/
 //        recyclerView.setHasFixedSize(true);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //        recyclerView.setAdapter(adapter);
