@@ -68,6 +68,9 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -129,7 +132,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         pic2 = new ArrayList<>();
         branches_list = new ArrayList<>();
 
-        FillCategory();
+//        FillCategory();
 
         branches_list.add("Branch Resturant 1");
         branches_list.add("Branch Resturant 2");
@@ -740,6 +743,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         List<CustomerInformation> customerInformations = databaseHandler.getAllInformation();
 
 
+
+
+
         barcode = (ImageView) dialog.findViewById(R.id.barcodeQr);
 
         Bitmap bitmap = null;//  AZTEC -->QR
@@ -747,8 +753,19 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         if (customerInformations.size() != 0) {
             if (customerInformations.size() != 0) {
                 barcode_data = customerInformations.get(0).getPhoneNo();
+                JSONObject obj = new JSONObject() ;
                 try {
-                    bitmap = encodeAsBitmap(barcode_data, BarcodeFormat.QR_CODE, 100, 100);
+                    obj.put("customerName", customerInformations.get(0).getCustomerName());
+                    obj.put("customerNo", customerInformations.get(0).getPhoneNo());
+                    obj.put("balance", customerInformations.get(0).getPoint());
+                    obj.put("secureCode", customerInformations.get(0).getEmail());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                try {
+                    bitmap = encodeAsBitmap(obj.toString(), BarcodeFormat.QR_CODE, 100, 100);
                     barcode.setImageBitmap(bitmap);
                 } catch (WriterException e) {
                     e.printStackTrace();
