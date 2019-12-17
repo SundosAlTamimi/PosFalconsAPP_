@@ -6,11 +6,14 @@ public class CustomerInformation {
     private String phoneNo;
     private String email;
     private double point;
+    private String birthday;
 
-    public CustomerInformation(String customerName, String phoneNo, String email) {
+    public CustomerInformation(String customerName, String phoneNo, String email, double point, String birthday) {
         this.customerName = customerName;
         this.phoneNo = phoneNo;
         this.email = email;
+        this.point = point;
+        this.birthday = birthday;
     }
 
     public CustomerInformation(String customerName, String phoneNo, String email, double point) {
@@ -54,5 +57,13 @@ public class CustomerInformation {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 }

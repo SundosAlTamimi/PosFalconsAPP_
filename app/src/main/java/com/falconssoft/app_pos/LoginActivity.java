@@ -1,5 +1,6 @@
 package com.falconssoft.app_pos;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private DatabaseHandler databaseHandler;
     private List<Users> users = new ArrayList<>();
     private List<Tables> tables = new ArrayList<>();
-
+    private Calendar calendar;
     NotificationManager notificationManager;
     static int id=1;
      String today="",time="";
@@ -58,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         databaseHandler = new DatabaseHandler(this);
 
-        Calendar calendar=Calendar.getInstance();
+         calendar=Calendar.getInstance();
         Date date=Calendar.getInstance().getTime();
         String myFormat = "dd-MM-yyyy"; //In which you need put here
         String myFormattime = "HH:mm:ss";
@@ -89,6 +91,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if(customerInformations.size()==0){
             singUpDialog();
+
+
+        }else{
+
+            Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
+//                    categoryIntent.putExtra("userName", usernameText);
+            startActivity(categoryIntent);
+            finish();
+
+
         }
 
 
@@ -99,39 +111,49 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         switch (v.getId()) {
             case R.id.login_button:
-//                SendSocket send =new SendSocket(LoginActivity.this);
-//                send.sendMessage();
-                users = databaseHandler.getAllUSER();
-                boolean found = false;
-                String usernameText = username.getText().toString();
-                String passwordText = password.getText().toString();
-//                if (!usernameText.equals("") && !passwordText.equals("")) {
-                    for (int i = 0; i < users.size(); i++)
-                        if (usernameText.equals(users.get(i).getUsername()))
-                            if (passwordText.equals(users.get(i).getPassword())) {
-                                found = true;
-                                Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
-                                categoryIntent.putExtra("userName", usernameText);
-                                startActivity(categoryIntent);
+                if (password.getText().toString().equals("1234")) {
+//                            if (passwordText.equals("1")) {
+                    Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
+//                    categoryIntent.putExtra("userName", usernameText);
+                    startActivity(categoryIntent);
+                            } else {
+                                Toast.makeText(this, "Wrong in username or password!", Toast.LENGTH_SHORT).show();
                             }
 
-//                    if (found == false) {
-//                        if (usernameText.equals("1")) {
-//                            if (passwordText.equals("1")) {
-                                Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
-                                categoryIntent.putExtra("userName", usernameText);
-                                startActivity(categoryIntent);
-//                            } else {
-//                                Toast.makeText(this, "Wrong in username or password!", Toast.LENGTH_SHORT).show();
+
+//                SendSocket send =new SendSocket(LoginActivity.this);
+//                send.sendMessage();
+//                users = databaseHandler.getAllUSER();
+//                boolean found = false;
+//                String usernameText = username.getText().toString();
+//                String passwordText = password.getText().toString();
+////                if (!usernameText.equals("") && !passwordText.equals("")) {
+//                    for (int i = 0; i < users.size(); i++)
+//                        if (usernameText.equals(users.get(i).getUsername()))
+//                            if (passwordText.equals(users.get(i).getPassword())) {
+//                                found = true;
+//                                Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
+//                                categoryIntent.putExtra("userName", usernameText);
+//                                startActivity(categoryIntent);
 //                            }
-//                        } else {
-//                            Toast.makeText(this, "Wrong in username or password!", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                } else {
-//                    username.setError("Required field!");
-//                    password.setError("Required field!");
-//                }
+//
+////                    if (found == false) {
+////                        if (usernameText.equals("1")) {
+////                            if (passwordText.equals("1")) {
+//                                Intent categoryIntent = new Intent(LoginActivity.this, CategoryActivity.class);
+//                                categoryIntent.putExtra("userName", usernameText);
+//                                startActivity(categoryIntent);
+////                            } else {
+////                                Toast.makeText(this, "Wrong in username or password!", Toast.LENGTH_SHORT).show();
+////                            }
+////                        } else {
+////                            Toast.makeText(this, "Wrong in username or password!", Toast.LENGTH_SHORT).show();
+////                        }
+////                    }
+////                } else {
+////                    username.setError("Required field!");
+////                    password.setError("Required field!");
+////                }
                 break;
             case R.id.login_language_english:
                 LocaleAppUtils.setLocale(new Locale("en"));
@@ -164,7 +186,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog.setCanceledOnTouchOutside(false);
 
         final EditText cusName, cusno, email;
-
+final TextView birthday;
         Button done;
         ImageView cancel;
 
@@ -174,8 +196,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         done = (Button) dialog.findViewById(R.id.dones);
         cancel = (ImageView) dialog.findViewById(R.id.cancel);
+        birthday= (TextView) dialog.findViewById(R.id.birthday);
+        birthday.setText(today);
 
+        final DatePickerDialog.OnDateSetListener dater = new DatePickerDialog.OnDateSetListener() {
 
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String myFormat = "dd-MM-yyyy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                birthday.setText(sdf.format(calendar.getTime()));
+            }
+
+        };
+
+        birthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(LoginActivity.this, dater, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
         done.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -188,7 +236,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             databaseHandler.deleteAllInformation();
                             CustomerInformation customerInformation=new CustomerInformation(cusName.getText().toString(),cusno.getText().toString(),
-                                    email.getText().toString());
+                                    email.getText().toString(),0,birthday.getText().toString());
 
                             databaseHandler.addCustomer(customerInformation);
 
@@ -217,12 +265,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
                                 // Do something for 14 and above versions
 
-                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+//                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+                                show_Notification("Thank you for downloading the Points app, Authentication code is 1234");
+
 
                             } else {
 
                                 // do something for phones running an SDK before 14
-                                notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+//                                notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+                                notification("Thank you for downloading the Points app, Authentication code is 1234");
 
                             }
 

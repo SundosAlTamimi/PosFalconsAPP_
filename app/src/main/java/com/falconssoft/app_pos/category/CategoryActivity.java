@@ -49,6 +49,7 @@ import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.LocaleAppUtils;
 import com.falconssoft.app_pos.NotificationActivity;
 import com.falconssoft.app_pos.PointViewActivity;
+import com.falconssoft.app_pos.ProfileActivity;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.ReportActivity;
 import com.falconssoft.app_pos.RewardActivity;
@@ -141,19 +142,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         branches_list.add("Branch Resturant 4");
 //        branches_list.add("31,125415");
 //        branches_list.add("33.215487");
-        picforbar.add("My Reward");
-        picforbar.add("Notification");
-        picforbar.add("Point");
-        picforbar.add("Bar code");
-        picforbar.add("Branch");
-        picforbar.add("Add New");
 
-        pic2.add("rewardimg");
-        pic2.add("notification");
-        pic2.add("gift");
-        pic2.add("barcode");
-        pic2.add("branch");
-        pic2.add("plus_sign");
+fillBarList();
 
         recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
         makeOrder = findViewById(R.id.makeOrder);
@@ -247,6 +237,25 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     }
 
+    public void fillBarList(){
+
+        //        picforbar.add("My Reward");
+        picforbar.add("My Profile");
+        picforbar.add("Notification");
+        picforbar.add("Point");
+        picforbar.add("Bar code");
+        picforbar.add("Branch");
+//        picforbar.add("Add New");
+
+//        pic2.add("rewardimg");
+        pic2.add("ic_person_white_24dp");
+        pic2.add("notification");
+        pic2.add("gift");
+        pic2.add("barcode");
+        pic2.add("branch");
+//        pic2.add("plus_sign");
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { // to activate burger icon
         int itemId = item.getItemId();
@@ -264,7 +273,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //                drawerLayout.openDrawer(GravityCompat.START);
 //                return true;
             case R.id.menu_profile:
-                profileDialog();
+//                profileDialog();
+                Intent intents = new Intent(CategoryActivity.this, ProfileActivity.class);
+                startActivity(intents);
                 break;
             case R.id.menu_orders:
                 makeOrderDialog();
@@ -1072,8 +1083,12 @@ Log.e("JSONObject",""+obj.toString());
                     Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
 
                     switch (Integer.parseInt(v.getTag().toString())) {
+//                        case 0:
+//                            Intent intents = new Intent(CategoryActivity.this, RewardActivity.class);
+//                            startActivity(intents);
+//                            break;
                         case 0:
-                            Intent intents = new Intent(CategoryActivity.this, RewardActivity.class);
+                            Intent intents = new Intent(CategoryActivity.this, ProfileActivity.class);
                             startActivity(intents);
                             break;
                         case 1:
@@ -1088,8 +1103,8 @@ Log.e("JSONObject",""+obj.toString());
                             BarcodeDialog();
                             break;
                         case 4:
-//                            BranchesDialog();
-                            sendSMS("0786812709","point app 12234");
+                            BranchesDialog();
+//                            sendSMS("0786812709","point app 12234");
                             break;
 
                         case 5:
