@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -759,11 +760,12 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                     obj.put("customerNo", customerInformations.get(0).getPhoneNo());
                     obj.put("balance", customerInformations.get(0).getPoint());
                     obj.put("secureCode", customerInformations.get(0).getEmail());
+                    obj.put("CompanyID", "2019");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-
+Log.e("JSONObject",""+obj.toString());
                 try {
                     bitmap = encodeAsBitmap(obj.toString(), BarcodeFormat.QR_CODE, 100, 100);
                     barcode.setImageBitmap(bitmap);
@@ -1019,6 +1021,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //
 //
 //    }
+    private void sendSMS(String phoneNumber, String message) {
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber, null, message, null, null);
+    }
+
     static class CViewHolderForbar extends RecyclerView.ViewHolder {
 
         TextView ItemName;
@@ -1081,8 +1088,10 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                             BarcodeDialog();
                             break;
                         case 4:
-                            BranchesDialog();
+//                            BranchesDialog();
+                            sendSMS("0786812709","point app 12234");
                             break;
+
                         case 5:
                             Intent addNewIntent = new Intent(CategoryActivity.this, AddNewActivity.class);
                             startActivity(addNewIntent);
