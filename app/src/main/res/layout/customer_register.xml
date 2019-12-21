@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/purple_background"
     android:layoutDirection="ltr"
     android:orientation="vertical"
@@ -21,7 +21,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="700dp"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="20dp">
@@ -46,7 +46,7 @@
 
                     <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:background="@drawable/alpha_frame"
                         android:padding="10dp">
@@ -72,6 +72,36 @@
                             android:inputType="textPersonName"
                             android:textColor="@color/white_dark"
                             android:textSize="20sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/alpha_frame"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/birthdayImage"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:background="@drawable/ic_cake_white_48dp"
+                            android:fontFamily="cursive"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/white_dark"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/birthday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="10"
+                            android:fontFamily="cursive"
+                            android:textColor="@color/white_dark"
+                            android:textSize="25sp" />
                     </TableRow>
 
                     <TableRow

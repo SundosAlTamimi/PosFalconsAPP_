@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -48,6 +49,7 @@ import com.falconssoft.app_pos.DatabaseHandler;
 import com.falconssoft.app_pos.LocaleAppUtils;
 import com.falconssoft.app_pos.NotificationActivity;
 import com.falconssoft.app_pos.PointViewActivity;
+import com.falconssoft.app_pos.ProfileActivity;
 import com.falconssoft.app_pos.R;
 import com.falconssoft.app_pos.ReportActivity;
 import com.falconssoft.app_pos.RewardActivity;
@@ -67,6 +69,9 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -129,7 +134,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         pic2 = new ArrayList<>();
         branches_list = new ArrayList<>();
 
-        FillCategory();
+//        FillCategory();
 
         branches_list.add("Branch Resturant 1");
         branches_list.add("Branch Resturant 2");
@@ -137,19 +142,8 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         branches_list.add("Branch Resturant 4");
 //        branches_list.add("31,125415");
 //        branches_list.add("33.215487");
-        picforbar.add("My Reward");
-        picforbar.add("Notification");
-        picforbar.add("Point");
-        picforbar.add("Bar code");
-        picforbar.add("Branch");
-        picforbar.add("Add New");
 
-        pic2.add("rewardimg");
-        pic2.add("notification");
-        pic2.add("gift");
-        pic2.add("barcode");
-        pic2.add("branch");
-        pic2.add("plus_sign");
+fillBarList();
 
         recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
         makeOrder = findViewById(R.id.makeOrder);
@@ -243,6 +237,25 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
     }
 
+    public void fillBarList(){
+
+        //        picforbar.add("My Reward");
+        picforbar.add("My Profile");
+        picforbar.add("Notification");
+        picforbar.add("Point");
+        picforbar.add("Bar code");
+        picforbar.add("Branch");
+//        picforbar.add("Add New");
+
+//        pic2.add("rewardimg");
+        pic2.add("ic_person_white_24dp");
+        pic2.add("notification");
+        pic2.add("gift");
+        pic2.add("barcode");
+        pic2.add("branch");
+//        pic2.add("plus_sign");
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { // to activate burger icon
         int itemId = item.getItemId();
@@ -260,7 +273,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //                drawerLayout.openDrawer(GravityCompat.START);
 //                return true;
             case R.id.menu_profile:
-                profileDialog();
+//                profileDialog();
+                Intent intents = new Intent(CategoryActivity.this, ProfileActivity.class);
+                startActivity(intents);
                 break;
             case R.id.menu_orders:
                 makeOrderDialog();
@@ -740,6 +755,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         List<CustomerInformation> customerInformations = databaseHandler.getAllInformation();
 
 
+
+
+
         barcode = (ImageView) dialog.findViewById(R.id.barcodeQr);
 
         Bitmap bitmap = null;//  AZTEC -->QR
@@ -747,8 +765,20 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         if (customerInformations.size() != 0) {
             if (customerInformations.size() != 0) {
                 barcode_data = customerInformations.get(0).getPhoneNo();
+                JSONObject obj = new JSONObject() ;
                 try {
-                    bitmap = encodeAsBitmap(barcode_data, BarcodeFormat.QR_CODE, 100, 100);
+                    obj.put("customerName", customerInformations.get(0).getCustomerName());
+                    obj.put("customerNo", customerInformations.get(0).getPhoneNo());
+                    obj.put("balance", customerInformations.get(0).getPoint());
+                    obj.put("secureCode", customerInformations.get(0).getEmail());
+                    obj.put("CompanyID", "2019");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+Log.e("JSONObject",""+obj.toString());
+                try {
+                    bitmap = encodeAsBitmap(obj.toString(), BarcodeFormat.QR_CODE, 100, 100);
                     barcode.setImageBitmap(bitmap);
                 } catch (WriterException e) {
                     e.printStackTrace();
@@ -1002,6 +1032,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //
 //
 //    }
+    private void sendSMS(String phoneNumber, String message) {
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber, null, message, null, null);
+    }
+
     static class CViewHolderForbar extends RecyclerView.ViewHolder {
 
         TextView ItemName;
@@ -1048,8 +1083,12 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                     Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
 
                     switch (Integer.parseInt(v.getTag().toString())) {
+//                        case 0:
+//                            Intent intents = new Intent(CategoryActivity.this, RewardActivity.class);
+//                            startActivity(intents);
+//                            break;
                         case 0:
-                            Intent intents = new Intent(CategoryActivity.this, RewardActivity.class);
+                            Intent intents = new Intent(CategoryActivity.this, ProfileActivity.class);
                             startActivity(intents);
                             break;
                         case 1:
@@ -1065,7 +1104,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                             break;
                         case 4:
                             BranchesDialog();
+//                            sendSMS("0786812709","point app 12234");
                             break;
+
                         case 5:
                             Intent addNewIntent = new Intent(CategoryActivity.this, AddNewActivity.class);
                             startActivity(addNewIntent);

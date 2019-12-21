@@ -11,7 +11,8 @@
         <item
             android:id="@+id/menu_orders"
             android:icon="@drawable/ic_orders_white_24dp"
-            android:title="My Orders" />
+            android:title="My Orders"
+            android:visible="false"/>
 
         <item
             android:id="@+id/menu_transfer_points"
@@ -22,7 +23,8 @@
         </menu>
     </item>
 
-    <item android:title="Contact">
+    <item android:title="Contact"
+        android:visible="false">
     <menu>
         <item
             android:id="@+id/menu_invite_friends"
@@ -56,7 +58,8 @@
 
     </menu></item>
 
-    <item android:title="Report">
+    <item android:title="Report"
+        android:visible="false">
         <menu>
 
             <item
