@@ -97,7 +97,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private ImageButton facebook, twitter, instagram, whatsApp;
     ImageView barcode, orderList;
     ArrayList<String> picforbar, pic2, branches_list;
-    public static Bitmap categoryImage=null;
+    public static Bitmap categoryImage = null;
 
     //    private TextView UserNameText;
     private LinearLayout swipeRefresh;
@@ -143,7 +143,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 //        branches_list.add("31,125415");
 //        branches_list.add("33.215487");
 
-fillBarList();
+        fillBarList();
 
         recyclerView = (RecyclerView) findViewById(R.id.categoryRecycler);
         makeOrder = findViewById(R.id.makeOrder);
@@ -237,7 +237,7 @@ fillBarList();
 
     }
 
-    public void fillBarList(){
+    public void fillBarList() {
 
         //        picforbar.add("My Reward");
         picforbar.add("My Profile");
@@ -614,7 +614,7 @@ fillBarList();
                     Intent itemIntent = new Intent(context, ItemActivaty.class);
                     itemIntent.putExtra("categoryName", list.get(i).getCategoryName());
 //                    itemIntent.putExtra("catPic",  stringToBitmap(list.get(i).getCategoryPic()));
-                    categoryImage=stringToBitmap(list.get(i).getCategoryPic());
+                    categoryImage = stringToBitmap(list.get(i).getCategoryPic());
                     context.startActivity(itemIntent);
                     SettingOrder.indexCat = i;
                 }
@@ -755,9 +755,6 @@ fillBarList();
         List<CustomerInformation> customerInformations = databaseHandler.getAllInformation();
 
 
-
-
-
         barcode = (ImageView) dialog.findViewById(R.id.barcodeQr);
 
         Bitmap bitmap = null;//  AZTEC -->QR
@@ -765,7 +762,7 @@ fillBarList();
         if (customerInformations.size() != 0) {
             if (customerInformations.size() != 0) {
                 barcode_data = customerInformations.get(0).getPhoneNo();
-                JSONObject obj = new JSONObject() ;
+                JSONObject obj = new JSONObject();
                 try {
                     obj.put("customerName", customerInformations.get(0).getCustomerName());
                     obj.put("customerNo", customerInformations.get(0).getPhoneNo());
@@ -776,7 +773,7 @@ fillBarList();
                     e.printStackTrace();
                 }
 
-Log.e("JSONObject",""+obj.toString());
+                Log.e("JSONObject", "" + obj.toString());
                 try {
                     bitmap = encodeAsBitmap(obj.toString(), BarcodeFormat.QR_CODE, 100, 100);
                     barcode.setImageBitmap(bitmap);
@@ -1153,19 +1150,19 @@ Log.e("JSONObject",""+obj.toString());
 
     }
 
-    public  void FillCategory(){
-        Categorys=databaseHandler.getAllCategoryTable();
+    public void FillCategory() {
+        Categorys = databaseHandler.getAllCategoryTable();
         SettingOrder.Item.clear();
-        for(int i=0;i<Categorys.size();i++){
+        for (int i = 0; i < Categorys.size(); i++) {
             SettingOrder.Item.add(databaseHandler.getAllItemCategory(Categorys.get(i).getCategoryName()));
         }
     }
 
-    public  void FillCategoryReturn(DatabaseHandler db){
+    public void FillCategoryReturn(DatabaseHandler db) {
 
-       List<CategoryModel> Categorys1=db.getAllCategoryTable();
+        List<CategoryModel> Categorys1 = db.getAllCategoryTable();
         SettingOrder.Item.clear();
-        for(int i=0;i<Categorys1.size();i++){
+        for (int i = 0; i < Categorys1.size(); i++) {
             SettingOrder.Item.add(db.getAllItemCategory(Categorys1.get(i).getCategoryName()));
         }
     }
@@ -1278,7 +1275,6 @@ Log.e("JSONObject",""+obj.toString());
             }
         }
     }
-
 
 
 }
