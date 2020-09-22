@@ -714,6 +714,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
              values.put(POINT_CUSTOMER, points);
              db.update(CUSTOMER_INFORMATION, values, PHONE_NO + " = '" + phoneNo +"'", null);
     }
+    public void updateCustomerAuth( String points) {
+
+        CustomerInformation customerInformation=new CustomerInformation();
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(EMAIL, points);
+        db.update(CUSTOMER_INFORMATION, values, null, null);
+    }
     public void updateitem_information(String categoryName,String itemName,
                                        int itemBarcode,String description, double price,String ItemPic,double QTY,int point) {
 

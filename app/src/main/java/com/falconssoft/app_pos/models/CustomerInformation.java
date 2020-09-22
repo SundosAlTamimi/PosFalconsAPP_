@@ -1,5 +1,10 @@
 package com.falconssoft.app_pos.models;
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class CustomerInformation {
 
     private String customerName;
@@ -65,5 +70,19 @@ public class CustomerInformation {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+
+    public JSONObject getJSONObject() {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("customerName",  customerName );
+            obj.put("customerNo",  phoneNo);
+            obj.put("customerBirthday", birthday);
+            obj.put("companyNo", "2544");
+
+        } catch (JSONException e) {
+            Log.e("Tag" , "JSONException");
+        }
+        return obj;
     }
 }

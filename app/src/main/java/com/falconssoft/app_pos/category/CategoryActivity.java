@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -70,9 +71,18 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -90,7 +100,7 @@ import static com.falconssoft.app_pos.models.ShareValues.senderName;
 import static com.falconssoft.app_pos.models.ShareValues.senderPassword;
 
 public class CategoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
-
+    JSONObject jsonObject=new JSONObject();
     Intent callIntent;
     private TextView english, arabic, emailMessage;
     private Button send, makeOrder;
@@ -182,7 +192,8 @@ fillBarList();
         barcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BarcodeDialog();
+               new  JSONTaskGetBarCode().execute();
+
 
             }
         });
@@ -777,6 +788,7 @@ fillBarList();
                 }
 
 Log.e("JSONObject",""+obj.toString());
+//                obj=null;
                 try {
                     bitmap = encodeAsBitmap(obj.toString(), BarcodeFormat.QR_CODE, 100, 100);
                     barcode.setImageBitmap(bitmap);
@@ -1280,5 +1292,135 @@ Log.e("JSONObject",""+obj.toString());
     }
 
 
+    private class JSONTaskGetBarCode extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+        String vhfNo, POSNO, orderKind;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+//                String link = "http://10.0.0.16:8080/WSKitchenScreen/FSAppServiceDLL.dll/RestSaveOrder";
+                JSONArray jsonArray=new JSONArray();
+                jsonArray.put(jsonObject);
+                Log.e("jsonObject ",""+jsonArray.toString());
+
+                String link = "http://10.0.0.86:82/WebService1.asmx/GETBARCODEDATA";
+                String data = "CustomerNo=" + URLEncoder.encode(customerInformation.getPhoneNo(), "UTF-8") + "&" +
+                        "CompanyId=" + URLEncoder.encode("2544", "UTF-8") ;
+
+
+//                try {
+//                    JSONObject jo = obj.getJSONObject("ORDERHEADER");
+//                    vhfNo = jo.getString("VHFNO");
+//                    POSNO = jo.getString("POSNO");
+//                    orderKind = jo.getString("ORDERKIND");
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+                URL url = new URL(link);
+                Log.e("url con ", "" + url.toString());
+
+//                Log.e("data_order ", "--> " + obj.toString());
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+//                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag_order", "" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("vhf Success___", "= " + s);
+            if (s != null && s.contains("GetBarcode Succsesful")) {//successfully
+                try {
+                    JSONObject jo = new JSONObject(s);
+                    String ff=jo.getString("Response");
+
+                    BarcodeDialog();
+                    Log.e("vhf Success___", "= " + ff);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+////                Toast.makeText(ExportJason.this , "Success" , Toast.LENGTH_SHORT).show();
+//                Log.e("tag", "****Success");
+//                Log.e("vhf Success___", "= " + vhfNo);
+//
+//                dbHandler.updateOrderTablesIsPost(vhfNo, POSNO, orderKind);
+//                dbHandler.updateOrderTablesIsPost2(vhfNo, POSNO, orderKind);
+//                dbHandler.updateOrderTablesIsPost3(vhfNo, POSNO, orderKind);
+//
+//            } else if (s != null && s.contains("ErrorCode : 6")) {
+////
+////                dbHandler.updateOrderTablesIsPost(vhfNo,POSNO,orderKind);
+////                dbHandler.updateOrderTablesIsPost2(vhfNo,POSNO,orderKind);
+////                dbHandler.updateOrderTablesIsPost3(vhfNo,POSNO,orderKind);
+//
+//            } else {
+////                Toast.makeText(ExportJason.this, "Failed to export data", Toast.LENGTH_SHORT).show();
+//                Log.e("tag ORDER", "****Failed to export data");
+//                Log.e("vhf failed ___2", "= " + vhfNo + "POSNO = " + POSNO);
+//            }
+//            progressDialog.dismiss();
+        }
+    }
 
 }
